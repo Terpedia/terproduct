@@ -69,7 +69,10 @@ Open [http://localhost:3000](http://localhost:3000).
 ```bash
 npm run build
 npm run lint
+npm start
 ```
+
+`npm start` serves the static `out/` folder (after `npm run build`). `next dev` is still used for local development.
 
 ## Cloudflare: `terproduct.terpedia.com`
 
