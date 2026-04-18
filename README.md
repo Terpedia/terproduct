@@ -22,7 +22,7 @@ Local static preview after a build:
 
 ```bash
 npm run build
-npm run preview
+npm start
 ```
 
 ## GitHub Pages deploy
