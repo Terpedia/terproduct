@@ -1,0 +1,20 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "slug": "sample-tincture",
+    "name": "Sample Full-Spectrum Tincture",
+    "brand": "Terpedia Labs",
+    "sku": "TERP-TIN-30-001",
+    "barcode": "00850003172024",
+    "notes": "Demo row for offline lookup; replace with API data later."
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440002",
+    "slug": "sample-vaporizer",
+    "name": "Sample 510 Cartridge",
+    "brand": "Terpedia Labs",
+    "sku": "TERP-CART-05-002",
+    "barcode": "012345678905",
+    "notes": "Classic EAN-13 test value for camera scanners."
+  }
+]

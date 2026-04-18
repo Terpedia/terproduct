@@ -4,9 +4,36 @@
 
 Live site: [terproduct.terpedia.com](https://terproduct.terpedia.com) (after DNS and hosting are pointed).
 
+**GitHub Pages (project site):** [https://terpedia.github.io/terproduct/](https://terpedia.github.io/terproduct/) after you enable Pages (see below).
+
 ## Repository
 
 - GitHub: [Terpedia/terproduct](https://github.com/Terpedia/terproduct)
+
+## PWA (scan & lookup)
+
+This app is a **static export** (`output: "export"`) suitable for **GitHub Pages**.
+
+- **`/scan/`** — camera barcode/QR scanning where the browser supports the [Barcode Detection API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector) (Chrome/Edge; Safari often lacks it). Manual code entry links to lookup.
+- **`/lookup/`** — client-side search over `public/data/products.json` (demo catalog). Replace with your API when wired to Supabase or another backend.
+- **Installable** — `manifest.webmanifest`, standalone display, theme color, and a small **service worker** (`public/sw.js`) that precaches shell routes and caches same-origin GETs for offline use.
+
+Local static preview after a build:
+
+```bash
+npm run build
+npm run preview
+```
+
+## GitHub Pages deploy
+
+1. Repo → **Settings** → **Pages** → **Build and deployment** → Source: **GitHub Actions**.
+2. The workflow `.github/workflows/deploy-github-pages.yml` builds with `NEXT_PUBLIC_BASE_PATH=/terproduct` so assets match `https://terpedia.github.io/terproduct/`.
+3. Push to `main`; the **github-pages** environment will publish the `out/` artifact.
+
+`public/.nojekyll` is included so GitHub Pages does not skip the `_next` assets folder.
+
+For a **custom domain** (e.g. `terproduct.terpedia.com`) on the same GitHub Pages project, set `NEXT_PUBLIC_BASE_PATH` to empty and `NEXT_PUBLIC_SITE_URL` to `https://terproduct.terpedia.com` in the workflow env, then adjust DNS per the Cloudflare section below.
 
 ## Data model
 
@@ -70,4 +97,5 @@ Replace `YOUR_HOSTNAME` with the target from your host (Pages, Vercel, etc.).
 
 ## Deploy
 
-Connect **Terpedia/terproduct** to Cloudflare Pages, Vercel, or another Node host; set the production URL to `https://terproduct.terpedia.com` in the host’s project settings after DNS is live.
+- **GitHub Pages:** workflow in `.github/workflows/deploy-github-pages.yml` (static `out/`).
+- **Cloudflare Pages / Vercel / other:** connect the repo; if the site is not at `/terproduct`, build with `NEXT_PUBLIC_BASE_PATH` empty and set `NEXT_PUBLIC_SITE_URL` to your public origin so the PWA manifest and icons resolve correctly.

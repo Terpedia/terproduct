@@ -1,6 +1,23 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
-    <main className="mx-auto flex min-h-full max-w-2xl flex-col gap-10 px-6 py-20">
+    <main className="mx-auto flex min-h-full max-w-2xl flex-col gap-10 px-6 py-16">
+      <div className="flex flex-wrap gap-3">
+        <Link
+          href="/scan/"
+          className="rounded-full bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-emerald-800"
+        >
+          Scan products
+        </Link>
+        <Link
+          href="/lookup/"
+          className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:hover:bg-zinc-900"
+        >
+          Lookup
+        </Link>
+      </div>
+
       <header className="space-y-3">
         <p className="text-sm font-medium uppercase tracking-wide text-emerald-800 dark:text-emerald-400">
           Terpedia
