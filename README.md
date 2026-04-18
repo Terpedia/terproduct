@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Terproduct
 
-## Getting Started
+**Terpedia** product catalog: **products → ingredients → CoA (certificate of analysis) → compound results**.
 
-First, run the development server:
+Live site: [terproduct.terpedia.com](https://terproduct.terpedia.com) (after DNS and hosting are pointed).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Repository
+
+- GitHub: [Terpedia/terproduct](https://github.com/Terpedia/terproduct)
+
+## Data model
+
+| Layer | Role |
+| --- | --- |
+| **products** | Finished goods (name, slug, brand). |
+| **ingredients** | Materials; linked to products via **product_ingredients**. |
+| **coa_documents** | Lab reports for an ingredient (batch/lot, lab, dates, file URL). |
+| **compounds** | Canonical analytes (name, CAS, category). |
+| **coa_compound_results** | Measured values per CoA and compound (value, unit, ND flags). |
+
+PostgreSQL migration: `supabase/migrations/20260418000000_initial_schema.sql`.  
+TypeScript types: `lib/domain.ts`.
+
+```mermaid
+flowchart LR
+  P[products] --> PI[product_ingredients]
+  I[ingredients] --> PI
+  I --> C[coa_documents]
+  C --> R[coa_compound_results]
+  CP[compounds] --> R
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+```bash
+npm run build
+npm run lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Cloudflare: `terproduct.terpedia.com`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+In the Cloudflare dashboard for **terpedia.com** → **DNS** → **Records**:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Add a **CNAME** record:
+   - **Name:** `terproduct`
+   - **Target:** your hosting hostname (for example Cloudflare Pages `terproduct.pages.dev`, or the domain your provider gives for Vercel/Netlify).
+   - **Proxy status:** Proxied (orange cloud) unless your host requires DNS-only.
 
-## Deploy on Vercel
+2. If you use **Cloudflare Pages** with a custom domain, add `terproduct.terpedia.com` under the Pages project → **Custom domains** so TLS is issued.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### API alternative (token required)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+With `CLOUDFLARE_API_TOKEN` (Zone → DNS → Edit) and zone ID for `terpedia.com`:
+
+```bash
+curl -sS -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records" \
+  -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  --data '{"type":"CNAME","name":"terproduct","content":"YOUR_HOSTNAME","proxied":true}'
+```
+
+Replace `YOUR_HOSTNAME` with the target from your host (Pages, Vercel, etc.).
+
+## Deploy
+
+Connect **Terpedia/terproduct** to Cloudflare Pages, Vercel, or another Node host; set the production URL to `https://terproduct.terpedia.com` in the host’s project settings after DNS is live.
