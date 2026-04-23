@@ -17,6 +17,17 @@ This app is a **static export** (`output: "export"`) suitable for **GitHub Pages
 - **`/scan/`** — camera barcode/QR scanning where the browser supports the [Barcode Detection API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector) (Chrome/Edge; Safari often lacks it). Manual code entry links to lookup.
 - **`/lookup/`** — client-side search over `public/data/products.json` (demo catalog). Replace with your API when wired to Supabase or another backend.
 - **Installable** — `manifest.webmanifest`, standalone display, theme color, and a small **service worker** (`public/sw.js`) that precaches shell routes and caches same-origin GETs for offline use.
+- **`/field/`** — also used by the **Capacitor** shell (see below).
+
+## Capacitor: iOS & Android
+
+The repo includes **`android/`** and **`ios/`** (Capacitor 8) with the web app copied from `out/`.
+
+- **`/field/`** field console: **ML Kit** `scan()` (UPC/EAN, QR, Code 128, …) → `POST` ingest JSON to your API → **Android**: ESC/POS over **Bluetooth classic SPP** (`@ascentio-it/capacitor-bluetooth-serial`) to a paired thermal; **iOS**: **Share** a **QR PNG** (Bluetooth serial plugin is Android-only; use share sheet to open a manufacturer print app or AirDrop).
+- **Configure the ingest base URL** at build time: `NEXT_PUBLIC_TERPRODUCT_API_URL` (e.g. `https://api.terpedia.com`), and optionally `NEXT_PUBLIC_TERPRODUCT_API_KEY` for a `Bearer` token. The client posts to `{base}/ingest` (implement that route on your backend; shape is in `lib/api/terproduct-submit.ts`).
+- **Build & sync** after web changes: `npm run build:cap` (runs `next build` + `npx cap sync`), then `npm run android` or `npm run ios` (requires **Android Studio** / **Xcode**).
+- **ESC/POS QR** uses a minimal GS (k) model-2 path with **ASCII-only** payload; extend `lib/printing/escpos-qr.ts` if you need full UTF-8 and raw byte writes. **Branded Android POS** units with an **in-built USB/serial printer** (e.g. some Sunmi models) may need the vendor AIDL/SDK instead of generic SPP—this project is a **generic SPP+ESC/POS** baseline.
+- **iOS + Google ML Kit:** the default app uses **Swift PM** for some plugins. `@capacitor-mlkit/barcode-scanning` is distributed as **CocoaPods**; if the barcode plugin does not resolve in Xcode, follow the [Capawesome ML Kit Barcode iOS](https://capawesome.io/plugins/mlkit/barcode-scanning/) install notes (CocoaPods / `pod install` as required).
 
 Local static preview after a build:
 
