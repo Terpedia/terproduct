@@ -2,11 +2,17 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import { CommercialUpcIngredients } from "@/components/CommercialUpcIngredients";
 import { submitTerproductEvent, type TerproductIngestEvent } from "@/lib/api/terproduct-submit";
 import { escposQrCodeAscii } from "@/lib/printing/escpos-qr";
 import { shareOrDownloadQrPng } from "@/lib/printing/share-qr-png";
 
 type Platform = "web" | "ios" | "android" | "unknown";
+
+type SimpleIngestEvent = Extract<
+  TerproductIngestEvent,
+  { event: "upc_scanned" | "product_id" | "ingredient_lot" | "custom" }
+>["event"];
 
 export function FieldConsole() {
   const [lastScan, setLastScan] = useState<{
@@ -18,7 +24,7 @@ export function FieldConsole() {
   const [qrText, setQrText] = useState(
     "https://terpedia.com/product/demo",
   );
-  const [eventKind, setEventKind] = useState<TerproductIngestEvent["event"]>("upc_scanned");
+  const [eventKind, setEventKind] = useState<SimpleIngestEvent>("upc_scanned");
   const [androidPrinter, setAndroidPrinter] = useState("");
   const [pairList, setPairList] = useState<Array<{ name: string; address: string }>>([]);
   const [platform, setPlatform] = useState<Platform>("unknown");
@@ -79,7 +85,7 @@ export function FieldConsole() {
     }
     setBusy(true);
     try {
-      const body: TerproductIngestEvent = {
+      const body: Extract<TerproductIngestEvent, { value: string }> = {
         event: eventKind,
         value: lastScan.value,
         format: lastScan.format,
@@ -190,6 +196,13 @@ export function FieldConsole() {
         )}
       </div>
 
+      <CommercialUpcIngredients
+        lastScan={lastScan}
+        onLog={logLine}
+        busy={busy}
+        setBusy={setBusy}
+      />
+
       <label className="flex flex-col gap-1 text-sm">
         <span className="font-medium">QR to print (ASCII URL or ID)</span>
         <textarea
@@ -209,7 +222,7 @@ export function FieldConsole() {
           <span className="font-medium">Ingest event</span>
           <select
             value={eventKind}
-            onChange={(e) => setEventKind(e.target.value as TerproductIngestEvent["event"])}
+            onChange={(e) => setEventKind(e.target.value as SimpleIngestEvent)}
             className="rounded-lg border border-zinc-300 bg-white px-2 py-2 text-sm dark:border-zinc-600 dark:bg-zinc-900"
           >
             <option value="upc_scanned">upc_scanned</option>

@@ -1,19 +1,17 @@
-export type TerproductIngestEvent = {
-  event: "upc_scanned" | "product_id" | "ingredient_lot" | "custom";
-  value: string;
-  /** e.g. QR_CODE, UPC_A, EAN_13, CODE_128 */
-  format?: string;
-  /**
-   * Optional idempotency key to avoid double-posts.
-   * Default: not sent.
-   */
-  idempotencyKey?: string;
-  /**
-   * When set, a QR label is intended to point here (e.g. terpedia public URL for the entity).
-   */
-  qrUrl?: string;
-  meta?: Record<string, string>;
-};
+import type { UpcIngredientsCorrelation } from "@/lib/commercial-upc";
+
+export type TerproductIngestEvent =
+  | {
+      event: "upc_scanned" | "product_id" | "ingredient_lot" | "custom";
+      value: string;
+      /** e.g. QR_CODE, UPC_A, EAN_13, CODE_128 */
+      format?: string;
+      idempotencyKey?: string;
+      /** When set, a QR label is intended to point here (e.g. terpedia public URL for the entity). */
+      qrUrl?: string;
+      meta?: Record<string, string>;
+    }
+  | UpcIngredientsCorrelation;
 
 const apiUrl = () => process.env.NEXT_PUBLIC_TERPRODUCT_API_URL || "";
 

@@ -50,11 +50,14 @@ For a **custom domain** (e.g. `terproduct.terpedia.com`) on the same GitHub Page
 
 | Layer | Role |
 | --- | --- |
-| **products** | Finished goods (name, slug, brand). |
-| **ingredients** | Materials; linked to products via **product_ingredients**. |
+| **products** | Finished goods (name, slug, brand, optional `gtin` for retail UPC/EAN). |
+| **ingredients** | Materials; linked to products via **product_ingredients** and optional `as_listed` (label text). |
+| **product_label_ingredient_lines** | Ordered **label declaration** lines (scan/paste) tied to a product; can resolve to **ingredients** over time. |
 | **coa_documents** | Lab reports for an ingredient (batch/lot, lab, dates, file URL). |
 | **compounds** | Canonical analytes (name, CAS, category). |
 | **coa_compound_results** | Measured values per CoA and compound (value, unit, ND flags). |
+
+**Retail UPC + ingredients:** scan or enter a **GTIN** (8/12/13/14 digit family), paste the **ingredient / “contains”** list, and submit a correlation from **`/field/`** — payload event `upc_ingredients_correlation` (see `lib/api/terproduct-submit.ts` and `lib/gtin.ts`). The ingest API can upsert `products.gtin`, create rows in `product_label_ingredient_lines`, and map lines to `ingredients` (and to **CoA** tracks per ingredient) as you implement matching rules.
 
 PostgreSQL migration: `supabase/migrations/20260418000000_initial_schema.sql`.  
 TypeScript types: `lib/domain.ts`.
