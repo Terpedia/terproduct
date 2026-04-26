@@ -1,0 +1,85 @@
+# Build image → Artifact Registry → Cloud Run (v2, fully managed)
+#
+# Prereq (one-time per project):
+#   gcloud config set project YOUR_PROJECT
+#   gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com
+#   gcloud artifacts repositories create terproduct --repository-format=docker --location=REGION
+#
+# Deploy:
+#   gcloud builds submit --config cloudbuild.yaml
+#
+# Optional: pass Supabase at image build so the container can render the catalog:
+#   --build-arg NEXT_PUBLIC_SUPABASE_URL=... --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+# Or set the same env vars on the Cloud Run service (revisions need the public URL + anon key for RSC).
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+substitutions:
+  # Match Cloud Run and Artifact Registry region (e.g. us-central1, europe-west1)
+  _REGION: us-central1
+  # Artifact Registry Docker repo name
+  _REPO: terproduct
+  # Cloud Run service name
+  _SERVICE: terproduct
+  # Baked at docker build; must match the public origin (custom domain, Run URL, or load balancer)
+  _SITE: https://terproduct.terpedia.com
+  # --port: container & Cloud Run agree on this; Cloud Run sets PORT to match
+  _CONTAINER_PORT: "8080"
+
+steps:
+  - id: build-image
+    name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - Dockerfile
+      - --build-arg
+      - STANDALONE=1
+      - --build-arg
+      - NEXT_PUBLIC_SITE_URL=${_SITE}
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/terproduct:$BUILD_ID
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/terproduct:latest
+      - .
+
+  - id: push-image-build
+    name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/terproduct:$BUILD_ID
+  - id: push-image-latest
+    name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/terproduct:latest
+
+  - id: deploy-run
+    name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - $_SERVICE
+      - --image
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPO}/terproduct:$BUILD_ID
+      - --region
+      - $_REGION
+      - --platform
+      - managed
+      - --port
+      - $_CONTAINER_PORT
+      - --allow-unauthenticated
+      - --set-env-vars
+      - "NEXT_TELEMETRY_DISABLED=1"
+      - --min-instances
+      - "0"
+      - --max-instances
+      - "10"
+      - --cpu
+      - "1"
+      - --memory
+      - 1Gi
+
+timeout: 1800s

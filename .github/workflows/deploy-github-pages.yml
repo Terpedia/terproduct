@@ -33,8 +33,10 @@ jobs:
 
       - name: Build static export
         env:
-          NEXT_PUBLIC_BASE_PATH: /terproduct
-          NEXT_PUBLIC_SITE_URL: https://terpedia.github.io/terproduct
+          NEXT_PUBLIC_SITE_URL: https://terproduct.terpedia.com
+          # Optional: if unset, the build still succeeds (marketing home + tools; no live catalog in HTML)
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
         run: npm run build
 
       - uses: actions/upload-pages-artifact@v3

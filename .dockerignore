@@ -1,0 +1,13 @@
+.git
+.github
+.next
+out
+node_modules
+npm-debug.log*
+.env*
+.DS_Store
+*.md
+android
+ios
+coverage
+.cursor

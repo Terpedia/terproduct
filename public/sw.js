@@ -1,7 +1,14 @@
 /* global self, caches, fetch */
-const CACHE = "terproduct-shell-v1";
+const CACHE = "terproduct-shell-v3";
 
-const PRECACHE_URLS = ["./", "./lookup/", "./scan/"];
+const PRECACHE_URLS = [
+  "./",
+  "./lookup/",
+  "./scan/",
+  "./field/",
+  "./device-test/",
+  "./manifest.webmanifest",
+];
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();

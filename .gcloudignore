@@ -1,0 +1,12 @@
+# Source upload for `gcloud builds submit` (mirrors .gitignore + docker build context)
+.git
+.next
+out
+node_modules
+npm-debug.log*
+.env*
+.DS_Store
+.cursor
+coverage
+android
+ios

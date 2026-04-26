@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { AppDeepLinkHandler } from "@/components/AppDeepLinkHandler";
+import { MobileAppNav } from "@/components/MobileAppNav";
+import { PwaInstallHint } from "@/components/PwaInstallHint";
 import { PwaRegister } from "@/components/PwaRegister";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -26,7 +29,7 @@ const assetPrefix = process.env.NEXT_PUBLIC_BASE_PATH || "";
 export const metadata: Metadata = {
   title: "Terproduct — Terpedia",
   description:
-    "Product database: products, ingredients, certificates of analysis, and compound results.",
+    "PWA: scan label photos and UPCs, look up products, and work with the Terpedia product catalog in the field.",
   metadataBase: new URL(siteUrl),
   applicationName: "Terproduct",
   icons: {
@@ -61,8 +64,15 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-50">
         <PwaRegister />
+        <AppDeepLinkHandler />
         <SiteHeader />
-        <div className="flex flex-1 flex-col">{children}</div>
+        <PwaInstallHint />
+        <div
+          className="flex min-h-0 flex-1 flex-col pb-[calc(4.25rem+env(safe-area-inset-bottom,0px))] md:pb-0"
+        >
+          {children}
+        </div>
+        <MobileAppNav />
       </body>
     </html>
   );

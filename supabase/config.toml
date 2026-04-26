@@ -1,0 +1,5 @@
+# After `supabase init` / `supabase link`, your `project_id` is written here.
+# See https://supabase.com/docs/guides/cli
+
+[functions.ingest-barcode]
+verify_jwt = true

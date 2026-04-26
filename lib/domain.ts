@@ -19,6 +19,8 @@ export type Ingredient = {
   id: string;
   name: string;
   description: string | null;
+  /** Public URL to Terpedia terpene / analysis or KB page when set in DB. */
+  terpedia_analysis_url: string | null;
   created_at: string;
 };
 

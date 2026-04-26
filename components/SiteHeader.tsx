@@ -3,6 +3,7 @@ import Link from "next/link";
 const links = [
   { href: "/", label: "Home" },
   { href: "/field/", label: "Field" },
+  { href: "/device-test/", label: "Device test" },
   { href: "/scan/", label: "Scan" },
   { href: "/lookup/", label: "Lookup" },
 ] as const;
@@ -17,7 +18,10 @@ export function SiteHeader() {
         >
           Terproduct
         </Link>
-        <nav className="flex flex-wrap items-center gap-3 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+        <nav
+          className="hidden flex-wrap items-center gap-3 text-sm font-medium text-zinc-600 dark:text-zinc-400 md:flex"
+          aria-label="Main"
+        >
           {links.map(({ href, label }) => (
             <Link
               key={href}

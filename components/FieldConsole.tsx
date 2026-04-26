@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import { CommercialUpcIngredients } from "@/components/CommercialUpcIngredients";
@@ -176,6 +177,12 @@ export function FieldConsole() {
             Capacitor: {platform} {platform === "web" && "(PWA: use in-app browser for native plugins)"}
           </p>
         ) : null}
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+          <Link href="/device-test/" className="font-medium text-emerald-800 underline dark:text-emerald-300">
+            Device test
+          </Link>{" "}
+          — step-by-step check for camera, barcodes, and Android Bluetooth printer.
+        </p>
       </div>
 
       <div className="flex flex-col gap-2">
