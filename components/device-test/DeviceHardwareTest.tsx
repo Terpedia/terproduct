@@ -335,6 +335,32 @@ export function DeviceHardwareTest() {
     }
   }, [androidPrinter, logLine]);
 
+  const printAndroidSystemUi = useCallback(async () => {
+    const { Capacitor } = await import("@capacitor/core");
+    if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== "android") {
+      logLine("System print: only in the installed Android app (not the browser).");
+      return;
+    }
+    setBusy(true);
+    try {
+      const { TerproductDevice } = await import("@/lib/printing/terproduct-device");
+      await TerproductDevice.printTextAsBitmap({
+        text: [
+          "==== TERPRODUCT (system) ====",
+          new Date().toISOString(),
+          "If this appears on the roll, the built-in",
+          "thermal is wired through Android print.",
+          "Otherwise add the manufacturer SDK (AAR).",
+        ].join("\n"),
+      });
+      logLine("Print: system print flow finished (dialog closed or handoff).");
+    } catch (e) {
+      logLine(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
+  }, [logLine]);
+
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-8 px-4 py-8">
       <div>
@@ -346,10 +372,10 @@ export function DeviceHardwareTest() {
           <strong>USB</strong> debugging or the shipped WebView. Verifies <strong>camera</strong>{" "}
           (<code>getUserMedia</code>), <strong>barcode</strong> (in-browser or ML Kit in the native
           app), <strong>Symcode / HID</strong> (e.g. <strong>MJ-Q50</strong> wedge and{" "}
-          <strong>side / aux</strong> key), and <strong>ESC/POS</strong> over{" "}
-          <strong>Bluetooth SPP</strong> on Android. Pair the thermal in system settings first; all-in-one
-          units like the MJ-Q50 often use a <strong>vendor</strong> path for the <strong>built-in</strong> 58
-          mm printer, not only SPP.
+          <strong>side / aux</strong> key), and           <strong>ESC/POS</strong> over <strong>Bluetooth SPP</strong> for <strong>paired external</strong>{" "}
+          thermals, and the <strong>Android system print</strong> path for <strong>integrated</strong> roll
+          printers. All-in-one PDAs often do <em>not</em> expose the built-in printer as a Bluetooth
+          device; they use a vendor service or the manufacturer AAR.
         </p>
         <p className="mt-1 text-xs text-zinc-500">
           Capacitor: {platform} · BarcodeDetector (web): {hasWebBarcodeApi() ? "yes" : "no"}
@@ -496,8 +522,29 @@ export function DeviceHardwareTest() {
         aria-labelledby="device-hw-pr"
       >
         <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-50" id="device-hw-pr">
-          3) Printer (Android Bluetooth ESC/POS)
+          3) Printer
         </h2>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <span className="font-medium text-zinc-800 dark:text-zinc-200">Integrated 58mm roll (most PDAs):</span> use{" "}
+          <strong>System print (bitmap)</strong> — the OS print UI should list a vendor service if the
+          device ships one. If nothing prints, integrate the OEM AAR in <code>android</code> (separate
+          from this JavaScript).{" "}
+          <span className="font-medium text-zinc-800 dark:text-zinc-200">External roll:</span> pair as a
+          classic Bluetooth (SPP) device and use ESC/POS below.
+        </p>
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => void printAndroidSystemUi()}
+          className="w-full rounded-lg bg-amber-950 py-2.5 text-sm font-semibold text-amber-50 dark:bg-amber-200 dark:text-amber-950"
+        >
+          System print (built-in thermal, Android)
+        </button>
+        <p className="text-xs text-zinc-500 dark:text-zinc-500">
+          Bluetooth SPP (below) is for a <strong>separate</strong> serial printer, not the motor inside
+          the handset.
+        </p>
+        <h3 className="pt-1 text-sm font-medium text-amber-950 dark:text-amber-100">External: ESC/POS over Bluetooth SPP</h3>
         <button
           type="button"
           onClick={() => void loadPaired()}

@@ -54,6 +54,8 @@ Example:
   node scripts/qr-plant.mjs "https://example.com" -o /tmp/qr-plant.png
   node scripts/qr-plant.mjs "https://example.com" --anchor-ratio 0.5,0.24
   node scripts/qr-plant.mjs "https://example.com" -H -o /tmp/qr-plant-h.png
+
+PWA: Field screen → "Plant label" (same steps in-browser; system print on Android for integrated thermals).
 `);
 }
 

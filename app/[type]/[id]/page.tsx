@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { DatabaseRequiredMessage } from "@/components/DatabaseRequiredMessage";
 import {
   allTypeIdForStaticBuild,
+  CATALOG_PLACEHOLDER_PRODUCT_SLUG,
   getIngredientById,
   getIngredientsForProduct,
   getProductBySlug,
@@ -53,6 +54,9 @@ export default async function TypeIdPage(props: PageProps) {
   if (type === "product") {
     const product = await getProductBySlug(id);
     if (!product) {
+      if (id === CATALOG_PLACEHOLDER_PRODUCT_SLUG) {
+        return <DatabaseRequiredMessage pathLabel="the catalog" />;
+      }
       notFound();
     }
     const ingredients = await getIngredientsForProduct(product.id);

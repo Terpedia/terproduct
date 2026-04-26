@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import { CommercialUpcIngredients } from "@/components/CommercialUpcIngredients";
+import { PlantQrField } from "@/components/PlantQrField";
 import { submitTerproductEvent, type TerproductIngestEvent } from "@/lib/api/terproduct-submit";
 import { escposQrCodeAscii } from "@/lib/printing/escpos-qr";
 import { shareOrDownloadQrPng } from "@/lib/printing/share-qr-png";
@@ -223,6 +224,8 @@ export function FieldConsole() {
           with raw-byte Bluetooth writes.
         </p>
       </label>
+
+      <PlantQrField text={qrText} onLog={logLine} />
 
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="flex flex-col gap-1 text-sm">

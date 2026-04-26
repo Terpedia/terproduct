@@ -58,6 +58,20 @@ export function SymcodeHidTest({ logLine }: Props) {
     };
   }, [listenKeys, logLine, shouldLogKey]);
 
+  /** Pushes {@code keyCode/scanCode} for non-printing keys (see MainActivity). */
+  useEffect(() => {
+    const h = (ev: Event) => {
+      if (!listenKeys) return;
+      const ce = ev as CustomEvent<{ keyCode: number; action: number; scanCode: number; source: number }>;
+      const d = ce.detail;
+      logLine(
+        `[Native key] down/up action=${d.action} keyCode=${d.keyCode} scanCode=${d.scanCode} source=${d.source}`,
+      );
+    };
+    window.addEventListener("terproduct-native-key", h);
+    return () => window.removeEventListener("terproduct-native-key", h);
+  }, [listenKeys, logLine]);
+
   const onWedgeKey = (e: ReactKeyEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -157,8 +171,11 @@ export function SymcodeHidTest({ logLine }: Props) {
         </label>
       </div>
       <p className="text-xs text-amber-800 dark:text-amber-200/90">
-        Some Unisoc builds or WebViews <strong>consume</strong> media/scan keys; if the side key never
-        appears, try a native shell test or a USB keyboard tester app, then match the web behavior.
+        In the <strong>installed</strong> Android app, non-printing keys (side/aux, function keys) are
+        also forwarded as <code className="text-[11px]">[Native key]</code> (see <code>MainActivity</code>).
+        If the side key still never appears, the OEM may be consuming it in firmware or mapping it to
+        a digit key; try <em>Include digit/letter keys</em> above, or a vendor &quot;key test&quot; app, then
+        re-map the scanner in manufacturer utility.
       </p>
     </section>
   );
