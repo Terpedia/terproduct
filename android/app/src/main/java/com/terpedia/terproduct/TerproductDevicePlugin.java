@@ -11,7 +11,6 @@ import android.util.Log;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import com.getcapacitor.annotation.PluginMethod;
 import androidx.print.PrintHelper;
 
 /**
@@ -24,7 +23,6 @@ import androidx.print.PrintHelper;
 public class TerproductDevicePlugin extends Plugin {
   private static final String TAG = "TerproductDevice";
 
-  @PluginMethod
   public void printPngDataUrl(PluginCall call) {
     String data = call.getString("data", "");
     if (data == null || data.isEmpty()) {
@@ -50,7 +48,6 @@ public class TerproductDevicePlugin extends Plugin {
     runPrintBitmapOnUi(call, bmp);
   }
 
-  @PluginMethod
   public void printTextAsBitmap(PluginCall call) {
     String text = call.getString("text");
     if (text == null || text.isEmpty()) {

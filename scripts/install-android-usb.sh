@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Build web export + native shell, then install the debug APK over USB (adb).
+# Wi‑Fi / TCP: use scripts/install-android-wireless.sh or npm run android:wireless -- IP:PORT
 # Requires: Android device with USB debugging; JDK 21+ for this Gradle (Homebrew: brew install openjdk@21)
 set -euo pipefail
 cd "$(dirname "$0")/.."

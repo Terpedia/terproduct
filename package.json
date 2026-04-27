@@ -13,6 +13,7 @@
     "ios": "npx cap run ios",
     "android": "npx cap run android",
     "android:usb": "bash scripts/install-android-usb.sh",
+    "android:wireless": "bash scripts/install-android-wireless.sh",
     "adb:intents": "bash scripts/adb-test-intents.sh",
     "lint": "eslint",
     "qr-plant": "node scripts/qr-plant.mjs"
