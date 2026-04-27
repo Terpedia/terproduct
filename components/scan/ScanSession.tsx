@@ -3,11 +3,17 @@
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import {
-  fetchOpenFoodFactsProduct,
-  offBrand,
-  offIngredientLines,
+  type OpenFactsSource,
   type OpenFoodFactsProduct,
+  fetchOpenFactsProduct,
+  offBrand,
+  offCategoriesLabelsHint,
+  offImageUrl,
+  offIngredientLines,
+  offNutrimentDisplayLines,
   offProductName,
+  offSuggestsSupplementOrDrugLabel,
+  openFactsSourceLabel,
 } from "@/lib/integrations/open-food-facts";
 import { ocrFromCanvas, terminateOcrWorker } from "@/lib/ocr/label-ocr";
 import { normalizeGtinInput } from "@/lib/scan/normalize-gtin";
@@ -33,8 +39,8 @@ const DEDUPE_MS = 2200;
 
 /**
  * Full-viewport style scanner: **camera** preview on top (browser Barcode
- * API), **HID hardware scanner** (wedge) in parallel, Open Food Facts for
- * UPC, label **OCR** (Tesseract) on a throttled video frame, and per-panel
+ * API), **HID hardware scanner** (wedge) in parallel, Open Food / Open Beauty
+ * Facts for UPC, label **OCR** (Tesseract) on a throttled video frame, and per-panel
  * snapshot buttons.
  */
 export function ScanSession() {
@@ -51,6 +57,7 @@ export function ScanSession() {
   const [lastScan, setLastScan] = useState<string | null>(null);
   const [upc, setUpc] = useState<string | null>(null);
   const [off, setOff] = useState<OpenFoodFactsProduct | null>(null);
+  const [offSource, setOffSource] = useState<OpenFactsSource | null>(null);
   const [offLoading, setOffLoading] = useState(false);
   const [offNote, setOffNote] = useState<string | null>(null);
   const [ocrText, setOcrText] = useState("");
@@ -79,17 +86,25 @@ export function ScanSession() {
       setOffLoading(true);
       setOffNote(null);
       setOff(null);
+      setOffSource(null);
       try {
-        const r = await fetchOpenFoodFactsProduct(n);
-        if (r.status === 1 && r.product) {
+        const r = await fetchOpenFactsProduct(n);
+        if (r.status === 1 && r.product && r.source) {
           setOff(r.product);
+          setOffSource(r.source);
           setOffNote(null);
         } else {
           setOff(null);
-          setOffNote(r.status_verbose || "Not in Open Food Facts (or offline).");
+          setOffSource(null);
+          if (r.httpError) {
+            setOffNote(r.status_verbose || "Open Food / Open Beauty Facts request failed.");
+          } else {
+            setOffNote(r.status_verbose || "Not in Open Food Facts or Open Beauty Facts (or offline).");
+          }
         }
       } catch (e) {
         setOff(null);
+        setOffSource(null);
         setOffNote(e instanceof Error ? e.message : "Lookup failed.");
       } finally {
         setOffLoading(false);
@@ -311,6 +326,10 @@ export function ScanSession() {
   const displayBrand = off ? offBrand(off) : null;
   const derivedIngredients = off ? offIngredientLines(off) : [];
   const ingText = off?.ingredients_text?.trim();
+  const catalogImageUrl = off ? offImageUrl(off) : null;
+  const nutrimentLines = off ? offNutrimentDisplayLines(off) : [];
+  const catLabelHint = off ? offCategoriesLabelsHint(off) : null;
+  const regHint = off ? offSuggestsSupplementOrDrugLabel(off) : false;
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
@@ -417,9 +436,56 @@ export function ScanSession() {
         </div>
 
         <div className="rounded-xl border border-zinc-200 bg-zinc-50/80 p-3 text-sm dark:border-zinc-700 dark:bg-zinc-900/50">
-          <h3 className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Catalog (Open Food Facts)</h3>
+          <h3 className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Catalog (Open Food / Open Beauty)</h3>
+          {offSource ? (
+            <p className="mt-0.5 text-[11px] text-zinc-500">Source: {openFactsSourceLabel(offSource)}</p>
+          ) : null}
           {offLoading ? <p className="mt-1 text-zinc-500">Loading…</p> : null}
           {!offLoading && upc ? <p className="mt-1 font-mono text-zinc-600 dark:text-zinc-400">Code: {upc}</p> : null}
+          {!offLoading && off && catalogImageUrl ? (
+            <div className="mt-2 flex flex-col items-start gap-2 sm:flex-row">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={catalogImageUrl}
+                alt="Product (Open Facts)"
+                className="h-32 max-w-full rounded border border-zinc-200 object-contain dark:border-zinc-600 sm:h-40"
+                loading="lazy"
+              />
+              <p className="text-[10px] leading-snug text-zinc-500 sm:max-w-xs">
+                Photo from the database when contributors uploaded it. “Ingredients” and “Nutrition/Supplement”
+                sub-images, if any, are linked below; official FDA Drug Facts / full Supplement panels are often
+                not structured here — use OCR and packaging stills for authoritative text.
+              </p>
+            </div>
+          ) : null}
+          {off && !catalogImageUrl && !offLoading ? (
+            <p className="mt-2 text-xs text-zinc-500">No product photo in this entry.</p>
+          ) : null}
+          {!offLoading && off && (off.image_ingredients_url || off.image_nutrition_url) ? (
+            <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
+              {off.image_ingredients_url ? (
+                <a
+                  className="text-sky-700 underline dark:text-sky-400"
+                  href={off.image_ingredients_url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Ingredients image
+                </a>
+              ) : null}
+              {off.image_ingredients_url && off.image_nutrition_url ? " · " : null}
+              {off.image_nutrition_url ? (
+                <a
+                  className="text-sky-700 underline dark:text-sky-400"
+                  href={off.image_nutrition_url}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Nutrition / panel image
+                </a>
+              ) : null}
+            </p>
+          ) : null}
           {!offLoading && off ? (
             <ul className="mt-2 space-y-1 text-zinc-800 dark:text-zinc-200">
               <li>
@@ -428,6 +494,11 @@ export function ScanSession() {
               <li>
                 <span className="text-zinc-500">Brand:</span> {offBrand(off) || "—"}
               </li>
+              {catLabelHint ? (
+                <li>
+                  <span className="text-zinc-500">Categories / labels:</span> {catLabelHint}
+                </li>
+              ) : null}
               {ingText ? (
                 <li>
                   <span className="text-zinc-500">Ingredients (text):</span> {ingText}
@@ -444,6 +515,28 @@ export function ScanSession() {
                 </li>
               ) : null}
             </ul>
+          ) : null}
+          {nutrimentLines.length > 0 ? (
+            <div className="mt-3">
+              <p className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                Nutrients (from nutriments) — {regHint
+                  ? "supplement- or food-style; not a substitute for the printed label."
+                  : "serving and per-100g where available."}
+              </p>
+              {regHint ? (
+                <p className="mt-1 text-[10px] text-amber-900/90 dark:text-amber-200/90">
+                  Open*Facts is crowd-sourced. US “Drug Facts”/OTC active ingredients are not reliably
+                  modelled; use the ingredients list and your photos for compliance-critical copy.
+                </p>
+              ) : null}
+              <ul className="mt-1 max-h-40 list-inside list-disc space-y-0.5 overflow-y-auto text-xs text-zinc-700 dark:text-zinc-300">
+                {nutrimentLines.map((line, i) => (
+                  <li key={`${i}-${line.slice(0, 64)}`}>{line}</li>
+                ))}
+              </ul>
+            </div>
+          ) : !offLoading && off && (off.nutriments == null || Object.keys((off.nutriments as Record<string, unknown>) ?? {}).length === 0) ? (
+            <p className="mt-2 text-xs text-zinc-500">No structured nutriments for this product.</p>
           ) : null}
           {offNote ? <p className="mt-2 text-amber-800 dark:text-amber-200/90">{offNote}</p> : null}
         </div>

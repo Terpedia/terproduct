@@ -9,6 +9,7 @@ import { publicBasePath } from "@/lib/public-base";
 const items = [
   { href: "/", label: "Home", Icon: HomeIcon },
   { href: "/scan/", label: "Scan", Icon: ScanIcon },
+  { href: "/qr/", label: "QR", Icon: QrTabIcon },
   { href: "/lookup/", label: "Lookup", Icon: SearchIcon },
   { href: "/field/", label: "Field", Icon: FieldIcon },
   { href: "/device-test/", label: "Test", Icon: WrenchIcon },
@@ -64,6 +65,27 @@ function SearchIcon({ active }: { active: boolean }) {
     >
       <circle cx="10.5" cy="10.5" r="5.5" />
       <path d="M15 15 21 21" />
+    </svg>
+  );
+}
+
+function QrTabIcon({ active }: { active: boolean }) {
+  return (
+    <svg
+      className="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={active ? 2.25 : 1.8}
+      aria-hidden
+    >
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+      <rect x="14" y="14" width="3" height="3" />
+      <rect x="19" y="14" width="2" height="2" />
+      <rect x="15" y="19" width="2" height="2" />
+      <rect x="19" y="19" width="2" height="2" />
     </svg>
   );
 }

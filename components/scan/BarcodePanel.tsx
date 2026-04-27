@@ -129,12 +129,12 @@ export function BarcodePanel() {
     if (r.ok) {
       setIngestProductSlug(r.slug ?? null);
       setIngestInfo(
-        `Saved ${r.slug ?? r.gtin} — ${r.ingredientsCount} ingredient line(s) from Open Food Facts (GS1 check OK).`,
+        `Saved ${r.slug ?? r.gtin} — ${r.ingredientsCount} ingredient line(s) from Open Food / Open Beauty Facts (GS1 check OK).`,
       );
     } else {
       setIngestError(
         r.status === 404
-          ? "Not in Open Food Facts — add the product there first, or use Field to paste a label list."
+          ? "Not in Open Food Facts or Open Beauty Facts — add the product in one of those first, or use Field to paste a label list."
           : r.error,
       );
     }

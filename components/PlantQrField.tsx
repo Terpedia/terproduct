@@ -16,7 +16,7 @@ type Props = {
  */
 export function PlantQrField({ text, onLog }: Props) {
   const [busy, setBusy] = useState(false);
-  const [horizontal, setHorizontal] = useState(true);
+  const [horizontal, setHorizontal] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
@@ -80,10 +80,10 @@ export function PlantQrField({ text, onLog }: Props) {
     <div className="space-y-2 rounded-xl border border-emerald-200 bg-emerald-50/80 p-3 text-sm text-emerald-950 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-50/95">
       <strong className="block">Plant label (rotated QR + stem)</strong>
       <p className="text-xs text-emerald-900/90 dark:text-emerald-200/90">
-        Same idea as <code className="rounded bg-emerald-200/50 px-1 text-[11px] dark:bg-emerald-900/50">npm run qr-plant</code>: diamond
-        QR, stem graphic from <code className="text-[11px]">/qr-plant-assets/stem.png</code>, then optional
-        rotation for 58mm feed. Use <strong>System print</strong> on a POS with a registered print service; SPP/ESC/POS
-        only does plain QR bytes, not this full image.
+        Same idea as <code className="rounded bg-emerald-200/50 px-1 text-[11px] dark:bg-emerald-900/50">npm run qr-plant</code>: base art
+        from <code className="text-[11px]">/qr-plant-assets/terproduct-logo.png</code> (no baked QR) rotated 90° CCW, then diamond
+        QR; optional final rotation for 58mm feed. Use <strong>System print</strong> on a POS with a registered print
+        service; SPP/ESC/POS only does plain QR bytes, not this full image.
       </p>
       <label className="mt-1 flex items-center gap-2 text-xs">
         <input
@@ -92,7 +92,7 @@ export function PlantQrField({ text, onLog }: Props) {
           checked={horizontal}
           onChange={(e) => setHorizontal(e.target.checked)}
         />
-        <span>Horizontal (rotate final −90° like <code>qr-plant -H</code>)</span>
+        <span>Horizontal label (rotate whole image −90°; <code>qr-plant -H</code>)</span>
       </label>
       <div className="flex flex-wrap gap-2">
         <button
@@ -122,7 +122,7 @@ export function PlantQrField({ text, onLog }: Props) {
       </div>
       {err ? <p className="text-xs text-red-700 dark:text-red-300">{err}</p> : null}
       {preview ? (
-        <div className="relative mt-2 flex justify-center rounded-lg border border-emerald-200/80 bg-white p-2 dark:border-emerald-800 dark:bg-zinc-900">
+        <div className="relative mt-2 flex justify-center rounded-lg border border-zinc-200 bg-white p-2 dark:border-zinc-500">
           {/* eslint-disable-next-line @next/next/no-img-element -- data: URL from canvas */}
           <img src={preview} alt="Plant QR preview" className="h-auto max-w-full" />
         </div>

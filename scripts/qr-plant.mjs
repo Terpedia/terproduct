@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Build a "plant QR" image: a fixed stem bitmap with a variable QR "flower"
- * rotated 45° (diamond) so the bottom corner sits on the stem top.
+ * Build a "plant QR" image: stem bitmap (from file) rotated 90° CCW, then a transparent (no white
+ * mat) diamond QR, with the bottom of the AABB a few pixels above the anchor line.
  */
 import { mkdirSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -10,9 +10,10 @@ import { Jimp } from "jimp";
 import QRCode from "qrcode";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DEFAULT_STEM = join(__dirname, "qr-plant-assets", "stem.png");
+const DEFAULT_STEM = join(__dirname, "qr-plant-assets", "terproduct-logo.png");
 
-const WHITE = 0xff_ff_ff_ff;
+/** Fully transparent — head erase, rotation padding, and QR “light” modules. */
+const TRANSPARENT = 0x00_00_00_00;
 
 function parseNumberPair(s) {
   const p = s.split(/[,\s]+/).map(Number);
@@ -25,9 +26,10 @@ function parseNumberPair(s) {
 function help() {
   console.log(`Usage: node scripts/qr-plant.mjs <text-or-url> [options]
 
-Renders a QR code on a fixed plant stem (see scripts/qr-plant-assets/stem.png),
-rotated 45° clockwise (diamond), aligned so the bottom vertex of the square
-sits on the top of the stem.
+Renders a QR code on the plant art (see scripts/qr-plant-assets/terproduct-logo.png; QR-free base).
+The stem bitmap is rotated 90° counter-clockwise before the QR is placed, then 45° clockwise
+(diamond), with the bottom vertex of the square on the “stem top” in that frame.
+\`--anchor\` and \`--anchor-ratio\` use the stem file *before* the 90° CCW step.
 
 Options:
   -o, --out <file>         Output path (default: plant-qr.png in cwd)
@@ -36,30 +38,33 @@ Options:
   --ec-level <L|M|Q|H>     Error correction (default: H; helps when rotated)
   -m, --margin <n>         QR quiet zone in modules (default: 2)
   --stem <path>            Stem PNG to composite onto (default: ${DEFAULT_STEM})
-  --anchor "x,y"           Anchor in pixels: top of stem / bottom corner of diamond
-  --anchor-ratio "x,y"     Same as --anchor, but 0..1 of stem width/height
-                           (default: 0.5,0.26; ignored if --anchor is set)
+  --anchor "x,y"           Anchor in pixels: stem/flower join line (before 90° CCW)
+  --anchor-ratio "x,y"     Same, 0..1 of stem file (default: 0.5,0.26; if \`--anchor\` is not set)
+  --qr-stem-gap <px>       Pixels between that line and the bottom of the diamond (default: 8)
   --debug                  Draw a small + at the anchor for tuning
-  --no-head-clear         Skip the default white “erase” over the top-center
-                           of the stem image (use when your --stem is already
-                           just the plant with no old QR in it)
+  --head-clear            Erase a top band first (older stem PNGs with a sample QR; usually off)
+  --no-head-clear         (Deprecated: default is already “no clear”; kept for old scripts)
   --horizontal, -H         After compositing, rotate 90° so the stem is
                            left–right and the diamond QR is at the end
                            (default: --h-deg -90 in Jimp = 90° CW, bloom on
                            the right, stem to the left). Use --h-deg 90 to swap.
   --h-deg <n>             Degrees to rotate the final image when --horizontal
                            (default: -90; same sign as --rotate for QR, i.e. Jimp deg)
+  --logo <path>            Wordmark or icon in bottom-left after layout (use a *small* PNG, not
+                           a second copy of the plant stem; that was the “tiny stem” artifact)
+  --logo-max-width <px>   Max width before compositing (default: 160)
 
 Example:
   node scripts/qr-plant.mjs "https://example.com" -o /tmp/qr-plant.png
   node scripts/qr-plant.mjs "https://example.com" --anchor-ratio 0.5,0.24
   node scripts/qr-plant.mjs "https://example.com" -H -o /tmp/qr-plant-h.png
+  node scripts/qr-plant.mjs "https://example.com" -H --logo ./terproduct-wordmark.png -o /tmp/qr-branded.png
 
 PWA: Field screen → "Plant label" (same steps in-browser; system print on Android for integrated thermals).
 `);
 }
 
-/** Paints a white trapezoid in the top-center to remove a pre-drawn “flower” */
+/** Clears a band at the top-center to alpha 0, removing a baked-in QR (works on transparent art). */
 function clearPreexistingHead(jimp, yTopMaxRatio = 0.36, hMargin = 0.1) {
   const w = jimp.bitmap.width;
   const h = jimp.bitmap.height;
@@ -68,9 +73,39 @@ function clearPreexistingHead(jimp, yTopMaxRatio = 0.36, hMargin = 0.1) {
   const x1 = Math.ceil(w * (1 - hMargin));
   for (let y = 0; y < yMax; y += 1) {
     for (let x = x0; x < x1; x += 1) {
-      jimp.setPixelColor(WHITE, x, y);
+      jimp.setPixelColor(TRANSPARENT, x, y);
     }
   }
+}
+
+/**
+ * Blit `qr` (qw×qh) to dest (dx,dy) = (left, top), clipping to the stem. Avoids Jimp/negative-dest
+ * bugs and vertical “seams” when top+qh > ay range clips off the top of the rot bitmap.
+ */
+function blitQrClipped({ stem, qr, left, top, qw, qh }) {
+  const W = stem.bitmap.width;
+  const H = stem.bitmap.height;
+  const dx = Math.max(0, left);
+  const dy = Math.max(0, top);
+  const sx = Math.max(0, -left);
+  const sy = Math.max(0, -top);
+  const sw = Math.max(0, Math.min(qw - sx, W - dx));
+  const sh = Math.max(0, Math.min(qh - sy, H - dy));
+  if (sw < 1 || sh < 1) {
+    return;
+  }
+  stem.blit({ src: qr, x: dx, y: dy, srcX: sx, srcY: sy, srcW: sw, srcH: sh });
+}
+
+/**
+ * Stem 90° CCW (Jimp `deg: 90`): pixel (x,y) on the original W×H file → (y, W−1−x) on the
+ * rotated H×W bitmap.
+ */
+function anchorAfterStemRotate90Ccw(anchor, w0) {
+  return {
+    x: anchor.y,
+    y: w0 - 1 - anchor.x,
+  };
 }
 
 function argValue(argv, i, name) {
@@ -94,10 +129,13 @@ function main() {
   let stemPath = DEFAULT_STEM;
   let anchorPx = null;
   let anchorRatio = { x: 0.5, y: 0.26 };
-  let headClear = true;
+  let headClear = false;
   let debug = false;
   let horizontal = false;
   let hDeg = -90;
+  let qrStemGap = 8;
+  let logoPath = null;
+  let logoMaxW = 160;
 
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
@@ -136,12 +174,27 @@ function main() {
       i += 1;
     } else if (a === "--debug") {
       debug = true;
+    } else if (a === "--head-clear") {
+      headClear = true;
     } else if (a === "--no-head-clear") {
       headClear = false;
     } else if (a === "--horizontal" || a === "-H") {
       horizontal = true;
     } else if (a === "--h-deg") {
       hDeg = Number(argValue(argv, i, a));
+      i += 1;
+    } else if (a === "--qr-stem-gap") {
+      qrStemGap = Number(argValue(argv, i, a));
+      i += 1;
+    } else if (a === "--with-logo") {
+      throw new Error(
+        "--with-logo is removed. Use: --logo <path> with a small wordmark/icon (not a duplicate of the base plant art; that created a second tiny graphic in the corner).",
+      );
+    } else if (a === "--logo") {
+      logoPath = String(argValue(argv, i, a));
+      i += 1;
+    } else if (a === "--logo-max-width") {
+      logoMaxW = Number(argValue(argv, i, a));
       i += 1;
     } else if (a.startsWith("-")) {
       throw new Error(`Unknown option: ${a}`);
@@ -164,6 +217,15 @@ function main() {
   if (horizontal && !Number.isFinite(hDeg)) {
     throw new Error("--h-deg must be a number");
   }
+  if (logoPath && !Number.isFinite(logoMaxW)) {
+    throw new Error("--logo-max-width must be a number");
+  }
+  if (logoPath && logoMaxW < 8) {
+    throw new Error("--logo-max-width is too small");
+  }
+  if (!Number.isFinite(qrStemGap) || qrStemGap < 0) {
+    throw new Error("--qr-stem-gap must be a non-negative number");
+  }
   return {
     text,
     outFile,
@@ -178,6 +240,9 @@ function main() {
     debug,
     horizontal,
     hDeg,
+    qrStemGap,
+    logoPath,
+    logoMaxW,
   };
 }
 
@@ -196,30 +261,36 @@ try {
     errorCorrectionLevel: ctx.ecLevel,
     width: ctx.size,
     margin: ctx.margin,
-    color: { dark: "#000000ff", light: "#ffffffff" },
+    color: { dark: "#000000ff", light: "#00000000" },
   });
 
   const qr = await Jimp.read(buf);
-  qr.background = WHITE;
+  /* Tighten square QR to content + quiet zone (qrcode can pad the bitmap beyond modules). */
+  await qr.autocrop();
+  /* Padding around the diamond; light modules stay transparent. */
+  qr.background = TRANSPARENT;
   qr.rotate({ deg: ctx.rotateCcwDeg, mode: true });
 
   const stem = await Jimp.read(ctx.stemPath);
-  const w = stem.bitmap.width;
-  const h = stem.bitmap.height;
+  const w0 = stem.bitmap.width;
+  const h0 = stem.bitmap.height;
   if (ctx.headClear) {
     clearPreexistingHead(stem);
   }
-  const anchor = ctx.anchorPx
+  const anchorUnrot = ctx.anchorPx
     ? ctx.anchorPx
-    : { x: w * ctx.anchorRatio.x, y: h * ctx.anchorRatio.y };
+    : { x: w0 * ctx.anchorRatio.x, y: h0 * ctx.anchorRatio.y };
+  const anchor = anchorAfterStemRotate90Ccw(anchorUnrot, w0);
+  await stem.rotate({ deg: 90, mode: true });
+  const w = stem.bitmap.width;
+  const h = stem.bitmap.height;
 
   const qw = qr.bitmap.width;
   const qh = qr.bitmap.height;
-  // Bottom vertex of the diamond sits at the bottom-center of the rotated image.
+  // Bottom of the diamond AABB sits gap px above the anchor (stem/flower line).
   const left = Math.round(anchor.x - qw / 2);
-  const top = Math.round(anchor.y - qh);
-
-  stem.blit({ src: qr, x: left, y: top, srcX: 0, srcY: 0, srcW: qw, srcH: qh });
+  const top = Math.round(anchor.y - qh - ctx.qrStemGap);
+  blitQrClipped({ stem, qr, left, top, qw, qh });
 
   if (ctx.debug) {
     const x0 = Math.round(anchor.x);
@@ -233,6 +304,26 @@ try {
 
   if (ctx.horizontal) {
     stem.rotate({ deg: ctx.hDeg, mode: true });
+  }
+
+  if (ctx.logoPath) {
+    if (!existsSync(ctx.logoPath)) {
+      throw new Error(`logo not found: ${ctx.logoPath}`);
+    }
+    const lo = await Jimp.read(ctx.logoPath);
+    if (lo.bitmap.width > ctx.logoMaxW) {
+      await lo.resize({ w: ctx.logoMaxW });
+    }
+    const W = stem.bitmap.width;
+    const H = stem.bitmap.height;
+    const lw = lo.bitmap.width;
+    const lh = lo.bitmap.height;
+    const m = 12;
+    const lx = m;
+    const ly = Math.max(m, H - lh - m);
+    if (lx + lw <= W && ly + lh <= H) {
+      stem.blit({ src: lo, x: lx, y: ly, srcX: 0, srcY: 0, srcW: lw, srcH: lh });
+    }
   }
 
   const outDir = dirname(ctx.outFile);

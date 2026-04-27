@@ -52,6 +52,13 @@ export default function manifest(): MetadataRoute.Manifest {
         icons: [anyIcon("192x192")],
       },
       {
+        name: "UPC label QR",
+        short_name: "UPC QR",
+        description: "Printable plant QR linking ?u= UPC on Terpedia",
+        url: "./qr/",
+        icons: [anyIcon("192x192")],
+      },
+      {
         name: "Field",
         short_name: "Field",
         description: "Field console",

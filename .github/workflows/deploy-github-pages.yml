@@ -31,6 +31,7 @@ jobs:
       - name: Install
         run: npm ci
 
+      # Home is a static `out/index.html`; `?p=`, `?u=`, `?i=` are read in the client (RootQueryShell).
       - name: Build static export
         env:
           NEXT_PUBLIC_SITE_URL: https://terproduct.terpedia.com

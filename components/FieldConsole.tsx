@@ -8,6 +8,7 @@ import { PlantQrField } from "@/components/PlantQrField";
 import { submitTerproductEvent, type TerproductIngestEvent } from "@/lib/api/terproduct-submit";
 import { escposQrCodeAscii } from "@/lib/printing/escpos-qr";
 import { shareOrDownloadQrPng } from "@/lib/printing/share-qr-png";
+import { terpediaProductPageUrl } from "@/lib/terpedia/terpedia-urls";
 
 type Platform = "web" | "ios" | "android" | "unknown";
 
@@ -23,9 +24,10 @@ export function FieldConsole() {
   } | null>(null);
   const [log, setLog] = useState<string>("");
   const [busy, setBusy] = useState(false);
-  const [qrText, setQrText] = useState(
-    "https://terpedia.com/product/demo",
-  );
+  const [qrText, setQrText] = useState(() => terpediaProductPageUrl("0038000100096"));
+  const setTerpediaProductUrl = useCallback((rawId: string) => {
+    setQrText(terpediaProductPageUrl(rawId));
+  }, []);
   const [eventKind, setEventKind] = useState<SimpleIngestEvent>("upc_scanned");
   const [androidPrinter, setAndroidPrinter] = useState("");
   const [pairList, setPairList] = useState<Array<{ name: string; address: string }>>([]);
@@ -70,8 +72,8 @@ export function FieldConsole() {
       }
       const value = b.rawValue ?? b.displayValue;
       setLastScan({ value, format: b.format });
-      setQrText(value);
-      logLine(`Scanned ${b.format}: ${value}`);
+      setTerpediaProductUrl(value);
+      logLine(`Scanned ${b.format}: ${value} → terproduct /?p= link for label QR`);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       logLine(`Scan error: ${msg}`);

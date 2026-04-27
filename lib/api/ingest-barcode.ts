@@ -1,6 +1,6 @@
 /**
  * Call `supabase/functions/ingest-barcode` to upsert product + ingredients from
- * a validated GTIN, GS1 check digit, and Open Food Facts.
+ * a validated GTIN, GS1 check digit, and Open Food or Open Beauty Facts.
  * Requires a deployed function and, on the server, `TERPRODUCT_INGEST_KEY` if you set that secret.
  */
 export type IngestBarcodeResult =
@@ -10,7 +10,12 @@ export type IngestBarcodeResult =
       slug?: string;
       gtin?: string;
       ingredientsCount: number;
-      source?: { gs1Gtin: string; gs1CheckDigit: string; openFoodFacts: string };
+      source?: {
+        gs1Gtin: string;
+        gs1CheckDigit: string;
+        openFoodFacts?: string;
+        openBeautyFacts?: string;
+      };
     }
   | { ok: false; status: number; error: string; body?: string };
 
@@ -74,7 +79,12 @@ export async function ingestBarcodeToCatalog(gtin: string): Promise<IngestBarcod
     slug?: string;
     gtin?: string;
     ingredientsCount?: number;
-    source?: { gs1Gtin: string; gs1CheckDigit: string; openFoodFacts: string };
+    source?: {
+      gs1Gtin: string;
+      gs1CheckDigit: string;
+      openFoodFacts?: string;
+      openBeautyFacts?: string;
+    };
   };
   if (p && typeof p === "object" && p.ok) {
     return {

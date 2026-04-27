@@ -1,6 +1,6 @@
 /**
- * Ingest: GS1-check GTIN, Open Food Facts name/ingredients, upsert into
- * `products`, `ingredients`, `product_ingredients`, `product_label_ingredient_lines`.
+ * Ingest: GS1-check GTIN, Open Food or Open Beauty Facts name/ingredients, upsert
+ * into `products`, `ingredients`, `product_ingredients`, `product_label_ingredient_lines`.
  *
  * Secrets: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY (auto in hosted Supabase).
  * Optional: TERPRODUCT_INGEST_KEY — if set, require header `x-terproduct-ingest-key: <value>`.
@@ -8,11 +8,13 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.49.8";
 import { assertValidGtinScannedOrTyped } from "../_shared/gs1-gtin";
 import {
-  fetchOpenFoodFactsProduct,
+  fetchOpenFactsProduct,
   offBrand,
   offDescription,
   offIngredientLines,
   offProductName,
+  openFactsSourceIngestKey,
+  openFactsSourceNotes,
 } from "../_shared/open-food-facts";
 
 const cors: Record<string, string> = {
@@ -77,17 +79,25 @@ Deno.serve(async (req) => {
     );
   }
 
-  const off = await fetchOpenFoodFactsProduct(gtin);
-  if (off.status === 0) {
-    return jsonRes({ error: "Open Food Facts request failed", details: off.status_verbose }, 502);
-  }
-  if (off.status !== 1 || !off.product) {
+  const off = await fetchOpenFactsProduct(gtin);
+  if (off.httpError) {
     return jsonRes(
-      { error: "Product not in Open Food Facts (or not found)", offStatus: off.status, gtin },
+      { error: "Open Food Facts / Open Beauty Facts request failed", details: off.status_verbose },
+      502,
+    );
+  }
+  if (off.status !== 1 || !off.product || !off.source) {
+    return jsonRes(
+      {
+        error: "Product not in Open Food Facts or Open Beauty Facts (or not found)",
+        offStatus: off.status,
+        gtin,
+      },
       404,
     );
   }
 
+  const ingestNotes = openFactsSourceNotes(off.source);
   const p = off.product;
   const name = offProductName(p);
   const brand = offBrand(p);
@@ -186,7 +196,7 @@ Deno.serve(async (req) => {
         ingredient_id: ingId,
         sort_order: sort,
         as_listed: rawLine,
-        notes: "Open Food Facts",
+        notes: ingestNotes,
       });
     }
 
@@ -195,7 +205,7 @@ Deno.serve(async (req) => {
       line_index: i,
       raw_text: rawLine,
       resolved_ingredient_id: ingId,
-      notes: "Open Food Facts",
+      notes: ingestNotes,
     });
   }
 
@@ -206,7 +216,11 @@ Deno.serve(async (req) => {
     productId,
     slug: pRow?.slug,
     gtin: pRow?.gtin,
-    source: { gs1Gtin: gtin, gs1CheckDigit: "ok", openFoodFacts: "merged" },
+    source: {
+      gs1Gtin: gtin,
+      gs1CheckDigit: "ok",
+      [openFactsSourceIngestKey(off.source)]: "merged",
+    },
     ingredientsCount: lines.length,
   });
 });
