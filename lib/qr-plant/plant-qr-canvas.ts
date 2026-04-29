@@ -169,13 +169,12 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
   const qrCan = document.createElement("canvas");
   qrCan.width = size;
   qrCan.height = size;
-  /* Opaque white light modules so we can match-crop the square like Jimp’s `autocrop`. */
-  /* Match scripts/qr-plant.mjs: transparent “light” modules so autocrop + rotated bounds match Jimp. */
+  /* Opaque white light modules: some WebViews ignore fully transparent light (#00000000) and break trim/rotate. */
   await QRCode.toCanvas(qrCan, text, {
     errorCorrectionLevel,
     width: size,
     margin,
-    color: { dark: "#000000ff", light: "#00000000" },
+    color: { dark: "#000000ff", light: "#ffffffff" },
   });
 
   const trimmed = trimUniformBorderFromCanvas(qrCan);

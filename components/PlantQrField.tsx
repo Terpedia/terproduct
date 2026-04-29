@@ -85,6 +85,8 @@ export function PlantQrField({
         onLog(
           "Plant QR: auto-built from link" + (horizontal ? " (horizontal)" : "") + ".",
         );
+        /* Unlock UI before native print — the print sheet can stay open a long time and must not leave buttons disabled. */
+        setBusy(false);
         const { Capacitor } = await import("@capacitor/core");
         if (autoPrint) {
           if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== "android") {
@@ -146,6 +148,7 @@ export function PlantQrField({
     try {
       const dataUrl = await buildPlantQrPngDataUrl(plantQrOptions(text.trim(), horizontal));
       setPreview(dataUrl);
+      setBusy(false);
       const { Capacitor } = await import("@capacitor/core");
       if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== "android") {
         onLog(
@@ -177,6 +180,7 @@ export function PlantQrField({
       setPreview(dataUrl);
       setHorizontal(true);
       onLog("Plant QR: built with −90° rotation (roll layout, matches qr-plant -H).");
+      setBusy(false);
       const { Capacitor } = await import("@capacitor/core");
       if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== "android") {
         onLog("Plant QR: preview updated — install the Android app for system print on device.");
