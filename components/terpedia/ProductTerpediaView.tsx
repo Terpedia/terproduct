@@ -15,7 +15,11 @@ import {
 import { normalizeGtinInput } from "@/lib/scan/normalize-gtin";
 import { terpediaIngredientPath } from "@/lib/terpedia/terpedia-urls";
 
-type Props = { id: string; /** Query key shown in the page chrome (`?p=` vs `?u=`). */ linkParam?: "p" | "u" };
+type Props = {
+  id: string;
+  /** Query key shown in the page chrome (`?p=` vs `?u=` / `?upc=`). */
+  linkParam?: "p" | "u" | "upc";
+};
 
 type LoadState = "idle" | "loading" | "ok" | "empty" | "error";
 

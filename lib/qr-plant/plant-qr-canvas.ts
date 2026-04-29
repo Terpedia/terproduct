@@ -31,6 +31,11 @@ export type PlantQrClientOptions = {
    * diamond AABB; higher values move the QR up. Same as `scripts/qr-plant.mjs` flag `--qr-stem-gap`.
    */
   qrStemGapPx?: number;
+  /**
+   * Horizontal offset from canvas center for the diamond’s axis (negative = left).
+   * Default scales slightly with width (~1.5% min 14px); matches {@code scripts/qr-plant.mjs}.
+   */
+  qrCenterOffsetXPx?: number;
 };
 
 function defaultStemUrl(): string {
@@ -41,22 +46,56 @@ function defaultStemUrl(): string {
   return `${b}/qr-plant-assets/terproduct-logo.png`.replace(/\/\//g, "/");
 }
 
+/**
+ * Absolute stem asset URL so resolution never depends on the current route (e.g. /qr/ vs /).
+ * Required for WebViews / PWAs where relative fetch paths can resolve incorrectly.
+ */
+function resolveStemAssetUrl(stemSrc: string): string {
+  if (stemSrc.startsWith("http://") || stemSrc.startsWith("https://")) {
+    return stemSrc;
+  }
+  const path = stemSrc.startsWith("/") ? stemSrc : `/${stemSrc}`;
+  if (typeof window === "undefined") {
+    return path;
+  }
+  return `${window.location.origin}${path}`;
+}
+
+/** Loads stem PNG with absolute URL + {@link HTMLImageElement.decode} (reliable in Capacitor WebViews). */
+async function loadStemImage(stemSrc: string): Promise<HTMLImageElement> {
+  const url = resolveStemAssetUrl(stemSrc);
+  const im = new Image();
+  if (typeof window !== "undefined") {
+    try {
+      const u = new URL(url);
+      if (u.origin !== window.location.origin) {
+        im.crossOrigin = "anonymous";
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+  im.src = url;
+  try {
+    await im.decode();
+  } catch {
+    await new Promise<void>((resolve, reject) => {
+      im.onload = () => resolve();
+      im.onerror = () => reject(new Error(`stem image failed to load: ${url}`));
+    });
+  }
+  if (im.naturalWidth < 2 || im.naturalHeight < 2) {
+    throw new Error(`stem image has invalid size (${im.naturalWidth}×${im.naturalHeight}): ${url}`);
+  }
+  return im;
+}
+
 /** Punches out the top-center head band (removes a baked-in QR) without painting opaque white. */
 function clearStemHead(ctx: CanvasRenderingContext2D, w: number, h: number) {
   const yMax = Math.min(Math.floor(h * 0.36), h);
   const x0 = Math.floor(w * 0.1);
   const x1 = Math.ceil(w * 0.9);
   ctx.clearRect(x0, 0, x1 - x0, yMax);
-}
-
-function loadImage(url: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const im = new Image();
-    im.crossOrigin = "anonymous";
-    im.onload = () => resolve(im);
-    im.onerror = () => reject(new Error(`stem image load failed: ${url}`));
-    im.src = url;
-  });
 }
 
 /** Jimp 90° CCW (same as {@code stem.rotate({ deg: 90 })}): (x, y) on W×H → (y, W−1−x) on H×W. */
@@ -112,7 +151,7 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
 
   const {
     text,
-    size = 280,
+    size = 560,
     rotateClockwiseDeg = 45,
     errorCorrectionLevel = "H",
     margin = 2,
@@ -122,6 +161,7 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
     headClear = false,
     stemUrl: stemPath,
     qrStemGapPx = 8,
+    qrCenterOffsetXPx,
   } = o;
 
   const stemSrc = stemPath ?? defaultStemUrl();
@@ -130,11 +170,12 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
   qrCan.width = size;
   qrCan.height = size;
   /* Opaque white light modules so we can match-crop the square like Jimp’s `autocrop`. */
+  /* Match scripts/qr-plant.mjs: transparent “light” modules so autocrop + rotated bounds match Jimp. */
   await QRCode.toCanvas(qrCan, text, {
     errorCorrectionLevel,
     width: size,
     margin,
-    color: { dark: "#000000ff", light: "#ffffffff" },
+    color: { dark: "#000000ff", light: "#00000000" },
   });
 
   const trimmed = trimUniformBorderFromCanvas(qrCan);
@@ -154,19 +195,19 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
   }
   r.imageSmoothingEnabled = true;
   r.imageSmoothingQuality = "high";
-  r.fillStyle = "#ffffff";
-  r.fillRect(0, 0, s, s);
+  /* Transparent padding like Jimp rotate(..., mode:true); avoids a white mat shifting stem composite. */
+  r.clearRect(0, 0, s, s);
   r.translate(s / 2, s / 2);
   r.rotate((rotateClockwiseDeg * Math.PI) / 180);
   r.drawImage(trimmed, -trimmed.width / 2, -trimmed.height / 2);
   const qw = s;
   const qh = s;
 
-  const stemImg = await loadImage(stemSrc);
+  const stemImg = await loadStemImage(stemSrc);
   const w0 = stemImg.naturalWidth;
   const h0 = stemImg.naturalHeight;
   const anchorUnrot = { x: w0 * anchorRatio.x, y: h0 * anchorRatio.y };
-  const { x: ax, y: ay } = anchorAfterStemRotate90Ccw(anchorUnrot, w0);
+  const { y: ay } = anchorAfterStemRotate90Ccw(anchorUnrot, w0);
   const { canvas: out } = buildRotatedStemCanvas(stemImg, headClear);
   const w = out.width;
   const h = out.height;
@@ -174,7 +215,12 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
   if (!c) {
     throw new Error("canvas 2d not available");
   }
-  const left = Math.round(ax - qw / 2);
+  const shift =
+    qrCenterOffsetXPx !== undefined
+      ? qrCenterOffsetXPx
+      : -Math.max(14, Math.round(w * 0.015));
+  const qrCenterX = w / 2 + shift;
+  const left = Math.round(qrCenterX - qw / 2);
   const top = Math.round(ay - qh - qrStemGapPx);
   /* Explicit crop when left/top is negative; avoids a vertical seam and half-offscreen QRs. */
   const dx = Math.max(0, left);

@@ -11,6 +11,8 @@ function RouterBody({ children }: { children: ReactNode }) {
   const p = sp.get("p");
   /** UPC-oriented deep link (same product view as ?p=; used by label QRs). */
   const u = sp.get("u");
+  /** Preferred label query key (same behavior as ?u=). */
+  const upc = sp.get("upc");
   const i = sp.get("i");
 
   if (p && p.trim()) {
@@ -18,6 +20,9 @@ function RouterBody({ children }: { children: ReactNode }) {
   }
   if (u && u.trim()) {
     return <ProductTerpediaView id={u.trim()} linkParam="u" />;
+  }
+  if (upc && upc.trim()) {
+    return <ProductTerpediaView id={upc.trim()} linkParam="upc" />;
   }
   if (i && i.trim()) {
     return <IngredientTerpediaView name={i.trim()} />;

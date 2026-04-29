@@ -23,9 +23,15 @@ HTTPS (in-app, uses https://terproduct.terpedia.com/ pathPrefix)
   adb shell am start -a android.intent.action.VIEW -d "https://terproduct.terpedia.com/device-test/" $PKG
   adb shell am start -a android.intent.action.VIEW -d "https://terproduct.terpedia.com/field/" $PKG
 
+Plant QR + optional auto-build + system print (Android TerproductDevice plugin)
+  adb shell am start -a android.intent.action.VIEW -d "https://terproduct.terpedia.com/qr/?u=0038000100096&auto=1" $PKG
+  adb shell am start -a android.intent.action.VIEW -d "https://terproduct.terpedia.com/qr/?text=https%3A%2F%2Fterpedia.com&auto=1&print=1" $PKG
+  adb shell am start -a android.intent.action.VIEW -d "https://terproduct.terpedia.com/qr/?u=0038000100096&auto=1&print=1&horizontal=1" $PKG
+
 Custom scheme (host must be "app" per android/app/.../AndroidManifest.xml)
   adb shell am start -a android.intent.action.VIEW -d "terproduct://app/scan/" $PKG
   adb shell am start -a android.intent.action.VIEW -d "terproduct://app/lookup/" $PKG
+  adb shell am start -a android.intent.action.VIEW -d "terproduct://app/qr/?u=0038000100096&auto=1&print=1" $PKG
 
 Launcher
   adb shell am start -n $PKG/.MainActivity

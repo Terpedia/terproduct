@@ -33,7 +33,8 @@ The stem bitmap is rotated 90° counter-clockwise before the QR is placed, then 
 
 Options:
   -o, --out <file>         Output path (default: plant-qr.png in cwd)
-  -s, --size <px>          QR module canvas size before rotation (default: 280)
+  -s, --size <px>          QR module canvas size before rotation (default: 560)
+  --qr-shift-x <px>       Horizontal offset from canvas center (negative = left; default: ~−1.5% width, min 14px)
   --rotate <deg>           Clockwise degrees (default: 45; use negative for CCW in output)
   --ec-level <L|M|Q|H>     Error correction (default: H; helps when rotated)
   -m, --margin <n>         QR quiet zone in modules (default: 2)
@@ -122,7 +123,7 @@ function main() {
 
   let text = null;
   let outFile = "plant-qr.png";
-  let size = 280;
+  let size = 560;
   let rotateCcwDeg = -45; // 45° clockwise: Jimp rotates counter-clockwise
   let ecLevel = "H";
   let margin = 2;
@@ -136,6 +137,8 @@ function main() {
   let qrStemGap = 8;
   let logoPath = null;
   let logoMaxW = 160;
+  /** @type {number | undefined} */
+  let qrShiftXPx = undefined;
 
   for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
@@ -186,6 +189,9 @@ function main() {
     } else if (a === "--qr-stem-gap") {
       qrStemGap = Number(argValue(argv, i, a));
       i += 1;
+    } else if (a === "--qr-shift-x") {
+      qrShiftXPx = Number(argValue(argv, i, a));
+      i += 1;
     } else if (a === "--with-logo") {
       throw new Error(
         "--with-logo is removed. Use: --logo <path> with a small wordmark/icon (not a duplicate of the base plant art; that created a second tiny graphic in the corner).",
@@ -226,6 +232,9 @@ function main() {
   if (!Number.isFinite(qrStemGap) || qrStemGap < 0) {
     throw new Error("--qr-stem-gap must be a non-negative number");
   }
+  if (qrShiftXPx !== undefined && !Number.isFinite(qrShiftXPx)) {
+    throw new Error("--qr-shift-x must be a number");
+  }
   return {
     text,
     outFile,
@@ -243,6 +252,7 @@ function main() {
     qrStemGap,
     logoPath,
     logoMaxW,
+    qrShiftXPx,
   };
 }
 
@@ -287,13 +297,20 @@ try {
 
   const qw = qr.bitmap.width;
   const qh = qr.bitmap.height;
+  // `--anchor` / `--anchor-ratio` set vertical join (`anchor.y`). Horizontal placement uses canvas
+  // center plus a small left shift (matches `plant-qr-canvas.ts`).
+  const qrShift =
+    ctx.qrShiftXPx !== undefined
+      ? ctx.qrShiftXPx
+      : -Math.max(14, Math.round(w * 0.015));
+  const qrCenterX = w / 2 + qrShift;
   // Bottom of the diamond AABB sits gap px above the anchor (stem/flower line).
-  const left = Math.round(anchor.x - qw / 2);
+  const left = Math.round(qrCenterX - qw / 2);
   const top = Math.round(anchor.y - qh - ctx.qrStemGap);
   blitQrClipped({ stem, qr, left, top, qw, qh });
 
   if (ctx.debug) {
-    const x0 = Math.round(anchor.x);
+    const x0 = Math.round(qrCenterX);
     const y0 = Math.round(anchor.y);
     const red = 0xff_00_00_ff;
     for (let d = -8; d <= 8; d += 1) {
@@ -337,7 +354,7 @@ try {
 
   const outPng = await stem.getBuffer("image/png");
   writeFileSync(ctx.outFile, outPng);
-  const ax = anchor.x | 0;
+  const ax = Math.round(qrCenterX);
   const ay = anchor.y | 0;
   const fw = stem.bitmap?.width ?? w;
   const fh = stem.bitmap?.height ?? h;

@@ -34,6 +34,15 @@ export function terpediaUpcQueryUrl(rawUpc: string): string {
 }
 
 /**
+ * Same routing as {@link terpediaUpcQueryUrl}, but uses `/?upc=` (preferred for new label QRs).
+ */
+export function terpediaUpcParamUrl(rawUpc: string): string {
+  const b = publicBasePath();
+  const o = terpediaPublicOrigin();
+  return `${o}${b || ""}/?upc=${encodeURIComponent(rawUpc.trim())}`;
+}
+
+/**
  * Relative path for in-app links (works with `basePath`).
  */
 export function terpediaIngredientPath(ingredient: string): string {
