@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Build a "plant QR" image: stem bitmap (from file) rotated 90° CCW, then a transparent (no white
- * mat) diamond QR, with the bottom of the AABB a few pixels above the anchor line.
+ * mat) QR rotated 90° CW, centered horizontally with the bottom of the AABB just above the anchor.
  */
 import { mkdirSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -27,26 +27,26 @@ function help() {
   console.log(`Usage: node scripts/qr-plant.mjs <text-or-url> [options]
 
 Renders a QR code on the plant art (see scripts/qr-plant-assets/terproduct-logo.png; QR-free base).
-The stem bitmap is rotated 90° counter-clockwise before the QR is placed, then 45° clockwise
-(diamond), with the bottom vertex of the square on the “stem top” in that frame.
+The stem bitmap is rotated 90° counter-clockwise before the QR is placed, then the QR 90° clockwise,
+centered horizontally with the bottom of its bounding box just above the “stem top” anchor line.
 \`--anchor\` and \`--anchor-ratio\` use the stem file *before* the 90° CCW step.
 
 Options:
   -o, --out <file>         Output path (default: plant-qr.png in cwd)
   -s, --size <px>          QR module canvas size before rotation (default: 560)
-  --qr-shift-x <px>       Horizontal offset from canvas center (negative = left; default: ~−1.5% width, min 14px)
-  --rotate <deg>           Clockwise degrees (default: 45; use negative for CCW in output)
+  --qr-shift-x <px>       Horizontal offset from canvas center (negative = left; default: 0, centered)
+  --rotate <deg>           Clockwise degrees for the QR (default: 90; use negative for CCW in output)
   --ec-level <L|M|Q|H>     Error correction (default: H; helps when rotated)
   -m, --margin <n>         QR quiet zone in modules (default: 2)
   --stem <path>            Stem PNG to composite onto (default: ${DEFAULT_STEM})
   --anchor "x,y"           Anchor in pixels: stem/flower join line (before 90° CCW)
   --anchor-ratio "x,y"     Same, 0..1 of stem file (default: 0.5,0.26; if \`--anchor\` is not set)
-  --qr-stem-gap <px>       Pixels between that line and the bottom of the diamond (default: 8)
+  --qr-stem-gap <px>       Pixels between that line and the bottom of the QR AABB (default: 8)
   --debug                  Draw a small + at the anchor for tuning
   --head-clear            Erase a top band first (older stem PNGs with a sample QR; usually off)
   --no-head-clear         (Deprecated: default is already “no clear”; kept for old scripts)
   --horizontal, -H         After compositing, rotate 90° so the stem is
-                           left–right and the diamond QR is at the end
+                           left–right and the QR is at the end
                            (default: --h-deg -90 in Jimp = 90° CW, bloom on
                            the right, stem to the left). Use --h-deg 90 to swap.
   --h-deg <n>             Degrees to rotate the final image when --horizontal
@@ -124,7 +124,7 @@ function main() {
   let text = null;
   let outFile = "plant-qr.png";
   let size = 560;
-  let rotateCcwDeg = -45; // 45° clockwise: Jimp rotates counter-clockwise
+  let rotateCcwDeg = -90; // 90° clockwise: Jimp rotates counter-clockwise
   let ecLevel = "H";
   let margin = 2;
   let stemPath = DEFAULT_STEM;
@@ -297,14 +297,11 @@ try {
 
   const qw = qr.bitmap.width;
   const qh = qr.bitmap.height;
-  // `--anchor` / `--anchor-ratio` set vertical join (`anchor.y`). Horizontal placement uses canvas
-  // center plus a small left shift (matches `plant-qr-canvas.ts`).
-  const qrShift =
-    ctx.qrShiftXPx !== undefined
-      ? ctx.qrShiftXPx
-      : -Math.max(14, Math.round(w * 0.015));
+  // `--anchor` / `--anchor-ratio` set vertical join (`anchor.y`). Horizontal placement is centered
+  // (`--qr-shift-x`, default 0; matches `plant-qr-canvas.ts`).
+  const qrShift = ctx.qrShiftXPx !== undefined ? ctx.qrShiftXPx : 0;
   const qrCenterX = w / 2 + qrShift;
-  // Bottom of the diamond AABB sits gap px above the anchor (stem/flower line).
+  // Bottom of the rotated QR AABB sits gap px above the anchor (stem/flower line).
   const left = Math.round(qrCenterX - qw / 2);
   const top = Math.round(anchor.y - qh - ctx.qrStemGap);
   blitQrClipped({ stem, qr, left, top, qw, qh });

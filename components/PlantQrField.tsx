@@ -21,7 +21,7 @@ function plantQrOptions(textTrimmed: string, horizontal: boolean) {
     text: textTrimmed,
     horizontal,
     hDeg: -90,
-    rotateClockwiseDeg: 45,
+    rotateClockwiseDeg: 90,
     size: 560,
   } as const;
 }
@@ -57,7 +57,7 @@ export function PlantQrField({
     try {
       const dataUrl = await buildPlantQrPngDataUrl(plantQrOptions(text.trim(), horizontal));
       setPreview(dataUrl);
-      onLog("Plant QR: preview ready (rotate 45° + stem" + (horizontal ? ", then horizontal" : "") + ").");
+      onLog("Plant QR: preview ready (90° CW + centered above stem" + (horizontal ? ", then roll layout" : "") + ").");
     } catch (e) {
       const m = e instanceof Error ? e.message : String(e);
       setErr(m);
@@ -202,7 +202,7 @@ export function PlantQrField({
       <strong className="block">Plant label (rotated QR + stem)</strong>
       <p className="text-xs text-emerald-900/90 dark:text-emerald-200/90">
         Same pipeline as <code className="rounded bg-emerald-200/50 px-1 text-[11px] dark:bg-emerald-900/50">npm run qr-plant</code>{" "}
-        (560px QR, stem art, slight left shift): diamond QR on stem, optional{" "}
+        (560px QR, stem art): 90° CW, centered just above the stem; optional{" "}
         <strong>−90°</strong> pass for 58&nbsp;mm roll feeds. Android: <strong>System print</strong> uses{" "}
         <code className="text-[11px]">PrintHelper</code> (vendor thermal service). Bluetooth SPP still only sends plain QR bytes,
         not this bitmap.

@@ -7,7 +7,7 @@ import { stripNearWhiteToTransparent, trimUniformBorderFromCanvas } from "./trim
 export type PlantQrClientOptions = {
   text: string;
   size?: number;
-  /** Default 45: diamond orientation (clockwise) */
+  /** Default 90: upright QR rotated 90° clockwise on the stem */
   rotateClockwiseDeg?: number;
   errorCorrectionLevel?: "L" | "M" | "Q" | "H";
   margin?: number;
@@ -32,8 +32,8 @@ export type PlantQrClientOptions = {
    */
   qrStemGapPx?: number;
   /**
-   * Horizontal offset from canvas center for the diamond’s axis (negative = left).
-   * Default scales slightly with width (~1.5% min 14px); matches {@code scripts/qr-plant.mjs}.
+   * Horizontal offset from canvas center for the rotated QR (negative = left).
+   * Default {@code 0} (centered); override to match {@code scripts/qr-plant.mjs --qr-shift-x}.
    */
   qrCenterOffsetXPx?: number;
 };
@@ -134,7 +134,8 @@ function buildRotatedStemCanvas(
   }
   c.imageSmoothingEnabled = true;
   c.imageSmoothingQuality = "high";
-  c.translate(0, w0);
+  /* 90° CCW: pivot uses source *height* (not width). Wrong height breaks non-square stems vs Jimp. */
+  c.translate(0, h0);
   c.rotate(-Math.PI / 2);
   c.drawImage(pre, 0, 0);
   return { canvas: out, w0, h0 };
@@ -152,7 +153,7 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
   const {
     text,
     size = 560,
-    rotateClockwiseDeg = 45,
+    rotateClockwiseDeg = 90,
     errorCorrectionLevel = "H",
     margin = 2,
     horizontal = false,
@@ -214,10 +215,7 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
   if (!c) {
     throw new Error("canvas 2d not available");
   }
-  const shift =
-    qrCenterOffsetXPx !== undefined
-      ? qrCenterOffsetXPx
-      : -Math.max(14, Math.round(w * 0.015));
+  const shift = qrCenterOffsetXPx !== undefined ? qrCenterOffsetXPx : 0;
   const qrCenterX = w / 2 + shift;
   const left = Math.round(qrCenterX - qw / 2);
   const top = Math.round(ay - qh - qrStemGapPx);
