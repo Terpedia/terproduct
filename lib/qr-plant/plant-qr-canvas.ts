@@ -7,7 +7,7 @@ import { stripNearWhiteToTransparent, trimUniformBorderFromCanvas } from "./trim
 export type PlantQrClientOptions = {
   text: string;
   size?: number;
-  /** Default 90: upright QR rotated 90° clockwise on the stem */
+  /** Default 45: visibly diamond-rotated QR on the stem */
   rotateClockwiseDeg?: number;
   errorCorrectionLevel?: "L" | "M" | "Q" | "H";
   margin?: number;
@@ -32,11 +32,29 @@ export type PlantQrClientOptions = {
    */
   qrStemGapPx?: number;
   /**
-   * Horizontal offset from canvas center for the rotated QR (negative = left).
-   * Default {@code 0} (centered); override to match {@code scripts/qr-plant.mjs --qr-shift-x}.
+   * Horizontal offset from the rotated anchor for the QR (negative = left).
+   * Default comes from {@link TERPRODUCT_STEM_QR_DEFAULTS}; matches {@code scripts/qr-plant.mjs --qr-shift-x}.
    */
   qrCenterOffsetXPx?: number;
 };
+
+export const TERPRODUCT_STEM_QR_DEFAULTS = {
+  size: 340,
+  rotateClockwiseDeg: 45,
+  hDeg: -90,
+  qrStemGapPx: 42,
+} as const;
+
+export function terproductStemQrOptions(
+  text: string,
+  horizontal = false,
+): PlantQrClientOptions {
+  return {
+    text,
+    horizontal,
+    ...TERPRODUCT_STEM_QR_DEFAULTS,
+  };
+}
 
 function defaultStemUrl(): string {
   const b = publicBasePath().replace(/\/$/, "");
@@ -134,8 +152,8 @@ function buildRotatedStemCanvas(
   }
   c.imageSmoothingEnabled = true;
   c.imageSmoothingQuality = "high";
-  /* 90° CCW: pivot uses source *height* (not width). Wrong height breaks non-square stems vs Jimp. */
-  c.translate(0, h0);
+  /* 90° CCW: match Jimp's W×H → H×W mapping: (x, y) becomes (y, W - x). */
+  c.translate(0, w0);
   c.rotate(-Math.PI / 2);
   c.drawImage(pre, 0, 0);
   return { canvas: out, w0, h0 };
@@ -152,16 +170,16 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
 
   const {
     text,
-    size = 560,
-    rotateClockwiseDeg = 90,
+    size = TERPRODUCT_STEM_QR_DEFAULTS.size,
+    rotateClockwiseDeg = TERPRODUCT_STEM_QR_DEFAULTS.rotateClockwiseDeg,
     errorCorrectionLevel = "H",
     margin = 2,
     horizontal = false,
-    hDeg = -90,
-    anchorRatio = { x: 0.5, y: 0.26 },
+    hDeg = TERPRODUCT_STEM_QR_DEFAULTS.hDeg,
+    anchorRatio = { x: 0.5, y: 0.5 },
     headClear = false,
     stemUrl: stemPath,
-    qrStemGapPx = 8,
+    qrStemGapPx = TERPRODUCT_STEM_QR_DEFAULTS.qrStemGapPx,
     qrCenterOffsetXPx,
   } = o;
 
@@ -207,7 +225,7 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
   const w0 = stemImg.naturalWidth;
   const h0 = stemImg.naturalHeight;
   const anchorUnrot = { x: w0 * anchorRatio.x, y: h0 * anchorRatio.y };
-  const { y: ay } = anchorAfterStemRotate90Ccw(anchorUnrot, w0);
+  const { x: ax, y: ay } = anchorAfterStemRotate90Ccw(anchorUnrot, w0);
   const { canvas: out } = buildRotatedStemCanvas(stemImg, headClear);
   const w = out.width;
   const h = out.height;
@@ -216,7 +234,7 @@ export async function buildPlantQrPngDataUrl(o: PlantQrClientOptions): Promise<s
     throw new Error("canvas 2d not available");
   }
   const shift = qrCenterOffsetXPx !== undefined ? qrCenterOffsetXPx : 0;
-  const qrCenterX = w / 2 + shift;
+  const qrCenterX = ax + shift;
   const left = Math.round(qrCenterX - qw / 2);
   const top = Math.round(ay - qh - qrStemGapPx);
   /* Explicit crop when left/top is negative; avoids a vertical seam and half-offscreen QRs. */

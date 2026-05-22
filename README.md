@@ -53,6 +53,7 @@ node .next/standalone/server.js
 **Retail UPC + ingredients:** scan or enter a **GTIN** (8/12/13/14 digit family), paste the **ingredient / “contains”** list, and submit a correlation from **`/field/`** — payload event `upc_ingredients_correlation` (see `lib/api/terproduct-submit.ts` and `lib/gtin.ts`). The ingest API can upsert `products.gtin`, create rows in `product_label_ingredient_lines`, and map lines to `ingredients` (and to **CoA** tracks per ingredient) as you implement matching rules.
 
 PostgreSQL: run migrations under `supabase/migrations/` (e.g. `20260418000000_initial_schema.sql`, `20260423000000_commercial_gtin_ingredients.sql`, `20260424000000_ingredient_analysis_url.sql` for `terpedia_analysis_url`).  
+Sample data: `psql "$DATABASE_URL" -f supabase/seed.sql` inserts a demo product, ingredient rows, composition links, and label ingredient lines.  
 TypeScript types: `lib/domain.ts`.
 
 ```mermaid

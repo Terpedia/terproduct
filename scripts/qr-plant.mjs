@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Build a "plant QR" image: stem bitmap (from file) rotated 90° CCW, then a transparent (no white
- * mat) QR rotated 90° CW, centered horizontally with the bottom of the AABB just above the anchor.
+ * mat) QR rotated as a diamond, centered horizontally with the bottom of the AABB above the anchor.
  */
 import { mkdirSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -27,21 +27,21 @@ function help() {
   console.log(`Usage: node scripts/qr-plant.mjs <text-or-url> [options]
 
 Renders a QR code on the plant art (see scripts/qr-plant-assets/terproduct-logo.png; QR-free base).
-The stem bitmap is rotated 90° counter-clockwise before the QR is placed, then the QR 90° clockwise,
-centered horizontally with the bottom of its bounding box just above the “stem top” anchor line.
+The stem bitmap is rotated 90° counter-clockwise before the QR is placed, then the QR 45° clockwise,
+centered horizontally with the bottom of its bounding box above the “stem top” anchor line.
 \`--anchor\` and \`--anchor-ratio\` use the stem file *before* the 90° CCW step.
 
 Options:
   -o, --out <file>         Output path (default: plant-qr.png in cwd)
-  -s, --size <px>          QR module canvas size before rotation (default: 560)
-  --qr-shift-x <px>       Horizontal offset from canvas center (negative = left; default: 0, centered)
-  --rotate <deg>           Clockwise degrees for the QR (default: 90; use negative for CCW in output)
+  -s, --size <px>          QR module canvas size before rotation (default: 340)
+  --qr-shift-x <px>       Horizontal offset from anchor center (negative = left; default: 0)
+  --rotate <deg>           Clockwise degrees for the QR (default: 45; use negative for CCW in output)
   --ec-level <L|M|Q|H>     Error correction (default: H; helps when rotated)
   -m, --margin <n>         QR quiet zone in modules (default: 2)
   --stem <path>            Stem PNG to composite onto (default: ${DEFAULT_STEM})
   --anchor "x,y"           Anchor in pixels: stem/flower join line (before 90° CCW)
-  --anchor-ratio "x,y"     Same, 0..1 of stem file (default: 0.5,0.26; if \`--anchor\` is not set)
-  --qr-stem-gap <px>       Pixels between that line and the bottom of the QR AABB (default: 8)
+  --anchor-ratio "x,y"     Same, 0..1 of stem file (default: 0.5,0.5; if \`--anchor\` is not set)
+  --qr-stem-gap <px>       Pixels between that line and the bottom of the QR AABB (default: 42)
   --debug                  Draw a small + at the anchor for tuning
   --head-clear            Erase a top band first (older stem PNGs with a sample QR; usually off)
   --no-head-clear         (Deprecated: default is already “no clear”; kept for old scripts)
@@ -123,18 +123,18 @@ function main() {
 
   let text = null;
   let outFile = "plant-qr.png";
-  let size = 560;
-  let rotateCcwDeg = -90; // 90° clockwise: Jimp rotates counter-clockwise
+  let size = 340;
+  let rotateCcwDeg = -45; // 45° clockwise: Jimp rotates counter-clockwise
   let ecLevel = "H";
   let margin = 2;
   let stemPath = DEFAULT_STEM;
   let anchorPx = null;
-  let anchorRatio = { x: 0.5, y: 0.26 };
+  let anchorRatio = { x: 0.5, y: 0.5 };
   let headClear = false;
   let debug = false;
   let horizontal = false;
   let hDeg = -90;
-  let qrStemGap = 8;
+  let qrStemGap = 42;
   let logoPath = null;
   let logoMaxW = 160;
   /** @type {number | undefined} */
@@ -297,10 +297,10 @@ try {
 
   const qw = qr.bitmap.width;
   const qh = qr.bitmap.height;
-  // `--anchor` / `--anchor-ratio` set vertical join (`anchor.y`). Horizontal placement is centered
-  // (`--qr-shift-x`, default 0; matches `plant-qr-canvas.ts`).
+  // `--anchor` / `--anchor-ratio` set the stem join. The QR center follows the rotated
+  // anchor x, then optional `--qr-shift-x` tunes from there.
   const qrShift = ctx.qrShiftXPx !== undefined ? ctx.qrShiftXPx : 0;
-  const qrCenterX = w / 2 + qrShift;
+  const qrCenterX = anchor.x + qrShift;
   // Bottom of the rotated QR AABB sits gap px above the anchor (stem/flower line).
   const left = Math.round(qrCenterX - qw / 2);
   const top = Math.round(anchor.y - qh - ctx.qrStemGap);

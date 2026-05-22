@@ -7,22 +7,22 @@ import type { ProductRow } from "@/lib/data/types";
 function HomeTopNav() {
   const b = publicBasePath();
   return (
-    <div className="flex flex-wrap gap-3">
+    <div className="grid grid-cols-3 gap-2 md:flex md:flex-wrap md:gap-3">
       <Link
         href={`${b}/scan/`}
-        className="rounded-full bg-emerald-700 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-emerald-800"
+        className="rounded-lg bg-emerald-700 px-3 py-2.5 text-center text-sm font-semibold text-white shadow hover:bg-emerald-800 md:px-4"
       >
-        Scan products
+        Scan
       </Link>
       <Link
         href={`${b}/lookup/`}
-        className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:hover:bg-zinc-900"
+        className="rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-center text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:hover:bg-zinc-900 md:px-4"
       >
         Lookup
       </Link>
       <Link
         href={`${b}/field/`}
-        className="rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:hover:bg-zinc-900"
+        className="rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-center text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:hover:bg-zinc-900 md:px-4"
       >
         Field
       </Link>
@@ -76,21 +76,16 @@ function DataModelSection() {
 
 export function MarketingHome() {
   return (
-    <main className="mx-auto flex min-h-full max-w-2xl flex-col gap-10 px-6 py-16">
-      <HomeTopNav />
-      <header className="space-y-3">
-        <p className="text-sm font-medium uppercase tracking-wide text-emerald-800 dark:text-emerald-400">
-          Terpedia
-        </p>
-        <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
+    <main className="mx-auto flex min-h-full max-w-xl flex-col gap-8 px-5 py-8 md:px-6 md:py-14">
+      <header className="space-y-4">
+        <h1 className="text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 md:text-5xl">
           Terproduct
         </h1>
-        <p className="text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
-          A structured catalog of products, their ingredients, certificates of analysis (CoA), and measured
-          compounds—so formulation and compliance traceability stay aligned.
+        <p className="max-w-md text-base leading-7 text-zinc-600 dark:text-zinc-400">
+          Scan products, look them up, and print field labels from the Android handheld.
         </p>
       </header>
-      <DataModelSection />
+      <HomeTopNav />
     </main>
   );
 }
@@ -148,15 +143,10 @@ export function CatalogHome({ products }: { products: ProductRow[] }) {
 export function NoSupabaseCallout() {
   return (
     <section
-      className="mx-6 my-0 max-w-2xl self-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/40 dark:text-amber-100"
+      className="mx-5 mt-3 max-w-xl self-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-100"
       role="status"
     >
-      <p className="font-medium">Catalog is not configured</p>
-      <p className="mt-1 text-amber-900/90 dark:text-amber-200/90">
-        Set <code className="font-mono text-xs">NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
-        <code className="font-mono text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> (and apply
-        Supabase migrations + RLS) to list products and link ingredients to Terpedia analysis.
-      </p>
+      Catalog database not configured. Scan, QR, field tools, and device tests still work.
     </section>
   );
 }

@@ -11,7 +11,11 @@ export function PwaRegister() {
 
     void (async () => {
       const { Capacitor } = await import("@capacitor/core");
-      if (Capacitor.isNativePlatform()) return;
+      if (Capacitor.isNativePlatform()) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map((r) => r.unregister()));
+        return;
+      }
       const base = publicBasePath();
       const url = `${base}/sw.js`;
       const scope = base ? `${base}/` : "/";

@@ -20,14 +20,66 @@ const WEB_BARCODE_FORMATS = [
   "code_39",
 ] as const;
 
+const SAMPLE_STEM_QR_PATH = "/qr-plant-assets/sample-stem-qr.png";
+const STEM_QR_ORIENTATIONS = [
+  { label: "0", degrees: 0 },
+  { label: "90 CW", degrees: 90 },
+  { label: "180", degrees: 180 },
+  { label: "90 CCW", degrees: -90 },
+] as const;
+
 type WebDetector = {
   detect: (source: HTMLVideoElement) => Promise<Array<{ rawValue?: string }>>;
 };
 
 type Platform = "web" | "ios" | "android" | "unknown";
+type StemQrOrientation = (typeof STEM_QR_ORIENTATIONS)[number]["degrees"];
 
 function hasWebBarcodeApi(): boolean {
   return typeof window !== "undefined" && "BarcodeDetector" in window;
+}
+
+async function rotateImageBlobToDataUrl(blob: Blob, degrees: StemQrOrientation): Promise<string> {
+  if (degrees === 0) {
+    return await new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(reader.error ?? new Error("Sample stem QR read failed"));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  const src = URL.createObjectURL(blob);
+  try {
+    const img = new Image();
+    img.src = src;
+    await img.decode();
+
+    const sideways = Math.abs(degrees) === 90;
+    const canvas = document.createElement("canvas");
+    canvas.width = sideways ? img.naturalHeight : img.naturalWidth;
+    canvas.height = sideways ? img.naturalWidth : img.naturalHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) {
+      throw new Error("Canvas 2D not available");
+    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate((degrees * Math.PI) / 180);
+    ctx.drawImage(img, -img.naturalWidth / 2, -img.naturalHeight / 2);
+    return canvas.toDataURL("image/png");
+  } finally {
+    URL.revokeObjectURL(src);
+  }
+}
+
+async function loadSampleStemQrDataUrl(degrees: StemQrOrientation): Promise<string> {
+  const res = await fetch(SAMPLE_STEM_QR_PATH, { cache: "no-store" });
+  if (!res.ok) {
+    throw new Error(`Sample stem QR failed to load: HTTP ${res.status}`);
+  }
+  const blob = await res.blob();
+  return rotateImageBlobToDataUrl(blob, degrees);
 }
 
 export function DeviceHardwareTest() {
@@ -242,6 +294,8 @@ export function DeviceHardwareTest() {
   // --- Printer (Android Bluetooth SPP) ---
   const [androidPrinter, setAndroidPrinter] = useState("");
   const [pairList, setPairList] = useState<Array<{ name: string; address: string }>>([]);
+  const [stemQrPreview, setStemQrPreview] = useState<string | null>(null);
+  const [stemQrOrientation, setStemQrOrientation] = useState<StemQrOrientation>(-90);
 
   const loadPaired = useCallback(async () => {
     if (typeof window === "undefined") return;
@@ -361,44 +415,212 @@ export function DeviceHardwareTest() {
     }
   }, [logLine]);
 
-  return (
-    <div className="mx-auto flex max-w-xl flex-col gap-8 px-4 py-8">
-      <div>
-        <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50" id="device-hw-h1">
-          Device hardware test
-        </h1>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-          Unisoc / field phones: use this page over{" "}
-          <strong>USB</strong> debugging or the shipped WebView. Verifies <strong>camera</strong>{" "}
-          (<code>getUserMedia</code>), <strong>barcode</strong> (in-browser or ML Kit in the native
-          app), <strong>Symcode / HID</strong> (e.g. <strong>MJ-Q50</strong> wedge and{" "}
-          <strong>side / aux</strong> key), and           <strong>ESC/POS</strong> over <strong>Bluetooth SPP</strong> for <strong>paired external</strong>{" "}
-          thermals, and the <strong>Android system print</strong> path for <strong>integrated</strong> roll
-          printers. All-in-one PDAs often do <em>not</em> expose the built-in printer as a Bluetooth
-          device; they use a vendor service or the manufacturer AAR.
-        </p>
-        <p className="mt-1 text-xs text-zinc-500">
-          Capacitor: {platform} · BarcodeDetector (web): {hasWebBarcodeApi() ? "yes" : "no"}
-        </p>
-        <p className="mt-2 text-sm">
-          <Link href="/field/" className="text-emerald-800 underline dark:text-emerald-400">
-            ← Back to field console
-          </Link>
-        </p>
-      </div>
+  const printNyxDirectTest = useCallback(async () => {
+    const { Capacitor } = await import("@capacitor/core");
+    if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== "android") {
+      logLine("NYX direct print: only in the installed Android app.");
+      return;
+    }
+    setBusy(true);
+    try {
+      const { TerproductDevice } = await import("@/lib/printing/terproduct-device");
+      const result = await TerproductDevice.printNyxEscposTest();
+      logLine(`NYX direct print result: ${result.result}`);
+    } catch (e) {
+      logLine(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
+  }, [logLine]);
 
-      {/* Camera */}
+  const printNyxStemQrTest = useCallback(async (degrees: StemQrOrientation = stemQrOrientation) => {
+    const { Capacitor } = await import("@capacitor/core");
+    if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== "android") {
+      logLine("NYX stem QR: only in the installed Android app.");
+      return;
+    }
+    setBusy(true);
+    try {
+      setStemQrOrientation(degrees);
+      const dataUrl = await loadSampleStemQrDataUrl(degrees);
+      setStemQrPreview(dataUrl);
+      const { TerproductDevice } = await import("@/lib/printing/terproduct-device");
+      const result = await TerproductDevice.printNyxPngDataUrl({ data: dataUrl, width: 384 });
+      logLine(`NYX stem QR print ${degrees}° result: ${result.result}`);
+    } catch (e) {
+      logLine(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
+  }, [logLine, stemQrOrientation]);
+
+  const previewNyxStemQrTest = useCallback(async (degrees: StemQrOrientation = stemQrOrientation) => {
+    setBusy(true);
+    try {
+      setStemQrOrientation(degrees);
+      const dataUrl = await loadSampleStemQrDataUrl(degrees);
+      setStemQrPreview(dataUrl);
+      logLine(`NYX stem QR preview ${degrees}° updated from the exact PNG used for print.`);
+    } catch (e) {
+      logLine(e instanceof Error ? e.message : String(e));
+    } finally {
+      setBusy(false);
+    }
+  }, [logLine, stemQrOrientation]);
+
+  return (
+    <div className="mx-auto flex max-w-xl flex-col gap-5 px-4 py-6">
+      <header className="space-y-2">
+        <Link href="/field/" className="text-sm font-medium text-emerald-800 dark:text-emerald-400">
+          Back to field console
+        </Link>
+        <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50" id="device-hw-h1">
+          Device tests
+        </h1>
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          {platform} handheld checks. Use only what you are testing right now.
+        </p>
+      </header>
+
       <section
-        className="space-y-2 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950"
+        className="space-y-3 rounded-lg border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900/70 dark:bg-emerald-950/30"
+        aria-labelledby="device-hw-pr"
+      >
+        <div>
+          <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-50" id="device-hw-pr">
+            Built-in printer
+          </h2>
+          <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+            MIRAY/NYX devices print through the vendor service.
+          </p>
+        </div>
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => void printNyxDirectTest()}
+          className="w-full rounded-lg bg-emerald-700 py-3 text-sm font-semibold text-white disabled:opacity-50 dark:bg-emerald-500 dark:text-emerald-950"
+        >
+          {busy ? "Working..." : "Print self-test"}
+        </button>
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => void printNyxStemQrTest()}
+          className="w-full rounded-lg border border-emerald-700 bg-white py-3 text-sm font-semibold text-emerald-900 disabled:opacity-50 dark:border-emerald-500 dark:bg-zinc-950 dark:text-emerald-200"
+        >
+          {busy ? "Working..." : "Print stem QR"}
+        </button>
+        <div className="grid grid-cols-4 gap-2">
+          {STEM_QR_ORIENTATIONS.map((o) => (
+            <button
+              key={o.degrees}
+              type="button"
+              disabled={busy}
+              onClick={() => void printNyxStemQrTest(o.degrees)}
+              className={`rounded-lg border px-2 py-2 text-xs font-semibold disabled:opacity-50 ${
+                stemQrOrientation === o.degrees
+                  ? "border-emerald-700 bg-emerald-100 text-emerald-950 dark:border-emerald-400 dark:bg-emerald-950 dark:text-emerald-100"
+                  : "border-zinc-300 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200"
+              }`}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => void previewNyxStemQrTest()}
+          className="w-full rounded-lg border border-zinc-300 bg-white py-2.5 text-sm font-semibold text-zinc-800 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200"
+        >
+          Preview exact print image
+        </button>
+        {stemQrPreview ? (
+          <div className="rounded-lg border border-zinc-200 bg-white p-2 dark:border-zinc-700">
+            {/* eslint-disable-next-line @next/next/no-img-element -- data: URL from canvas */}
+            <img src={stemQrPreview} alt="Stem QR exact print preview" className="mx-auto h-auto max-w-full" />
+          </div>
+        ) : null}
+        <details className="group rounded-lg border border-emerald-200 bg-white/70 p-3 text-sm dark:border-emerald-900 dark:bg-zinc-950/50">
+          <summary className="cursor-pointer font-medium text-zinc-800 dark:text-zinc-200">
+            Other print paths
+          </summary>
+          <div className="mt-3 space-y-3">
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void printAndroidSystemUi()}
+              className="w-full rounded-lg border border-zinc-300 py-2.5 text-sm font-semibold text-zinc-800 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-200"
+            >
+              Android system print
+            </button>
+            <div className="space-y-2 border-t border-zinc-200 pt-3 dark:border-zinc-800">
+              <p className="text-xs text-zinc-500">External Bluetooth ESC/POS printer</p>
+              <button
+                type="button"
+                onClick={() => void loadPaired()}
+                className="rounded-lg border border-zinc-300 px-3 py-2 text-sm font-medium dark:border-zinc-700"
+              >
+                Load paired
+              </button>
+              {pairList.length > 0 ? (
+                <select
+                  className="w-full rounded-lg border border-zinc-300 bg-white px-2 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-950"
+                  value={androidPrinter}
+                  onChange={(e) => setAndroidPrinter(e.target.value)}
+                >
+                  {pairList.map((d) => (
+                    <option key={d.address} value={d.address}>
+                      {d.name} - {d.address}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
+              <input
+                value={androidPrinter}
+                onChange={(e) => setAndroidPrinter(e.target.value)}
+                placeholder="00:11:22:33:44:55"
+                className="w-full rounded-lg border border-zinc-300 bg-white px-2 py-2 font-mono text-sm dark:border-zinc-700 dark:bg-zinc-950"
+              />
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void printTextTest()}
+                  className="rounded-lg bg-zinc-900 py-2 text-xs font-semibold text-white disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-950"
+                >
+                  Text
+                </button>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void printQrTest()}
+                  className="rounded-lg border border-zinc-300 py-2 text-xs font-semibold dark:border-zinc-700"
+                >
+                  QR
+                </button>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={() => void printTextPlusQr()}
+                  className="rounded-lg border border-zinc-300 py-2 text-xs font-semibold dark:border-zinc-700"
+                >
+                  Both
+                </button>
+              </div>
+            </div>
+          </div>
+        </details>
+      </section>
+
+      <details className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
+        <summary className="cursor-pointer text-base font-semibold text-zinc-900 dark:text-zinc-50">
+          Camera
+        </summary>
+      <section
+        className="mt-3 space-y-2"
         aria-labelledby="device-hw-cam"
       >
-        <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-50" id="device-hw-cam">
-          1) Camera
-        </h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          Starts the <span className="font-mono">environment</span> (rear) stream if the OS allows
-          it.
-        </p>
         <div className="overflow-hidden rounded-xl border border-zinc-200 bg-black dark:border-zinc-800">
           <video ref={videoRef} className="aspect-video w-full object-cover" playsInline muted />
         </div>
@@ -439,25 +661,19 @@ export function DeviceHardwareTest() {
         {camInfo ? <p className="text-sm text-zinc-700 dark:text-zinc-300">{camInfo}</p> : null}
         {camError ? <p className="text-sm text-red-600 dark:text-red-400">{camError}</p> : null}
       </section>
+      </details>
 
-      {/* Barcode: native */}
-      {platform === "web" && (
-        <p className="text-xs text-amber-800 dark:text-amber-200/90">
-          ML Kit in this section is only in the <strong>Capacitor</strong> build. Use the
-          in-browser test below, or run{" "}
-          <code className="rounded bg-zinc-200 px-1 text-[11px] dark:bg-zinc-800">npm run android</code>{" "}
-          with USB to try ML Kit.
-        </p>
-      )}
-
+      <details className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
+        <summary className="cursor-pointer text-base font-semibold text-zinc-900 dark:text-zinc-50">
+          Barcode
+        </summary>
       <section
-        className="space-y-2 rounded-2xl border border-violet-200 bg-violet-50/50 p-4 dark:border-violet-900/60 dark:bg-violet-950/30"
+        className="mt-3 space-y-2"
         aria-labelledby="device-hw-ml"
       >
-        <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-50" id="device-hw-ml">
-          2) Barcode — native (ML Kit)
+        <h2 className="sr-only" id="device-hw-ml">
+          Barcode native
         </h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">Opens a full-screen scan UI.</p>
         <button
           type="button"
           disabled={busy || platform === "web" || platform === "unknown"}
@@ -468,17 +684,13 @@ export function DeviceHardwareTest() {
         </button>
       </section>
 
-      {/* Barcode: web */}
       <section
-        className="space-y-2 rounded-2xl border border-sky-200 bg-sky-50/50 p-4 dark:border-sky-900/60 dark:bg-sky-950/30"
+        className="mt-4 space-y-2 border-t border-zinc-200 pt-4 dark:border-zinc-800"
         aria-labelledby="device-hw-wbc"
       >
-        <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-50" id="device-hw-wbc">
-          2b) Barcode — web (BarcodeDetector)
+        <h2 className="text-sm font-medium text-zinc-700 dark:text-zinc-300" id="device-hw-wbc">
+          Browser barcode fallback
         </h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          Chromium-style engines only; uses a second camera stream so you can compare to section 1.
-        </p>
         <div className="overflow-hidden rounded-xl border border-sky-200 bg-black dark:border-sky-900/60">
           <video ref={webVideoRef} className="aspect-video w-full object-cover" playsInline muted />
         </div>
@@ -513,98 +725,25 @@ export function DeviceHardwareTest() {
           </ul>
         ) : null}
       </section>
+      </details>
 
-      <SymcodeHidTest logLine={logLine} />
-
-      {/* Printer */}
-      <section
-        className="space-y-2 rounded-2xl border border-amber-200 bg-amber-50/80 p-4 dark:border-amber-800 dark:bg-amber-950/40"
-        aria-labelledby="device-hw-pr"
-      >
-        <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-50" id="device-hw-pr">
-          3) Printer
-        </h2>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          <span className="font-medium text-zinc-800 dark:text-zinc-200">Integrated 58mm roll (most PDAs):</span> use{" "}
-          <strong>System print (bitmap)</strong> — the OS print UI should list a vendor service if the
-          device ships one. If nothing prints, integrate the OEM AAR in <code>android</code> (separate
-          from this JavaScript).{" "}
-          <span className="font-medium text-zinc-800 dark:text-zinc-200">External roll:</span> pair as a
-          classic Bluetooth (SPP) device and use ESC/POS below.
-        </p>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={() => void printAndroidSystemUi()}
-          className="w-full rounded-lg bg-amber-950 py-2.5 text-sm font-semibold text-amber-50 dark:bg-amber-200 dark:text-amber-950"
-        >
-          System print (built-in thermal, Android)
-        </button>
-        <p className="text-xs text-zinc-500 dark:text-zinc-500">
-          Bluetooth SPP (below) is for a <strong>separate</strong> serial printer, not the motor inside
-          the handset.
-        </p>
-        <h3 className="pt-1 text-sm font-medium text-amber-950 dark:text-amber-100">External: ESC/POS over Bluetooth SPP</h3>
-        <button
-          type="button"
-          onClick={() => void loadPaired()}
-          className="rounded-lg bg-amber-900/20 px-3 py-1.5 text-sm font-medium text-amber-950 dark:text-amber-100"
-        >
-          Load paired devices
-        </button>
-        {pairList.length > 0 ? (
-          <select
-            className="mt-2 w-full rounded-lg border border-amber-300 bg-white px-2 py-2 text-sm dark:border-amber-700 dark:bg-zinc-900"
-            value={androidPrinter}
-            onChange={(e) => setAndroidPrinter(e.target.value)}
-          >
-            {pairList.map((d) => (
-              <option key={d.address} value={d.address}>
-                {d.name} — {d.address}
-              </option>
-            ))}
-          </select>
-        ) : null}
-        <input
-          value={androidPrinter}
-          onChange={(e) => setAndroidPrinter(e.target.value)}
-          placeholder="00:11:22:33:44:55"
-          className="w-full rounded-lg border border-amber-300 bg-white px-2 py-2 font-mono text-sm dark:border-amber-700 dark:bg-zinc-900"
-        />
-        <div className="mt-1 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => void printTextTest()}
-            className="flex-1 rounded-lg bg-amber-800 py-2.5 text-sm font-semibold text-white"
-          >
-            Print text self-test
-          </button>
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => void printQrTest()}
-            className="flex-1 rounded-lg border border-amber-700 py-2.5 text-sm font-semibold text-amber-900 dark:text-amber-200"
-          >
-            Print QR only
-          </button>
-          <button
-            type="button"
-            disabled={busy}
-            onClick={() => void printTextPlusQr()}
-            className="flex-1 rounded-lg border border-amber-700 py-2.5 text-sm font-semibold text-amber-900 dark:text-amber-200"
-          >
-            Text + QR (one job)
-          </button>
+      <details className="rounded-lg border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950">
+        <summary className="cursor-pointer text-base font-semibold text-zinc-900 dark:text-zinc-50">
+          Scanner keys
+        </summary>
+        <div className="mt-3">
+          <SymcodeHidTest logLine={logLine} />
         </div>
-      </section>
+      </details>
 
-      <pre
-        className="min-h-32 w-full overflow-x-auto rounded-xl bg-zinc-100 p-3 text-xs text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"
-        aria-label="Test log"
-      >
-        {log || "Event log (camera, barcodes, Symcode HID, print) will appear here."}
-      </pre>
+      {log ? (
+        <pre
+          className="max-h-40 w-full overflow-auto rounded-lg bg-zinc-100 p-3 text-xs text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200"
+          aria-label="Test log"
+        >
+          {log}
+        </pre>
+      ) : null}
     </div>
   );
 }

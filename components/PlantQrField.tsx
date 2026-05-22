@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { buildPlantQrPngDataUrl } from "@/lib/qr-plant/plant-qr-canvas";
+import { buildPlantQrPngDataUrl, terproductStemQrOptions } from "@/lib/qr-plant/plant-qr-canvas";
 import { TerproductDevice } from "@/lib/printing/terproduct-device";
 
 type Props = {
@@ -17,18 +17,12 @@ type Props = {
 };
 
 function plantQrOptions(textTrimmed: string, horizontal: boolean) {
-  return {
-    text: textTrimmed,
-    horizontal,
-    hDeg: -90,
-    rotateClockwiseDeg: 90,
-    size: 560,
-  } as const;
+  return terproductStemQrOptions(textTrimmed, horizontal);
 }
 
 /**
  * “Plant” QR: rotate, stem composite, optional horizontal (see {@code scripts/qr-plant.mjs}).
- * Print: Android system print path via {@link TerproductDevice.printPngDataUrl} (integrated / services).
+ * Print: Android NYX direct path preserves the stem artwork; system print remains as a fallback.
  */
 export function PlantQrField({
   text,
@@ -43,10 +37,6 @@ export function PlantQrField({
   const [err, setErr] = useState<string | null>(null);
   const autoStarted = useRef(false);
 
-  useEffect(() => {
-    setHorizontal(initialHorizontal);
-  }, [initialHorizontal]);
-
   const build = useCallback(async () => {
     if (!text.trim()) {
       onLog("Plant QR: enter a URL or string first.");
@@ -57,7 +47,7 @@ export function PlantQrField({
     try {
       const dataUrl = await buildPlantQrPngDataUrl(plantQrOptions(text.trim(), horizontal));
       setPreview(dataUrl);
-      onLog("Plant QR: preview ready (90° CW + centered above stem" + (horizontal ? ", then roll layout" : "") + ").");
+      onLog("Plant QR: preview ready (45° diamond + centered above stem" + (horizontal ? ", then roll layout" : "") + ").");
     } catch (e) {
       const m = e instanceof Error ? e.message : String(e);
       setErr(m);
@@ -92,8 +82,8 @@ export function PlantQrField({
           if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== "android") {
             onLog("Plant QR: print=1 needs the installed Android app (system print UI).");
           } else {
-            await TerproductDevice.printPngDataUrl({ data: dataUrl });
-            onLog("Plant QR: system print handoff (dialog or service).");
+            await TerproductDevice.printNyxPngDataUrl({ data: dataUrl, width: 384 });
+            onLog("Plant QR: built-in printer sent stem QR.");
           }
         }
       } catch (e) {
@@ -167,7 +157,7 @@ export function PlantQrField({
     }
   }, [horizontal, onLog, text]);
 
-  /** One tap: same PNG as <code>npm run qr-plant -H</code>, then Android system print (thermal / POS). */
+  /** One tap: prints the same stem QR shown in the current preview controls. */
   const testPrintRollLayout = useCallback(async () => {
     if (!text.trim()) {
       onLog("Plant QR: enter a URL or string first.");
@@ -176,18 +166,17 @@ export function PlantQrField({
     setErr(null);
     setBusy(true);
     try {
-      const dataUrl = await buildPlantQrPngDataUrl(plantQrOptions(text.trim(), true));
+      const dataUrl = await buildPlantQrPngDataUrl(plantQrOptions(text.trim(), horizontal));
       setPreview(dataUrl);
-      setHorizontal(true);
-      onLog("Plant QR: built with −90° rotation (roll layout, matches qr-plant -H).");
+      onLog("Plant QR: built for direct print" + (horizontal ? " (roll layout)." : "."));
       setBusy(false);
       const { Capacitor } = await import("@capacitor/core");
       if (!Capacitor.isNativePlatform() || Capacitor.getPlatform() !== "android") {
-        onLog("Plant QR: preview updated — install the Android app for system print on device.");
+        onLog("Plant QR: preview updated — install the Android app for built-in print on device.");
         return;
       }
-      await TerproductDevice.printPngDataUrl({ data: dataUrl });
-      onLog("Plant QR: system print dialog opened (test print, horizontal).");
+      await TerproductDevice.printNyxPngDataUrl({ data: dataUrl, width: 384 });
+      onLog("Plant QR: sent to built-in printer with stem.");
     } catch (e) {
       const m = e instanceof Error ? e.message : String(e);
       setErr(m);
@@ -195,17 +184,16 @@ export function PlantQrField({
     } finally {
       setBusy(false);
     }
-  }, [onLog, text]);
+  }, [horizontal, onLog, text]);
 
   return (
     <div className="space-y-2 rounded-xl border border-emerald-200 bg-emerald-50/80 p-3 text-sm text-emerald-950 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-50/95">
       <strong className="block">Plant label (rotated QR + stem)</strong>
       <p className="text-xs text-emerald-900/90 dark:text-emerald-200/90">
         Same pipeline as <code className="rounded bg-emerald-200/50 px-1 text-[11px] dark:bg-emerald-900/50">npm run qr-plant</code>{" "}
-        (560px QR, stem art): 90° CW, centered just above the stem; optional{" "}
-        <strong>−90°</strong> pass for 58&nbsp;mm roll feeds. Android: <strong>System print</strong> uses{" "}
-        <code className="text-[11px]">PrintHelper</code> (vendor thermal service). Bluetooth SPP still only sends plain QR bytes,
-        not this bitmap.
+        (340px QR, stem art): 45° diamond, centered above the stem; optional{" "}
+        <strong>−90°</strong> pass for 58&nbsp;mm roll feeds. Android built-in print sends the full bitmap through the NYX
+        service, including the stem artwork.
       </p>
       <label className="mt-1 flex items-center gap-2 text-xs">
         <input
@@ -231,7 +219,7 @@ export function PlantQrField({
           onClick={() => void testPrintRollLayout()}
           className="rounded-lg bg-emerald-950 px-3 py-2 text-sm font-semibold text-white dark:bg-emerald-300 dark:text-emerald-950"
         >
-          {busy ? "…" : "Test print (−90° roll)"}
+          {busy ? "…" : "Print stem QR"}
         </button>
         <button
           type="button"

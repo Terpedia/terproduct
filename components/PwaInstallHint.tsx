@@ -32,6 +32,9 @@ export function PwaInstallHint() {
     if (process.env.NODE_ENV === "development") {
       return;
     }
+    if (window.location.hostname === "localhost") {
+      return;
+    }
     let skipHint = false;
     try {
       if (window.sessionStorage.getItem(DISMISS) === "1") {
