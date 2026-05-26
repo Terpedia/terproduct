@@ -41,7 +41,7 @@ Options:
   --stem <path>            Stem PNG to composite onto (default: ${DEFAULT_STEM})
   --anchor "x,y"           Anchor in pixels: stem/flower join line (before 90° CCW)
   --anchor-ratio "x,y"     Same, 0..1 of stem file (default: 0.5,0.5; if \`--anchor\` is not set)
-  --qr-stem-gap <px>       Pixels between that line and the bottom of the QR AABB (default: 42)
+  --qr-stem-gap <px>       Pixels between that line and the bottom of the QR AABB (default: 15)
   --debug                  Draw a small + at the anchor for tuning
   --head-clear            Erase a top band first (older stem PNGs with a sample QR; usually off)
   --no-head-clear         (Deprecated: default is already “no clear”; kept for old scripts)
@@ -134,7 +134,7 @@ function main() {
   let debug = false;
   let horizontal = false;
   let hDeg = -90;
-  let qrStemGap = 42;
+  let qrStemGap = 15;
   let logoPath = null;
   let logoMaxW = 160;
   /** @type {number | undefined} */

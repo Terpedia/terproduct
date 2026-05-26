@@ -42,7 +42,7 @@ export const TERPRODUCT_STEM_QR_DEFAULTS = {
   size: 340,
   rotateClockwiseDeg: 45,
   hDeg: -90,
-  qrStemGapPx: 42,
+  qrStemGapPx: 15,
 } as const;
 
 export function terproductStemQrOptions(

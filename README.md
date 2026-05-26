@@ -29,6 +29,35 @@ The repo includes **`android/`** and **`ios/`** (Capacitor 8). `npm run build:ca
 - **ESC/POS QR** uses a minimal GS (k) model-2 path with **ASCII-only** payload; extend `lib/printing/escpos-qr.ts` if you need full UTF-8 and raw byte writes. **Branded Android POS** units with an **in-built USB/serial printer** (e.g. some Sunmi models) may need the vendor AIDL/SDK instead of generic SPP—this project is a **generic SPP+ESC/POS** baseline.
 - **iOS + Google ML Kit:** the default app uses **Swift PM** for some plugins. `@capacitor-mlkit/barcode-scanning` is distributed as **CocoaPods**; if the barcode plugin does not resolve in Xcode, follow the [Capawesome ML Kit Barcode iOS](https://capawesome.io/plugins/mlkit/barcode-scanning/) install notes (CocoaPods / `pod install` as required).
 
+### Android APK releases
+
+`.github/workflows/android-release.yml` builds a signed APK and attaches it to a GitHub Release when you push a tag like `v1.0.1`, or when you run the workflow manually with a tag input. The workflow sets Android `versionCode` from the GitHub run number and `versionName` from the release tag.
+
+Configure these GitHub repository secrets before using it:
+
+- `ANDROID_KEYSTORE_BASE64` — base64-encoded release keystore.
+- `ANDROID_KEYSTORE_PASSWORD`
+- `ANDROID_KEY_ALIAS`
+- `ANDROID_KEY_PASSWORD`
+
+Create a release keystore once and keep it permanently; Android updates require every APK to be signed with the same key.
+
+```bash
+keytool -genkeypair -v \
+  -keystore terproduct-release.keystore \
+  -alias terproduct \
+  -keyalg RSA -keysize 2048 -validity 10000
+
+base64 -i terproduct-release.keystore | pbcopy
+```
+
+Release by pushing a tag:
+
+```bash
+git tag v1.0.1
+git push origin v1.0.1
+```
+
 Local preview of the **server** build:
 
 ```bash
