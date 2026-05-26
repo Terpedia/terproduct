@@ -7,7 +7,7 @@ import type { ProductRow } from "@/lib/data/types";
 function HomeTopNav() {
   const b = publicBasePath();
   return (
-    <div className="grid grid-cols-3 gap-2 md:flex md:flex-wrap md:gap-3">
+    <div className="grid grid-cols-2 gap-2 md:flex md:flex-wrap md:gap-3">
       <Link
         href={`${b}/scan/`}
         className="rounded-lg bg-emerald-700 px-3 py-2.5 text-center text-sm font-semibold text-white shadow hover:bg-emerald-800 md:px-4"
@@ -25,6 +25,12 @@ function HomeTopNav() {
         className="rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-center text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:hover:bg-zinc-900 md:px-4"
       >
         Field
+      </Link>
+      <Link
+        href={`${b}/install/`}
+        className="rounded-lg border border-zinc-300 bg-white px-3 py-2.5 text-center text-sm font-semibold text-zinc-900 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:hover:bg-zinc-900 md:px-4"
+      >
+        Install APK
       </Link>
     </div>
   );

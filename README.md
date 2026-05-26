@@ -33,6 +33,12 @@ The repo includes **`android/`** and **`ios/`** (Capacitor 8). `npm run build:ca
 
 `.github/workflows/android-release.yml` builds a signed APK and attaches it to a GitHub Release when you push a tag like `v1.0.1`, or when you run the workflow manually with a tag input. The workflow sets Android `versionCode` from the GitHub run number and `versionName` from the release tag.
 
+Users can install/update from `/install/`, which links to:
+
+```text
+https://github.com/Terpedia/terproduct/releases/latest/download/terproduct-latest.apk
+```
+
 Configure these GitHub repository secrets before using it:
 
 - `ANDROID_KEYSTORE_BASE64` — base64-encoded release keystore.

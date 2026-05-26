@@ -73,7 +73,9 @@ jobs:
         run: |
           mkdir -p dist
           cp android/app/build/outputs/apk/release/app-release.apk "dist/terproduct-${RELEASE_TAG}.apk"
+          cp android/app/build/outputs/apk/release/app-release.apk "dist/terproduct-latest.apk"
           sha256sum "dist/terproduct-${RELEASE_TAG}.apk" > "dist/terproduct-${RELEASE_TAG}.apk.sha256"
+          sha256sum "dist/terproduct-latest.apk" > "dist/terproduct-latest.apk.sha256"
 
       - name: Create manual release tag
         if: github.event_name == 'workflow_dispatch'
@@ -93,4 +95,6 @@ jobs:
           files: |
             dist/terproduct-${{ env.RELEASE_TAG }}.apk
             dist/terproduct-${{ env.RELEASE_TAG }}.apk.sha256
+            dist/terproduct-latest.apk
+            dist/terproduct-latest.apk.sha256
           generate_release_notes: true
