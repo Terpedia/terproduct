@@ -9,9 +9,8 @@ export function DatabaseRequiredMessage({ pathLabel }: Props) {
   return (
     <main className="mx-auto min-h-full max-w-2xl px-6 py-12">
       <p className="text-zinc-700 dark:text-zinc-300">
-        Configure <code className="font-mono text-sm">NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
-        <code className="font-mono text-sm">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> for this build. Then
-        {pathLabel} can load the catalog.
+        Configure <code className="font-mono text-sm">DATABASE_URL</code> on the server. Then {pathLabel} can load
+        the catalog.
       </p>
       <p className="mt-4">
         <Link

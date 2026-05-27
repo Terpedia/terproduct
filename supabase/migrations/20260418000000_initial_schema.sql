@@ -1,6 +1,8 @@
 -- Terproduct: products → ingredients → CoA documents → compound results
 -- Apply with Supabase CLI or any PostgreSQL 14+ instance.
 
+create extension if not exists pgcrypto;
+
 create table if not exists products (
   id uuid primary key default gen_random_uuid(),
   slug text not null unique,

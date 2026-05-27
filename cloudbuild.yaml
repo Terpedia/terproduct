@@ -8,9 +8,8 @@
 # Deploy:
 #   gcloud builds submit --config cloudbuild.yaml
 #
-# Optional: pass Supabase at image build so the container can render the catalog:
-#   --build-arg NEXT_PUBLIC_SUPABASE_URL=... --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-# Or set the same env vars on the Cloud Run service (revisions need the public URL + anon key for RSC).
+# Set DATABASE_URL on the Cloud Run service after deploy so catalog pages and barcode ingest
+# can read/write Google Cloud SQL or any PostgreSQL database.
 
 options:
   logging: CLOUD_LOGGING_ONLY
@@ -34,8 +33,6 @@ steps:
       - build
       - -f
       - Dockerfile
-      - --build-arg
-      - STANDALONE=1
       - --build-arg
       - NEXT_PUBLIC_SITE_URL=${_SITE}
       - -t

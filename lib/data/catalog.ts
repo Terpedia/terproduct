@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 import type { IngredientDetail, IngredientRow, ProductRow } from "@/lib/data/types";
+import { hasDatabaseUrl, query } from "@/lib/data/postgres";
 
 function getAnonClient(): SupabaseClient | null {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -13,11 +14,24 @@ function getAnonClient(): SupabaseClient | null {
 
 export function hasCatalog(): boolean {
   return Boolean(
+    process.env.DATABASE_URL ||
     process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   );
 }
 
 export async function listProducts(limit = 200): Promise<ProductRow[]> {
+  if (hasDatabaseUrl()) {
+    const rows = await query<ProductRow>(
+      `
+        select id::text, slug, name, brand, description, gtin, updated_at::text
+        from products
+        order by name asc
+        limit $1
+      `,
+      [limit],
+    );
+    return rows;
+  }
   const supabase = getAnonClient();
   if (!supabase) return [];
   const { data, error } = await supabase
@@ -43,6 +57,18 @@ export const CATALOG_PLACEHOLDER_PRODUCT_SLUG = "terproduct--static-export--no-c
 
 /** For `app/[type]/[id]/` static export: one generateStaticParams for both /product/… and /ingredient/…. */
 export async function allTypeIdForStaticBuild(): Promise<{ type: string; id: string }[]> {
+  if (hasDatabaseUrl()) {
+    const [prows, irows] = await Promise.all([
+      query<{ slug: string }>("select slug from products order by slug asc"),
+      query<{ id: string }>("select id::text as id from ingredients order by name asc"),
+    ]);
+    const out = [
+      ...prows.map((r) => ({ type: "product" as const, id: r.slug })),
+      ...irows.map((r) => ({ type: "ingredient" as const, id: r.id })),
+    ];
+    if (out.length > 0) return out;
+    return [{ type: "product", id: CATALOG_PLACEHOLDER_PRODUCT_SLUG }];
+  }
   const supabase = getAnonClient();
   if (!supabase) {
     return [{ type: "product", id: CATALOG_PLACEHOLDER_PRODUCT_SLUG }];
@@ -62,6 +88,18 @@ export async function allTypeIdForStaticBuild(): Promise<{ type: string; id: str
 }
 
 export async function getProductBySlug(slug: string): Promise<ProductRow | null> {
+  if (hasDatabaseUrl()) {
+    const rows = await query<ProductRow>(
+      `
+        select id::text, slug, name, brand, description, gtin, updated_at::text
+        from products
+        where slug = $1
+        limit 1
+      `,
+      [slug],
+    );
+    return rows[0] ?? null;
+  }
   const supabase = getAnonClient();
   if (!supabase) return null;
   const { data, error } = await supabase
@@ -83,6 +121,25 @@ export async function getProductBySlug(slug: string): Promise<ProductRow | null>
 }
 
 export async function getIngredientsForProduct(productId: string): Promise<IngredientRow[]> {
+  if (hasDatabaseUrl()) {
+    return query<IngredientRow>(
+      `
+        select
+          i.id::text,
+          i.name,
+          i.description,
+          i.terpedia_analysis_url,
+          pi.sort_order,
+          pi.as_listed,
+          pi.notes
+        from product_ingredients pi
+        join ingredients i on i.id = pi.ingredient_id
+        where pi.product_id = $1::uuid
+        order by pi.sort_order asc, i.name asc
+      `,
+      [productId],
+    );
+  }
   const supabase = getAnonClient();
   if (!supabase) return [];
   const { data: lines, error: e1 } = await supabase
@@ -124,6 +181,25 @@ export async function getIngredientsForProduct(productId: string): Promise<Ingre
 }
 
 export async function getIngredientById(id: string): Promise<IngredientDetail | null> {
+  if (hasDatabaseUrl()) {
+    const rows = await query<IngredientDetail>(
+      `
+        select
+          i.id::text,
+          i.name,
+          i.description,
+          i.terpedia_analysis_url,
+          count(pi.id)::int as "productCount"
+        from ingredients i
+        left join product_ingredients pi on pi.ingredient_id = i.id
+        where i.id = $1::uuid
+        group by i.id
+        limit 1
+      `,
+      [id],
+    );
+    return rows[0] ?? null;
+  }
   const supabase = getAnonClient();
   if (!supabase) return null;
   const { data: row, error } = await supabase
@@ -146,6 +222,18 @@ export async function getIngredientById(id: string): Promise<IngredientDetail | 
 }
 
 export async function getProductsForIngredient(ingredientId: string): Promise<ProductRow[]> {
+  if (hasDatabaseUrl()) {
+    return query<ProductRow>(
+      `
+        select p.id::text, p.slug, p.name, p.brand, p.description, p.gtin, p.updated_at::text
+        from product_ingredients pi
+        join products p on p.id = pi.product_id
+        where pi.ingredient_id = $1::uuid
+        order by p.name asc
+      `,
+      [ingredientId],
+    );
+  }
   const supabase = getAnonClient();
   if (!supabase) return [];
   const { data: links, error: e1 } = await supabase

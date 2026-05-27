@@ -1,8 +1,10 @@
 /**
- * Call `supabase/functions/ingest-barcode` to upsert product + ingredients from
+ * Call the Terproduct barcode ingest endpoint to upsert product + ingredients from
  * a validated GTIN, GS1 check digit, and Open Food or Open Beauty Facts.
- * Requires a deployed function and, on the server, `TERPRODUCT_INGEST_KEY` if you set that secret.
+ * In Cloud Run this is the same-origin `/api/ingest-barcode` route backed by `DATABASE_URL`.
  */
+import { publicBasePath } from "@/lib/public-base";
+
 export type IngestBarcodeResult =
   | {
       ok: true;
@@ -19,18 +21,10 @@ export type IngestBarcodeResult =
     }
   | { ok: false; status: number; error: string; body?: string };
 
-const fnPath = () => "functions/v1/ingest-barcode";
-
-function base() {
-  const u = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  if (!u) return "";
-  return u.replace(/\/$/, "");
-}
+const sameOriginPath = () => `${publicBasePath()}/api/ingest-barcode/`;
 
 export function isIngestBarcodeConfigured(): boolean {
-  return Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-  );
+  return process.env.NEXT_PUBLIC_DISABLE_CATALOG_INGEST !== "1";
 }
 
 export async function ingestBarcodeToCatalog(gtin: string): Promise<IngestBarcodeResult> {
@@ -38,19 +32,16 @@ export async function ingestBarcodeToCatalog(gtin: string): Promise<IngestBarcod
     return {
       ok: false,
       status: 0,
-      error: "Supabase is not configured (set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY).",
+      error: "Catalog ingest is disabled for this build.",
     };
   }
-  const url = `${base()}/${fnPath()}`;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  const url = process.env.NEXT_PUBLIC_TERPRODUCT_BARCODE_INGEST_URL || sameOriginPath();
   const publicIngest = process.env.NEXT_PUBLIC_TERPRODUCT_INGEST_KEY;
 
   const res = await fetch(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      apikey: key,
-      Authorization: `Bearer ${key}`,
       ...(publicIngest ? { "X-Terproduct-Ingest-Key": publicIngest } : {}),
     },
     body: JSON.stringify({ gtin: gtin.replace(/\D/g, "") }),

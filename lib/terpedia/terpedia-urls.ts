@@ -24,6 +24,12 @@ export function terpediaProductPageUrl(id: string): string {
   return `${o}${b || ""}/?p=${encodeURIComponent(id)}`;
 }
 
+export function terpediaCatalogProductUrl(slug: string): string {
+  const b = publicBasePath();
+  const o = terpediaPublicOrigin();
+  return `${o}${b || ""}/product/${encodeURIComponent(slug)}/`;
+}
+
 /**
  * UPC / symbol query link: `/?u={upc}` (handled on the static home page like `?p=`, e.g. GitHub Pages’ `out/index.html`).
  */

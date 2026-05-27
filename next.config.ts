@@ -3,11 +3,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
-const standalone = process.env.STANDALONE === "1";
+const staticExport = process.env.STATIC_EXPORT === "1";
 
 const nextConfig: NextConfig = {
-  // Default: static `out/` for GitHub Pages + Supabase. Set STANDALONE=1 (Docker/Cloud Run) for Node on port PORT.
-  output: standalone ? "standalone" : "export",
+  // Default: Node standalone for Cloud Run + Postgres. Set STATIC_EXPORT=1 only for static mirrors.
+  output: staticExport ? "export" : "standalone",
   trailingSlash: true,
   basePath: basePath || undefined,
   images: { unoptimized: true },

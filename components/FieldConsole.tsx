@@ -1,21 +1,14 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
-import { CommercialUpcIngredients } from "@/components/CommercialUpcIngredients";
-import { PlantQrField } from "@/components/PlantQrField";
-import { submitTerproductEvent, type TerproductIngestEvent } from "@/lib/api/terproduct-submit";
+import { ingestBarcodeToCatalog } from "@/lib/api/ingest-barcode";
+import { assertValidGtinScannedOrTyped } from "@/lib/integrations/gs1-gtin";
 import { escposQrCodeAscii } from "@/lib/printing/escpos-qr";
 import { shareOrDownloadQrPng } from "@/lib/printing/share-qr-png";
-import { terpediaProductPageUrl } from "@/lib/terpedia/terpedia-urls";
+import { terpediaCatalogProductUrl, terpediaProductPageUrl } from "@/lib/terpedia/terpedia-urls";
 
 type Platform = "web" | "ios" | "android" | "unknown";
-
-type SimpleIngestEvent = Extract<
-  TerproductIngestEvent,
-  { event: "upc_scanned" | "product_id" | "ingredient_lot" | "custom" }
->["event"];
 
 export function FieldConsole() {
   const [lastScan, setLastScan] = useState<{
@@ -28,7 +21,6 @@ export function FieldConsole() {
   const setTerpediaProductUrl = useCallback((rawId: string) => {
     setQrText(terpediaProductPageUrl(rawId));
   }, []);
-  const [eventKind, setEventKind] = useState<SimpleIngestEvent>("upc_scanned");
   const [androidPrinter, setAndroidPrinter] = useState("");
   const [pairList, setPairList] = useState<Array<{ name: string; address: string }>>([]);
   const [platform, setPlatform] = useState<Platform>("unknown");
@@ -73,36 +65,37 @@ export function FieldConsole() {
       const value = b.rawValue ?? b.displayValue;
       setLastScan({ value, format: b.format });
       setTerpediaProductUrl(value);
-      logLine(`Scanned ${b.format}: ${value} → terproduct /?p= link for label QR`);
+      logLine(`Scanned ${b.format}: ${value}`);
+      const { gtin, valid } = assertValidGtinScannedOrTyped(value);
+      if (!gtin) {
+        logLine("Scan is not a UPC/EAN GTIN; using the generic product query URL for the QR.");
+        return;
+      }
+      if (!valid) {
+        logLine("GTIN check digit failed; re-scan before printing a product label.");
+        return;
+      }
+      const ingest = await ingestBarcodeToCatalog(gtin);
+      if (!ingest.ok) {
+        logLine(
+          ingest.status === 404
+            ? "GTIN is valid, but Open Food Facts / Open Beauty Facts has no product to import yet."
+            : `Catalog ingest failed: ${ingest.error}`,
+        );
+        return;
+      }
+      if (ingest.slug) {
+        const productUrl = terpediaCatalogProductUrl(ingest.slug);
+        setQrText(productUrl);
+        logLine(`Saved ${ingest.slug}; QR now points to ${productUrl}`);
+      }
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       logLine(`Scan error: ${msg}`);
     } finally {
       setBusy(false);
     }
-  }, [logLine]);
-
-  const runSubmit = useCallback(async () => {
-    if (!lastScan) {
-      logLine("Scan something first.");
-      return;
-    }
-    setBusy(true);
-    try {
-      const body: Extract<TerproductIngestEvent, { value: string }> = {
-        event: eventKind,
-        value: lastScan.value,
-        format: lastScan.format,
-        qrUrl: /^https?:/i.test(qrText) ? qrText : undefined,
-      };
-      const r = await submitTerproductEvent(body);
-      logLine(r.ok ? `Submitted (HTTP ${r.status})` : `Submit failed: ${r.status} ${r.text}`);
-    } catch (e) {
-      logLine(e instanceof Error ? e.message : String(e));
-    } finally {
-      setBusy(false);
-    }
-  }, [eventKind, lastScan, logLine, qrText]);
+  }, [logLine, setTerpediaProductUrl]);
 
   const loadPaired = useCallback(async () => {
     if (typeof window === "undefined") return;
@@ -168,150 +161,106 @@ export function FieldConsole() {
   }, [logLine, qrText]);
 
   return (
-    <div className="mx-auto flex max-w-xl flex-col gap-5 px-4 py-8">
-      <div>
-        <h1 className="text-2xl font-semibold">Field / POS</h1>
-        <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-          Native: ML Kit scan (UPC, QR, Code 128, …) → submit to your ingest API → print a QR
-          (Android ESC/POS SPP, iOS share sheet).
-        </p>
-        {platform !== "unknown" ? (
-          <p className="mt-1 text-xs text-zinc-500">
-            Capacitor: {platform} {platform === "web" && "(PWA: use in-app browser for native plugins)"}
+    <main className="mx-auto flex h-[calc(100dvh-7.75rem)] w-full max-w-md flex-col gap-3 overflow-hidden px-3 py-3 md:h-[calc(100dvh-3.5rem)]">
+      <header className="flex shrink-0 items-center justify-between gap-3">
+        <div className="min-w-0">
+          <h1 className="truncate text-lg font-semibold tracking-tight">Terproduct</h1>
+          <p className="truncate text-xs text-zinc-500">
+            {platform === "unknown" ? "Ready" : platform} · scan, save, print
           </p>
-        ) : null}
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-          <Link href="/device-test/" className="font-medium text-emerald-800 underline dark:text-emerald-300">
-            Device test
-          </Link>{" "}
-          — step-by-step check for camera, barcodes, and Android Bluetooth printer.
-        </p>
-      </div>
+        </div>
+        <div
+          className={
+            busy
+              ? "shrink-0 rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-900 dark:bg-amber-950 dark:text-amber-100"
+              : "shrink-0 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-900 dark:bg-emerald-950 dark:text-emerald-100"
+          }
+        >
+          {busy ? "Working" : "Ready"}
+        </div>
+      </header>
 
-      <div className="flex flex-col gap-2">
+      <section className="grid min-h-0 flex-1 grid-rows-[auto_auto_auto_1fr] gap-3 rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
         <button
           type="button"
           disabled={busy}
           onClick={() => void runScan()}
-          className="rounded-xl bg-emerald-700 px-4 py-3 text-sm font-semibold text-white disabled:opacity-50"
+          className="h-20 rounded-xl bg-emerald-700 text-lg font-semibold text-white shadow-sm active:bg-emerald-800 disabled:opacity-50"
         >
-          {busy ? "Working…" : "Scan barcode (camera)"}
+          {busy ? "Working..." : "Scan"}
         </button>
-        {lastScan ? (
-          <p className="text-sm font-mono text-zinc-800 dark:text-zinc-200">
-            {lastScan.format}: {lastScan.value}
+
+        <div className="min-w-0 rounded-lg bg-zinc-50 px-3 py-2 dark:bg-zinc-900">
+          <p className="text-[11px] font-semibold uppercase text-zinc-500">Last code</p>
+          <p className="truncate font-mono text-sm text-zinc-900 dark:text-zinc-100">
+            {lastScan ? `${lastScan.format}: ${lastScan.value}` : "No scan yet"}
           </p>
-        ) : (
-          <p className="text-sm text-zinc-500">No scan yet</p>
-        )}
-      </div>
+        </div>
 
-      <CommercialUpcIngredients
-        lastScan={lastScan}
-        onLog={logLine}
-        busy={busy}
-        setBusy={setBusy}
-      />
-
-      <label className="flex flex-col gap-1 text-sm">
-        <span className="font-medium">QR to print (ASCII URL or ID)</span>
-        <textarea
-          value={qrText}
-          onChange={(e) => setQrText(e.target.value)}
-          rows={3}
-          className="rounded-lg border border-zinc-300 bg-white px-3 py-2 font-mono text-sm text-zinc-900 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
-        />
-        <p className="text-xs text-zinc-500">
-          ESC/POS path requires ASCII. Use https links or short IDs; adjust encoder later for full UTF-8
-          with raw-byte Bluetooth writes.
-        </p>
-      </label>
-
-      <PlantQrField text={qrText} onLog={logLine} />
-
-      <div className="grid gap-3 sm:grid-cols-2">
-        <label className="flex flex-col gap-1 text-sm">
-          <span className="font-medium">Ingest event</span>
-          <select
-            value={eventKind}
-            onChange={(e) => setEventKind(e.target.value as SimpleIngestEvent)}
-            className="rounded-lg border border-zinc-300 bg-white px-2 py-2 text-sm dark:border-zinc-600 dark:bg-zinc-900"
-          >
-            <option value="upc_scanned">upc_scanned</option>
-            <option value="product_id">product_id</option>
-            <option value="ingredient_lot">ingredient_lot</option>
-            <option value="custom">custom</option>
-          </select>
+        <label className="grid gap-1 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
+          QR URL
+          <textarea
+            value={qrText}
+            onChange={(e) => setQrText(e.target.value)}
+            rows={2}
+            className="min-h-14 resize-none rounded-lg border border-zinc-300 bg-white px-2.5 py-2 font-mono text-xs font-normal text-zinc-900 outline-none focus:border-emerald-600 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+          />
         </label>
-        <button
-          type="button"
-          disabled={busy || !lastScan}
-          onClick={() => void runSubmit()}
-          className="rounded-xl border border-zinc-300 bg-zinc-50 py-2 text-sm font-medium dark:border-zinc-600 dark:bg-zinc-800"
-        >
-          Submit to API
-        </button>
-      </div>
 
-      <div className="space-y-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-100">
-        <strong className="block">Android: Bluetooth thermal (ESC/POS SPP)</strong>
-        <p>Pair the printer in system settings, then load the list and pick a MAC, or paste it.</p>
-        <button
-          type="button"
-          onClick={() => void loadPaired()}
-          className="rounded-lg bg-amber-800/10 px-3 py-1.5 text-xs font-medium"
-        >
-          Load paired
-        </button>
-        {pairList.length > 0 ? (
-          <select
-            className="mt-2 w-full rounded-lg border border-amber-300 bg-white px-2 py-2 text-xs dark:border-amber-700 dark:bg-zinc-900"
-            value={androidPrinter}
-            onChange={(e) => setAndroidPrinter(e.target.value)}
-          >
-            {pairList.map((d) => (
-              <option key={d.address} value={d.address}>
-                {d.name} — {d.address}
-              </option>
-            ))}
-          </select>
-        ) : null}
-        <input
-          value={androidPrinter}
-          onChange={(e) => setAndroidPrinter(e.target.value)}
-          placeholder="00:11:22:33:44:55"
-          className="w-full rounded-lg border border-amber-300 bg-white px-2 py-2 font-mono text-xs dark:border-amber-700 dark:bg-zinc-900"
-        />
-        <button
-          type="button"
-          disabled={busy}
-          onClick={() => void printAndroidEscPos()}
-          className="w-full rounded-lg bg-amber-800 py-2 text-sm font-semibold text-white"
-        >
-          Print QR (ESC/POS)
-        </button>
-        <p className="text-xs text-amber-800/80 dark:text-amber-200/80">
-          Integrated POS (Sunmi, etc.) may need a vendor AIDL or USB path instead of SPP — this stack is
-          a generic SPP+ESC/POS baseline.
-        </p>
-      </div>
+        <div className="grid min-h-0 grid-rows-[auto_auto_1fr] gap-2">
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void loadPaired()}
+              className="h-10 rounded-lg border border-zinc-300 bg-zinc-50 text-xs font-semibold text-zinc-800 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            >
+              Printer
+            </button>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void printAndroidEscPos()}
+              className="h-10 rounded-lg bg-zinc-900 text-xs font-semibold text-white disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-950"
+            >
+              Print
+            </button>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void sharePng()}
+              className="h-10 rounded-lg border border-zinc-300 bg-zinc-50 text-xs font-semibold text-zinc-800 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            >
+              Share
+            </button>
+          </div>
 
-      <div className="space-y-2 rounded-xl border border-sky-200 bg-sky-50 p-3 text-sm text-sky-900 dark:border-sky-800 dark:bg-sky-950 dark:text-sky-100">
-        <strong>iOS: PNG share</strong>
-        <p>Exports a QR PNG and opens the system share sheet (e.g. AirDrop to a vendor printer app).</p>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={() => void sharePng()}
-          className="w-full rounded-lg bg-sky-800 py-2 text-sm font-semibold text-white"
-        >
-          Share QR image
-        </button>
-      </div>
+          {pairList.length > 0 ? (
+            <select
+              className="h-10 w-full rounded-lg border border-zinc-300 bg-white px-2 text-xs dark:border-zinc-700 dark:bg-zinc-950"
+              value={androidPrinter}
+              onChange={(e) => setAndroidPrinter(e.target.value)}
+            >
+              {pairList.map((d) => (
+                <option key={d.address} value={d.address}>
+                  {d.name} - {d.address}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              value={androidPrinter}
+              onChange={(e) => setAndroidPrinter(e.target.value)}
+              placeholder="Printer MAC"
+              className="h-10 w-full rounded-lg border border-zinc-300 bg-white px-2 font-mono text-xs dark:border-zinc-700 dark:bg-zinc-950"
+            />
+          )}
 
-      <pre className="min-h-24 w-full overflow-x-auto rounded-lg bg-zinc-100 p-3 text-xs text-zinc-800 dark:bg-zinc-900 dark:text-zinc-200">
-        {log || "Logs…"}
-      </pre>
-    </div>
+          <pre className="min-h-0 overflow-hidden rounded-lg bg-zinc-100 p-2 text-[11px] leading-snug text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+            {log || "Ready."}
+          </pre>
+        </div>
+      </section>
+    </main>
   );
 }

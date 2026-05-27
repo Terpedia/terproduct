@@ -111,7 +111,7 @@ export function BarcodePanel() {
     setIngestProductSlug(null);
     setIngestError(null);
     if (!isIngestBarcodeConfigured()) {
-      setIngestError("Catalog ingest needs Supabase env (URL + anon key) and the ingest-barcode function.");
+      setIngestError("Catalog ingest is disabled for this build.");
       return;
     }
     const { valid, gtin } = assertValidGtinScannedOrTyped(raw);
@@ -231,7 +231,7 @@ export function BarcodePanel() {
                 onClick={() => void onIngestGtin(manual)}
                 className="inline-flex items-center justify-center rounded-full border border-emerald-600 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-900 hover:bg-emerald-100 disabled:opacity-50 dark:border-emerald-500 dark:bg-emerald-950/50 dark:text-emerald-200 dark:hover:bg-emerald-900/50"
               >
-                {ingestBusy ? "Saving…" : "Save to catalog (OFF)"}
+                {ingestBusy ? "Saving…" : "Save to catalog"}
               </button>
             ) : null}
           </div>

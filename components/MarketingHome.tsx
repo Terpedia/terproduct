@@ -152,7 +152,7 @@ export function NoSupabaseCallout() {
       className="mx-5 mt-3 max-w-xl self-center rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-950 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-100"
       role="status"
     >
-      Catalog database not configured. Scan, QR, field tools, and device tests still work.
+      Catalog database not configured. Set DATABASE_URL on the server to enable product pages from scans.
     </section>
   );
 }

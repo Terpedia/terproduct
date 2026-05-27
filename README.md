@@ -14,7 +14,7 @@ A **static GitHub Pages** deploy is **not** the default anymore (it conflicted w
 
 The production build uses **`output: "standalone"`** and runs on Node. The PWA (manifest, service worker) still works over HTTPS for `/scan/`, `/lookup/`, `/field/`, and the home catalog when `DATABASE_URL` is set.
 
-- **`/scan/`** — camera barcode/QR scanning where the browser supports the [Barcode Detection API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector) (Chrome/Edge; Safari often lacks it). Manual code entry links to lookup.
+- **`/scan/`** — camera barcode/QR scanning where the browser supports the [Barcode Detection API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector) (Chrome/Edge; Safari often lacks it). Valid UPC/EAN codes can be saved to the Postgres catalog through the same-origin `/api/ingest-barcode` route.
 - **`/lookup/`** — client-side search over `public/data/products.json` (demo catalog). Connect your API when the ingest backend is available.
 - **Installable** — `manifest.webmanifest`, standalone display, theme color, and a small **service worker** (`public/sw.js`) that precaches shell routes and caches same-origin GETs for offline use.
 - **`/field/`** — also used by the **Capacitor** shell (see below).
@@ -23,8 +23,9 @@ The production build uses **`output: "standalone"`** and runs on Node. The PWA (
 
 The repo includes **`android/`** and **`ios/`** (Capacitor 8). `npm run build:cap` runs a **Next** production build, then `scripts/ensure-out.mjs` (copies `public/` into `out/` and a small placeholder `index.html` so `npx cap sync` has a `webDir`). In production, set **`server.url`** in `capacitor.config.ts` to the deployed app (e.g. `https://terproduct.terpedia.com`) so the WebView loads the real site.
 
-- **`/field/`** field console: **ML Kit** `scan()` (UPC/EAN, QR, Code 128, …) → `POST` ingest JSON to your API → **Android**: ESC/POS over **Bluetooth classic SPP** (`@ascentio-it/capacitor-bluetooth-serial`) to a paired thermal; **iOS**: **Share** a **QR PNG** (Bluetooth serial plugin is Android-only; use share sheet to open a manufacturer print app or AirDrop).
+- **`/field/`** field console: **ML Kit** `scan()` (UPC/EAN, QR, Code 128, …) → imports the product into the Postgres catalog via `/api/ingest-barcode` → sets the printable QR to the resulting `/product/[slug]/` URL → **Android**: ESC/POS over **Bluetooth classic SPP** (`@ascentio-it/capacitor-bluetooth-serial`) to a paired thermal; **iOS**: **Share** a **QR PNG** (Bluetooth serial plugin is Android-only; use share sheet to open a manufacturer print app or AirDrop).
 - **Configure the ingest base URL** at build time: `NEXT_PUBLIC_TERPRODUCT_API_URL` (e.g. `https://api.terpedia.com`), and optionally `NEXT_PUBLIC_TERPRODUCT_API_KEY` for a `Bearer` token. The client posts to `{base}/ingest` (implement that route on your backend; shape is in `lib/api/terproduct-submit.ts`).
+- **Barcode catalog ingest** is same-origin by default. Set `DATABASE_URL` on the Node/Cloud Run server, optionally set `TERPRODUCT_INGEST_KEY` server-side plus `NEXT_PUBLIC_TERPRODUCT_INGEST_KEY` in trusted device builds, or override the endpoint with `NEXT_PUBLIC_TERPRODUCT_BARCODE_INGEST_URL`.
 - **Build & sync** after web changes: `npm run build:cap` (runs `next build`, `ensure-out`, and `npx cap sync`), then `npm run android` or `npm run ios` (requires **Android Studio** / **Xcode**).
 - **ESC/POS QR** uses a minimal GS (k) model-2 path with **ASCII-only** payload; extend `lib/printing/escpos-qr.ts` if you need full UTF-8 and raw byte writes. **Branded Android POS** units with an **in-built USB/serial printer** (e.g. some Sunmi models) may need the vendor AIDL/SDK instead of generic SPP—this project is a **generic SPP+ESC/POS** baseline.
 - **iOS + Google ML Kit:** the default app uses **Swift PM** for some plugins. `@capacitor-mlkit/barcode-scanning` is distributed as **CocoaPods**; if the barcode plugin does not resolve in Xcode, follow the [Capawesome ML Kit Barcode iOS](https://capawesome.io/plugins/mlkit/barcode-scanning/) install notes (CocoaPods / `pod install` as required).
@@ -87,7 +88,7 @@ node .next/standalone/server.js
 
 **Retail UPC + ingredients:** scan or enter a **GTIN** (8/12/13/14 digit family), paste the **ingredient / “contains”** list, and submit a correlation from **`/field/`** — payload event `upc_ingredients_correlation` (see `lib/api/terproduct-submit.ts` and `lib/gtin.ts`). The ingest API can upsert `products.gtin`, create rows in `product_label_ingredient_lines`, and map lines to `ingredients` (and to **CoA** tracks per ingredient) as you implement matching rules.
 
-PostgreSQL: run migrations under `supabase/migrations/` (e.g. `20260418000000_initial_schema.sql`, `20260423000000_commercial_gtin_ingredients.sql`, `20260424000000_ingredient_analysis_url.sql` for `terpedia_analysis_url`).  
+PostgreSQL: run migrations under `supabase/migrations/` (e.g. `20260418000000_initial_schema.sql`, `20260423000000_commercial_gtin_ingredients.sql`, `20260424000000_ingredient_analysis_url.sql` for `terpedia_analysis_url`). The same migrations work on Supabase Postgres or Google Cloud SQL for PostgreSQL.  
 Sample data: `psql "$DATABASE_URL" -f supabase/seed.sql` inserts a demo product, ingredient rows, composition links, and label ingredient lines.  
 TypeScript types: `lib/domain.ts`.
 
