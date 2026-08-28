@@ -25,4 +25,17 @@ export type IngredientDetail = {
   description: string | null;
   terpedia_analysis_url: string | null;
   productCount: number;
+  organisms: IngredientOrganism[];
+};
+
+export type IngredientOrganism = {
+  id: string;
+  organism_id: string;
+  organism_name: string;
+  organism_url: string | null;
+  relationship: string;
+  source: string;
+  source_record_id: string | null;
+  evidence_note: string | null;
+  provenance_url: string | null;
 };

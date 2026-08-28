@@ -175,6 +175,27 @@ export default async function TypeIdPage(props: PageProps) {
             </a>
           </p>
         ) : null}
+        {ingredient.organisms.length > 0 ? (
+          <section className="pt-3" aria-labelledby="organisms-heading">
+            <h2 id="organisms-heading" className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+              Terpedia organisms
+            </h2>
+            <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+              {ingredient.organisms.map((organism) => (
+                <li key={organism.id}>
+                  {organism.organism_url ? (
+                    <a href={organism.organism_url} rel="noreferrer" className="text-emerald-800 hover:underline dark:text-emerald-300">
+                      {organism.organism_name}
+                    </a>
+                  ) : (
+                    <span className="text-zinc-800 dark:text-zinc-200">{organism.organism_name}</span>
+                  )}
+                  {organism.evidence_note ? <span className="ml-1 text-zinc-500">({organism.evidence_note})</span> : null}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </header>
       <section
         className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950"

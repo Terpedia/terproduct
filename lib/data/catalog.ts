@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-import type { IngredientDetail, IngredientRow, ProductRow } from "@/lib/data/types";
+import type { IngredientDetail, IngredientOrganism, IngredientRow, ProductRow } from "@/lib/data/types";
 import { hasDatabaseUrl, query } from "@/lib/data/postgres";
 
 function getAnonClient(): SupabaseClient | null {
@@ -189,9 +189,21 @@ export async function getIngredientById(id: string): Promise<IngredientDetail | 
           i.name,
           i.description,
           i.terpedia_analysis_url,
-          count(pi.id)::int as "productCount"
+        count(distinct pi.id)::int as "productCount",
+        coalesce(json_agg(json_build_object(
+          'id', io.id::text,
+          'organism_id', io.organism_id,
+          'organism_name', io.organism_name,
+          'organism_url', io.organism_url,
+          'relationship', io.relationship,
+          'source', io.source,
+          'source_record_id', io.source_record_id,
+          'evidence_note', io.evidence_note,
+          'provenance_url', io.provenance_url
+        ) order by io.organism_name) filter (where io.id is not null), '[]'::json) as organisms
         from ingredients i
         left join product_ingredients pi on pi.ingredient_id = i.id
+        left join ingredient_organisms io on io.ingredient_id = i.id
         where i.id = $1::uuid
         group by i.id
         limit 1
@@ -212,12 +224,18 @@ export async function getIngredientById(id: string): Promise<IngredientDetail | 
     .from("product_ingredients")
     .select("id", { count: "exact", head: true })
     .eq("ingredient_id", id);
+  const { data: organisms } = await supabase
+    .from("ingredient_organisms")
+    .select("id, organism_id, organism_name, organism_url, relationship, source, source_record_id, evidence_note, provenance_url")
+    .eq("ingredient_id", id)
+    .order("organism_name", { ascending: true });
   return {
     id: row.id,
     name: row.name,
     description: row.description,
     terpedia_analysis_url: row.terpedia_analysis_url,
     productCount: count ?? 0,
+    organisms: (organisms ?? []) as IngredientOrganism[],
   };
 }
 
