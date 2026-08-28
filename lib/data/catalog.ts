@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-import type { IngredientDetail, IngredientOrganism, IngredientRow, ProductRow } from "@/lib/data/types";
+import type { BioactivityRow, CompoundRow, IngredientDetail, IngredientOrganism, IngredientRow, ProductRow } from "@/lib/data/types";
 import { hasDatabaseUrl, query } from "@/lib/data/postgres";
 
 function getAnonClient(): SupabaseClient | null {
@@ -190,7 +190,7 @@ export async function getIngredientById(id: string): Promise<IngredientDetail | 
           i.description,
           i.terpedia_analysis_url,
         count(distinct pi.id)::int as "productCount",
-        coalesce(json_agg(json_build_object(
+        coalesce(json_agg(distinct jsonb_build_object(
           'id', io.id::text,
           'organism_id', io.organism_id,
           'organism_name', io.organism_name,
@@ -200,7 +200,13 @@ export async function getIngredientById(id: string): Promise<IngredientDetail | 
           'source_record_id', io.source_record_id,
           'evidence_note', io.evidence_note,
           'provenance_url', io.provenance_url
-        ) order by io.organism_name) filter (where io.id is not null), '[]'::json) as organisms
+        ) order by io.organism_name) filter (where io.id is not null), '[]'::json) as organisms,
+        coalesce((select json_agg(json_build_object(
+          'id', c.id::text, 'name', c.name, 'slug', c.slug, 'summary', c.summary,
+          'smiles', c.smiles, 'inchikey', c.inchikey, 'molecular_formula', c.molecular_formula,
+          'relationship', ic.relationship, 'evidence_level', ic.evidence_level, 'source_url', ic.source_url
+        ) order by c.name) from ingredient_compounds ic join compounds c on c.id = ic.compound_id
+          where ic.ingredient_id = i.id), '[]'::json) as molecules
         from ingredients i
         left join product_ingredients pi on pi.ingredient_id = i.id
         left join ingredient_organisms io on io.ingredient_id = i.id
@@ -229,6 +235,10 @@ export async function getIngredientById(id: string): Promise<IngredientDetail | 
     .select("id, organism_id, organism_name, organism_url, relationship, source, source_record_id, evidence_note, provenance_url")
     .eq("ingredient_id", id)
     .order("organism_name", { ascending: true });
+  const { data: moleculeLinks } = await supabase
+    .from("ingredient_compounds")
+    .select("relationship, evidence_level, source_url, compounds(id,name,slug,summary,smiles,inchikey,molecular_formula)")
+    .eq("ingredient_id", id);
   return {
     id: row.id,
     name: row.name,
@@ -236,7 +246,40 @@ export async function getIngredientById(id: string): Promise<IngredientDetail | 
     terpedia_analysis_url: row.terpedia_analysis_url,
     productCount: count ?? 0,
     organisms: (organisms ?? []) as IngredientOrganism[],
+    molecules: (moleculeLinks ?? []).flatMap((link) => {
+      const compound = Array.isArray(link.compounds) ? link.compounds[0] : link.compounds;
+      if (!compound || typeof compound !== "object") return [];
+      return [{
+        ...(compound as Omit<CompoundRow, "relationship" | "evidence_level" | "source_url">),
+        relationship: link.relationship,
+        evidence_level: link.evidence_level,
+        source_url: link.source_url,
+      }];
+    }) as CompoundRow[],
   };
+}
+
+export async function getCompoundById(id: string): Promise<(CompoundRow & { bioactivities: BioactivityRow[] }) | null> {
+  if (hasDatabaseUrl()) {
+    const rows = await query<CompoundRow & { bioactivities: BioactivityRow[] }>(`
+      select c.id::text, c.name, c.slug, c.summary, c.smiles, c.inchikey,
+        c.molecular_formula, coalesce(json_agg(json_build_object(
+          'id', b.id::text, 'organism_id', b.organism_id, 'organism_name', b.organism_name,
+          'target_id', b.target_id, 'target_name', b.target_name, 'activity_type', b.activity_type,
+          'activity_value', b.activity_value, 'activity_unit', b.activity_unit, 'assay_system', b.assay_system,
+          'evidence_level', b.evidence_level, 'source', b.source, 'source_record_id', b.source_record_id,
+          'provenance_url', b.provenance_url, 'notes', b.notes
+        ) order by b.organism_name, b.activity_type) filter (where b.id is not null), '[]'::json) as bioactivities
+      from compounds c left join compound_bioactivities b on b.compound_id = c.id
+      where c.id = $1::uuid group by c.id limit 1`, [id]);
+    return rows[0] ?? null;
+  }
+  const supabase = getAnonClient();
+  if (!supabase) return null;
+  const { data: compound, error } = await supabase.from("compounds").select("id,name,slug,summary,smiles,inchikey,molecular_formula").eq("id", id).maybeSingle();
+  if (error || !compound) return null;
+  const { data: bioactivities } = await supabase.from("compound_bioactivities").select("id,organism_id,organism_name,target_id,target_name,activity_type,activity_value,activity_unit,assay_system,evidence_level,source,source_record_id,provenance_url,notes").eq("compound_id", id).order("organism_name", { ascending: true });
+  return { ...compound, bioactivities: (bioactivities ?? []) as BioactivityRow[] } as CompoundRow & { bioactivities: BioactivityRow[] };
 }
 
 export async function getProductsForIngredient(ingredientId: string): Promise<ProductRow[]> {

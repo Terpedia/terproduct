@@ -26,6 +26,37 @@ export type IngredientDetail = {
   terpedia_analysis_url: string | null;
   productCount: number;
   organisms: IngredientOrganism[];
+  molecules: CompoundRow[];
+};
+
+export type CompoundRow = {
+  id: string;
+  name: string;
+  slug: string | null;
+  summary: string | null;
+  smiles: string | null;
+  inchikey: string | null;
+  molecular_formula: string | null;
+  relationship: string;
+  evidence_level: string;
+  source_url: string | null;
+};
+
+export type BioactivityRow = {
+  id: string;
+  organism_id: string | null;
+  organism_name: string | null;
+  target_id: string | null;
+  target_name: string | null;
+  activity_type: string;
+  activity_value: number | null;
+  activity_unit: string | null;
+  assay_system: string | null;
+  evidence_level: string;
+  source: string;
+  source_record_id: string | null;
+  provenance_url: string | null;
+  notes: string | null;
 };
 
 export type IngredientOrganism = {

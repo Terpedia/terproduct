@@ -196,6 +196,19 @@ export default async function TypeIdPage(props: PageProps) {
             </ul>
           </section>
         ) : null}
+        {ingredient.molecules.length > 0 ? (
+          <section className="pt-3" aria-labelledby="molecules-heading">
+            <h2 id="molecules-heading" className="text-sm font-semibold uppercase tracking-wide text-zinc-500">Molecules</h2>
+            <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+              {ingredient.molecules.map((molecule) => (
+                <li key={molecule.id}>
+                  <Link href={`/molecule/${molecule.id}/`} className="text-emerald-800 hover:underline dark:text-emerald-300">{molecule.name}</Link>
+                  <span className="ml-1 text-zinc-500">({molecule.evidence_level})</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </header>
       <section
         className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950"
