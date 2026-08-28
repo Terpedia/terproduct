@@ -68,6 +68,14 @@ steps:
       - --port
       - $_CONTAINER_PORT
       - --allow-unauthenticated
+      - --set-secrets
+      - DATABASE_URL=terproduct-database-url:latest
+      - --add-cloudsql-instances
+      - $PROJECT_ID:$_REGION:terproduct-db
+      - --vpc-connector
+      - terproduct-connector
+      - --vpc-egress
+      - private-ranges-only
       - --set-env-vars
       - "NEXT_TELEMETRY_DISABLED=1"
       - --min-instances

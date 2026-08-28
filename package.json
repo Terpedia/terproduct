@@ -16,7 +16,8 @@
     "android:wireless": "bash scripts/install-android-wireless.sh",
     "adb:intents": "bash scripts/adb-test-intents.sh",
     "lint": "eslint",
-    "qr-plant": "node scripts/qr-plant.mjs"
+    "qr-plant": "node scripts/qr-plant.mjs",
+    "import:celestial-seasonings": "node scripts/import-celestial-seasonings.mjs"
   },
   "dependencies": {
     "@ascentio-it/capacitor-bluetooth-serial": "^8.0.0",
