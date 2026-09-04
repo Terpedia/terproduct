@@ -184,11 +184,14 @@ export async function getCoasForProduct(productId: string): Promise<ProductCoaRo
   if (hasDatabaseUrl()) {
     return query<ProductCoaRow>(
       `select cd.id::text, cd.ingredient_id::text, i.name as ingredient_name,
-              cd.lab_name, cd.batch_lot, cd.document_url, cd.tested_at::text, cd.notes
+              cd.lab_name, cd.batch_lot, cd.document_url, cd.tested_at::text, cd.notes,
+              coalesce(cd.visibility, 'public') as visibility
        from coa_documents cd
        join ingredients i on i.id = cd.ingredient_id
        join product_ingredients pi on pi.ingredient_id = cd.ingredient_id
        where pi.product_id = $1::uuid
+         and (cd.product_id = pi.product_id or cd.product_id is null)
+       where coalesce(cd.visibility, 'public') = 'public'
        order by cd.tested_at desc nulls last, cd.created_at desc`,
       [productId],
     );
@@ -198,7 +201,7 @@ export async function getCoasForProduct(productId: string): Promise<ProductCoaRo
   const { data: links } = await supabase.from("product_ingredients").select("ingredient_id").eq("product_id", productId);
   const ingredientIds = (links ?? []).map((row) => row.ingredient_id as string);
   if (!ingredientIds.length) return [];
-  const { data } = await supabase.from("coa_documents").select("id, ingredient_id, lab_name, batch_lot, document_url, tested_at, notes, ingredients(name)").in("ingredient_id", ingredientIds).order("tested_at", { ascending: false });
+  const { data } = await supabase.from("coa_documents").select("id, ingredient_id, lab_name, batch_lot, document_url, tested_at, notes, visibility, ingredients(name)").in("ingredient_id", ingredientIds).eq("visibility", "public").order("tested_at", { ascending: false });
   return (data ?? []).map((row) => ({
     id: row.id as string,
     ingredient_id: row.ingredient_id as string,
@@ -208,6 +211,7 @@ export async function getCoasForProduct(productId: string): Promise<ProductCoaRo
     document_url: row.document_url as string | null,
     tested_at: row.tested_at as string | null,
     notes: row.notes as string | null,
+    visibility: ((row.visibility as string | null) || "public") as "public" | "private",
   }));
 }
 

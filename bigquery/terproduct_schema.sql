@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `terpedia-489015.terpedia_ops.terproduct_product_ingr
   sort_order INT64,
   as_listed STRING,
   notes STRING,
+  visibility STRING NOT NULL,
   source_url STRING,
   created_at TIMESTAMP
 );
@@ -46,6 +47,9 @@ CREATE TABLE IF NOT EXISTS `terpedia-489015.terpedia_ops.terproduct_coa_document
   source_url STRING,
   created_at TIMESTAMP
 );
+
+ALTER TABLE `terpedia-489015.terpedia_ops.terproduct_coa_documents`
+  ADD COLUMN IF NOT EXISTS visibility STRING;
 
 CREATE TABLE IF NOT EXISTS `terpedia-489015.terpedia_ops.terproduct_compounds` (
   compound_id STRING NOT NULL,
@@ -108,7 +112,7 @@ CREATE OR REPLACE VIEW `terpedia-489015.terpedia_ops.terproduct_product_evidence
 SELECT
   p.product_id, p.slug, p.name, p.brand, p.description, p.gtin,
   i.ingredient_id, i.name AS ingredient_name,
-  c.coa_id, c.lab_name, c.batch_lot, c.document_url, c.tested_at,
+  c.coa_id, c.lab_name, c.batch_lot, c.document_url, c.tested_at, c.visibility,
   ic.compound_id, ic.relationship, ic.evidence_level,
   comp.name AS compound_name, comp.terpedia_compound_id,
   c.source_url AS coa_source_url

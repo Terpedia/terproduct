@@ -28,6 +28,7 @@ export type ProductCoaRow = {
   document_url: string | null;
   tested_at: string | null;
   notes: string | null;
+  visibility: "public" | "private";
 };
 
 export type ProductImageRow = {
