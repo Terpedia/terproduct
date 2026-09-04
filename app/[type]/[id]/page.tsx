@@ -9,6 +9,7 @@ import {
   getIngredientById,
   getIngredientsForProduct,
   getCoasForProduct,
+  getProductImages,
   getProductBySlug,
   getProductsForIngredient,
   hasCatalog,
@@ -62,6 +63,7 @@ export default async function TypeIdPage(props: PageProps) {
     }
     const ingredients = await getIngredientsForProduct(product.id);
     const coas = await getCoasForProduct(product.id);
+    const images = await getProductImages(product.id);
     return (
       <main className="mx-auto min-h-full max-w-2xl space-y-8 px-6 py-12">
         <nav>
@@ -73,6 +75,7 @@ export default async function TypeIdPage(props: PageProps) {
           </Link>
         </nav>
         <header className="space-y-2">
+          {images.length > 0 ? <div className="mb-6 flex flex-wrap gap-3">{images.map((image) => <a key={image.id} href={image.source_url} target="_blank" rel="noreferrer"><img src={image.source_url} alt={image.alt_text || product.name} className="h-48 w-48 rounded-2xl border border-zinc-200 bg-white object-contain p-2 dark:border-zinc-800 dark:bg-zinc-950" /></a>)}</div> : null}
           <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
             {product.name}
           </h1>

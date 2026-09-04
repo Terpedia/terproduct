@@ -30,6 +30,13 @@ export type ProductCoaRow = {
   notes: string | null;
 };
 
+export type ProductImageRow = {
+  id: string;
+  source_url: string;
+  source_page_url: string | null;
+  alt_text: string | null;
+};
+
 export type IngredientDetail = {
   id: string;
   name: string;

@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-import type { BioactivityRow, CompoundRow, IngredientDetail, IngredientOrganism, IngredientRow, ProductCoaRow, ProductRow } from "@/lib/data/types";
+import type { BioactivityRow, CompoundRow, IngredientDetail, IngredientOrganism, IngredientRow, ProductCoaRow, ProductImageRow, ProductRow } from "@/lib/data/types";
 import { hasDatabaseUrl, query } from "@/lib/data/postgres";
 
 function getAnonClient(): SupabaseClient | null {
@@ -209,6 +209,16 @@ export async function getCoasForProduct(productId: string): Promise<ProductCoaRo
     tested_at: row.tested_at as string | null,
     notes: row.notes as string | null,
   }));
+}
+
+export async function getProductImages(productId: string): Promise<ProductImageRow[]> {
+  if (hasDatabaseUrl()) {
+    return query<ProductImageRow>(`select id::text, source_url, source_page_url, alt_text from product_label_assets where product_id = $1::uuid order by created_at asc`, [productId]);
+  }
+  const supabase = getAnonClient();
+  if (!supabase) return [];
+  const { data } = await supabase.from("product_label_assets").select("id, source_url, source_page_url, alt_text").eq("product_id", productId).order("created_at", { ascending: true });
+  return (data ?? []) as ProductImageRow[];
 }
 
 export async function getIngredientById(id: string): Promise<IngredientDetail | null> {
