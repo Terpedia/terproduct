@@ -19,6 +19,17 @@ export type IngredientRow = {
   notes: string | null;
 };
 
+export type ProductCoaRow = {
+  id: string;
+  ingredient_id: string;
+  ingredient_name: string;
+  lab_name: string | null;
+  batch_lot: string | null;
+  document_url: string | null;
+  tested_at: string | null;
+  notes: string | null;
+};
+
 export type IngredientDetail = {
   id: string;
   name: string;

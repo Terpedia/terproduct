@@ -8,6 +8,7 @@ import {
   CATALOG_PLACEHOLDER_PRODUCT_SLUG,
   getIngredientById,
   getIngredientsForProduct,
+  getCoasForProduct,
   getProductBySlug,
   getProductsForIngredient,
   hasCatalog,
@@ -60,6 +61,7 @@ export default async function TypeIdPage(props: PageProps) {
       notFound();
     }
     const ingredients = await getIngredientsForProduct(product.id);
+    const coas = await getCoasForProduct(product.id);
     return (
       <main className="mx-auto min-h-full max-w-2xl space-y-8 px-6 py-12">
         <nav>
@@ -127,6 +129,23 @@ export default async function TypeIdPage(props: PageProps) {
                   {ing.description ? (
                     <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{ing.description}</p>
                   ) : null}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+        <section className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950" aria-labelledby="coa-heading">
+          <h2 id="coa-heading" className="text-lg font-medium text-zinc-900 dark:text-zinc-50">Certificates of analysis</h2>
+          {coas.length === 0 ? (
+            <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400">No product-specific CoA has been linked yet.</p>
+          ) : (
+            <ul className="mt-4 space-y-4">
+              {coas.map((coa) => (
+                <li key={coa.id} className="border-b border-zinc-100 pb-4 last:border-0 last:pb-0 dark:border-zinc-800">
+                  <p className="font-medium text-zinc-900 dark:text-zinc-100">{coa.ingredient_name}</p>
+                  <p className="mt-1 text-sm text-zinc-500">{coa.lab_name || "Independent laboratory"}{coa.batch_lot ? ` · Batch ${coa.batch_lot}` : ""}{coa.tested_at ? ` · Tested ${coa.tested_at}` : ""}</p>
+                  {coa.notes ? <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{coa.notes}</p> : null}
+                  {coa.document_url ? <a className="mt-2 inline-block text-sm font-medium text-emerald-800 hover:underline dark:text-emerald-300" href={coa.document_url} target="_blank" rel="noreferrer">Open CoA PDF →</a> : <p className="mt-2 text-sm text-zinc-500">Document pending</p>}
                 </li>
               ))}
             </ul>
