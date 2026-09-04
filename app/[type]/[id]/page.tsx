@@ -148,7 +148,7 @@ export default async function TypeIdPage(props: PageProps) {
                   <p className="font-medium text-zinc-900 dark:text-zinc-100">{coa.ingredient_name}</p>
                   <p className="mt-1 text-sm text-zinc-500">{coa.lab_name || "Independent laboratory"}{coa.batch_lot ? ` · Batch ${coa.batch_lot}` : ""}{coa.tested_at ? ` · Tested ${coa.tested_at}` : ""}</p>
                   {coa.notes ? <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{coa.notes}</p> : null}
-                  {coa.document_url ? <a className="mt-2 inline-block text-sm font-medium text-emerald-800 hover:underline dark:text-emerald-300" href={coa.document_url} target="_blank" rel="noreferrer">Open CoA PDF →</a> : <p className="mt-2 text-sm text-zinc-500">Document pending</p>}
+                  <p className="mt-2 text-sm font-medium text-emerald-800 dark:text-emerald-300">CoA verified · report access restricted</p>
                 </li>
               ))}
             </ul>
