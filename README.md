@@ -77,6 +77,10 @@ node .next/standalone/server.js
 
 ## Data model
 
+### BigQuery migration
+
+Terproduct can land its catalog and evidence graph in BigQuery using [`bigquery/terproduct_schema.sql`](bigquery/terproduct_schema.sql). The schema is additive and uses `terpedia_ops` for operational product/CoA records, with a denormalized `terproduct_product_evidence` view for reads. Canonical Terpedia molecule and literature tables remain in their existing datasets.
+
 | Layer | Role |
 | --- | --- |
 | **products** | Finished goods (name, slug, brand, optional `gtin` for retail UPC/EAN). |
