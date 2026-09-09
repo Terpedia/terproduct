@@ -51,6 +51,16 @@ CREATE TABLE IF NOT EXISTS `terpedia-489015.terpedia_ops.terproduct_coa_document
 ALTER TABLE `terpedia-489015.terpedia_ops.terproduct_coa_documents`
   ADD COLUMN IF NOT EXISTS visibility STRING;
 
+CREATE TABLE IF NOT EXISTS `terpedia-489015.terpedia_ops.terproduct_coa_compound_results` (
+  coa_id STRING NOT NULL,
+  compound_id STRING NOT NULL,
+  value NUMERIC,
+  unit STRING NOT NULL,
+  is_nd BOOL NOT NULL,
+  qualifier STRING,
+  created_at TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS `terpedia-489015.terpedia_ops.terproduct_compounds` (
   compound_id STRING NOT NULL,
   name STRING NOT NULL,
