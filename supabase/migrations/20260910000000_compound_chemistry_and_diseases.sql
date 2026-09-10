@@ -41,4 +41,11 @@ drop policy if exists "Public read compound diseases" on public.compound_disease
 create policy "Public read compound diseases"
   on public.compound_diseases for select using (true);
 
-grant select on public.compound_diseases, public.compound_bioactivities, public.compound_literature to anon, authenticated;
+-- Supabase ships anon/authenticated roles; a plain Cloud SQL instance does not, and an
+-- unconditional grant aborts the whole migration there.
+do $$
+begin
+  if exists (select 1 from pg_roles where rolname = 'anon') then
+    grant select on public.compound_diseases, public.compound_bioactivities, public.compound_literature to anon, authenticated;
+  end if;
+end $$;
