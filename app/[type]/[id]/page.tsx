@@ -8,6 +8,8 @@ import {
   CATALOG_PLACEHOLDER_PRODUCT_SLUG,
   getIngredientById,
   getIngredientsForProduct,
+  getCoasForProduct,
+  getProductImages,
   getProductBySlug,
   getProductsForIngredient,
   hasCatalog,
@@ -60,6 +62,8 @@ export default async function TypeIdPage(props: PageProps) {
       notFound();
     }
     const ingredients = await getIngredientsForProduct(product.id);
+    const coas = await getCoasForProduct(product.id);
+    const images = await getProductImages(product.id);
     return (
       <main className="mx-auto min-h-full max-w-2xl space-y-8 px-6 py-12">
         <nav>
@@ -71,6 +75,7 @@ export default async function TypeIdPage(props: PageProps) {
           </Link>
         </nav>
         <header className="space-y-2">
+          {images.length > 0 ? <div className="mb-6 flex flex-wrap gap-3">{images.map((image) => <a key={image.id} href={image.source_url} target="_blank" rel="noreferrer"><img src={image.source_url} alt={image.alt_text || product.name} className="h-48 w-48 rounded-2xl border border-zinc-200 bg-white object-contain p-2 dark:border-zinc-800 dark:bg-zinc-950" /></a>)}</div> : null}
           <h1 className="text-3xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">
             {product.name}
           </h1>
@@ -132,6 +137,23 @@ export default async function TypeIdPage(props: PageProps) {
             </ul>
           )}
         </section>
+        <section className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-950" aria-labelledby="coa-heading">
+          <h2 id="coa-heading" className="text-lg font-medium text-zinc-900 dark:text-zinc-50">Certificates of analysis</h2>
+          {coas.length === 0 ? (
+            <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400">No product-specific CoA has been linked yet.</p>
+          ) : (
+            <ul className="mt-4 space-y-4">
+              {coas.map((coa) => (
+                <li key={coa.id} className="border-b border-zinc-100 pb-4 last:border-0 last:pb-0 dark:border-zinc-800">
+                  <p className="font-medium text-zinc-900 dark:text-zinc-100">{coa.ingredient_name}</p>
+                  <p className="mt-1 text-sm text-zinc-500">{coa.lab_name || "Independent laboratory"}{coa.batch_lot ? ` · Batch ${coa.batch_lot}` : ""}{coa.tested_at ? ` · Tested ${coa.tested_at}` : ""}</p>
+                  {coa.notes ? <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{coa.notes}</p> : null}
+                  <p className="mt-2 text-sm font-medium text-emerald-800 dark:text-emerald-300">CoA verified · report access restricted</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </main>
     );
   }
@@ -174,6 +196,40 @@ export default async function TypeIdPage(props: PageProps) {
               Open Terpene &amp; analysis on Terpedia →
             </a>
           </p>
+        ) : null}
+        {ingredient.organisms.length > 0 ? (
+          <section className="pt-3" aria-labelledby="organisms-heading">
+            <h2 id="organisms-heading" className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+              Terpedia organisms
+            </h2>
+            <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+              {ingredient.organisms.map((organism) => (
+                <li key={organism.id}>
+                  {organism.organism_url ? (
+                    <a href={organism.organism_url} rel="noreferrer" className="text-emerald-800 hover:underline dark:text-emerald-300">
+                      {organism.organism_name}
+                    </a>
+                  ) : (
+                    <span className="text-zinc-800 dark:text-zinc-200">{organism.organism_name}</span>
+                  )}
+                  {organism.evidence_note ? <span className="ml-1 text-zinc-500">({organism.evidence_note})</span> : null}
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+        {ingredient.molecules.length > 0 ? (
+          <section className="pt-3" aria-labelledby="molecules-heading">
+            <h2 id="molecules-heading" className="text-sm font-semibold uppercase tracking-wide text-zinc-500">Molecules</h2>
+            <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm">
+              {ingredient.molecules.map((molecule) => (
+                <li key={molecule.id}>
+                  <Link href={`/molecule/${molecule.id}/`} className="text-emerald-800 hover:underline dark:text-emerald-300">{molecule.name}</Link>
+                  <span className="ml-1 text-zinc-500">({molecule.evidence_level})</span>
+                </li>
+              ))}
+            </ul>
+          </section>
         ) : null}
       </header>
       <section

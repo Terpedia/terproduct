@@ -1,0 +1,16 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - migrations.Dockerfile
+      - -t
+      - us-central1-docker.pkg.dev/$PROJECT_ID/terproduct/migrate:latest
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - us-central1-docker.pkg.dev/$PROJECT_ID/terproduct/migrate:latest
+options:
+  logging: CLOUD_LOGGING_ONLY
+timeout: 1200s

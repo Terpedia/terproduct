@@ -6,6 +6,31 @@ Live site: [terproduct.terpedia.com](https://terproduct.terpedia.com) when DNS (
 
 A **static GitHub Pages** deploy is **not** the default anymore (it conflicted with dynamic product routes). The workflow in `.github/workflows/deploy-github-pages.yml` is a no-op placeholder. An older [GitHub Pages project URL](https://terpedia.github.io/terproduct/) may be stale if it was from the pre-server layout.
 
+## Molecule reference data
+
+Terproduct is the system of record for molecule-level science: chemistry identity, protein assay results, disease associations and literature. The consumer catalog at [mondays.terpedia.com](https://mondays.terpedia.com) carries composition only and links here for the rest.
+
+`data/mondays-molecules.json` is the snapshot that ships with the migration image; `scripts/ingest-molecules-postgres.mjs` loads it into `compounds`, `compound_bioactivities`, `compound_diseases` and `compound_literature`. The Cloud Run job `terproduct-schema-migrate` runs it after the schema migration, so a normal migrate run refreshes the records. Set `IMPORT_MOLECULES=false` to skip it, or `MOLECULES_DIR=../mondays/data/molecules` to load straight from a local checkout.
+
+Disease rows carry a `kind`. A `reported_association` means the compound was detected or studied in that condition; `occupational_exposure` describes a hazard of exposure. Neither is a therapeutic claim, and the molecule page must render the kind alongside the name — a bare condition name next to a consumer product reads as a health claim whatever the underlying record says.
+
+## LOTUS occurrence data
+
+`lotus_occurrences` holds the LOTUS frozen release — which molecules have been reported in which organisms, each row carrying the DOI that reported it. The April 2026 release is 674,422 usable triples over 227,316 structures, 37,468 organisms and 91,379 papers, in both Cloud SQL and BigQuery.
+
+`scripts/load-lotus-postgres.mjs` streams the gzip through `COPY` inside a transaction, so a failed refresh leaves the previous data intact rather than an empty table. The migration job runs it when `IMPORT_LOTUS=true`.
+
+It reads a copy staged in GCS rather than Zenodo directly: Zenodo serves a workstation fine but returns 403 to Cloud Run's egress, and a load job should not depend on a third party's rate limiting. To move to a newer release, stage it and set the matching env:
+
+```bash
+curl -sSL "https://zenodo.org/api/records/<record>/files/<file>.csv.gz/content" -o release.csv.gz
+gcloud storage cp release.csv.gz gs://terpedia-489015-terproduct-migrations/lotus/<file>.csv.gz
+gcloud run jobs update terproduct-schema-migrate --region us-central1 \
+  --update-env-vars LOTUS_FILE=<file>.csv.gz,LOTUS_RELEASE_DATE=<yyyy-mm-dd>
+```
+
+Join on `structure_inchikey`: any compound with a resolved structure picks up its occurrence record, including the structures nothing else here holds. An occurrence is a report that a compound was detected in an organism in the cited work — not a concentration, and not evidence that the organism is a meaningful source of it.
+
 ## Repository
 
 - GitHub: [Terpedia/terproduct](https://github.com/Terpedia/terproduct)
@@ -76,6 +101,10 @@ node .next/standalone/server.js
 (Use the same `DATABASE_URL` in Docker; see `Dockerfile`.)
 
 ## Data model
+
+### BigQuery migration
+
+Terproduct can land its catalog and evidence graph in BigQuery using [`bigquery/terproduct_schema.sql`](bigquery/terproduct_schema.sql). The schema is additive and uses `terpedia_ops` for operational product/CoA records, with a denormalized `terproduct_product_evidence` view for reads. Canonical Terpedia molecule and literature tables remain in their existing datasets.
 
 | Layer | Role |
 | --- | --- |

@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-import type { IngredientDetail, IngredientRow, ProductRow } from "@/lib/data/types";
+import type { BioactivityRow, CompoundChemistry, CompoundDiseaseRow, CompoundLiteratureRow, CompoundRow, IngredientDetail, IngredientOrganism, IngredientRow, ProductCoaRow, ProductImageRow, ProductRow } from "@/lib/data/types";
 import { hasDatabaseUrl, query } from "@/lib/data/postgres";
 
 function getAnonClient(): SupabaseClient | null {
@@ -180,6 +180,51 @@ export async function getIngredientsForProduct(productId: string): Promise<Ingre
   });
 }
 
+export async function getCoasForProduct(productId: string): Promise<ProductCoaRow[]> {
+  if (hasDatabaseUrl()) {
+    return query<ProductCoaRow>(
+      `select cd.id::text, cd.ingredient_id::text, i.name as ingredient_name,
+              cd.lab_name, cd.batch_lot, cd.document_url, cd.tested_at::text, cd.notes,
+              coalesce(cd.visibility, 'public') as visibility
+       from coa_documents cd
+       join ingredients i on i.id = cd.ingredient_id
+       join product_ingredients pi on pi.ingredient_id = cd.ingredient_id
+       where pi.product_id = $1::uuid
+         and (cd.product_id = pi.product_id or cd.product_id is null)
+       where coalesce(cd.visibility, 'public') = 'public'
+       order by cd.tested_at desc nulls last, cd.created_at desc`,
+      [productId],
+    );
+  }
+  const supabase = getAnonClient();
+  if (!supabase) return [];
+  const { data: links } = await supabase.from("product_ingredients").select("ingredient_id").eq("product_id", productId);
+  const ingredientIds = (links ?? []).map((row) => row.ingredient_id as string);
+  if (!ingredientIds.length) return [];
+  const { data } = await supabase.from("coa_documents").select("id, ingredient_id, lab_name, batch_lot, document_url, tested_at, notes, visibility, ingredients(name)").in("ingredient_id", ingredientIds).eq("visibility", "public").order("tested_at", { ascending: false });
+  return (data ?? []).map((row) => ({
+    id: row.id as string,
+    ingredient_id: row.ingredient_id as string,
+    ingredient_name: ((Array.isArray(row.ingredients) ? row.ingredients[0] : row.ingredients) as { name?: string } | null)?.name ?? "Ingredient",
+    lab_name: row.lab_name as string | null,
+    batch_lot: row.batch_lot as string | null,
+    document_url: row.document_url as string | null,
+    tested_at: row.tested_at as string | null,
+    notes: row.notes as string | null,
+    visibility: ((row.visibility as string | null) || "public") as "public" | "private",
+  }));
+}
+
+export async function getProductImages(productId: string): Promise<ProductImageRow[]> {
+  if (hasDatabaseUrl()) {
+    return query<ProductImageRow>(`select id::text, source_url, source_page_url, alt_text from product_label_assets where product_id = $1::uuid order by created_at asc`, [productId]);
+  }
+  const supabase = getAnonClient();
+  if (!supabase) return [];
+  const { data } = await supabase.from("product_label_assets").select("id, source_url, source_page_url, alt_text").eq("product_id", productId).order("created_at", { ascending: true });
+  return (data ?? []) as ProductImageRow[];
+}
+
 export async function getIngredientById(id: string): Promise<IngredientDetail | null> {
   if (hasDatabaseUrl()) {
     const rows = await query<IngredientDetail>(
@@ -189,9 +234,27 @@ export async function getIngredientById(id: string): Promise<IngredientDetail | 
           i.name,
           i.description,
           i.terpedia_analysis_url,
-          count(pi.id)::int as "productCount"
+        count(distinct pi.id)::int as "productCount",
+        coalesce(json_agg(distinct jsonb_build_object(
+          'id', io.id::text,
+          'organism_id', io.organism_id,
+          'organism_name', io.organism_name,
+          'organism_url', io.organism_url,
+          'relationship', io.relationship,
+          'source', io.source,
+          'source_record_id', io.source_record_id,
+          'evidence_note', io.evidence_note,
+          'provenance_url', io.provenance_url
+        ) order by io.organism_name) filter (where io.id is not null), '[]'::json) as organisms,
+        coalesce((select json_agg(json_build_object(
+          'id', c.id::text, 'name', c.name, 'slug', c.slug, 'summary', c.summary,
+          'smiles', c.smiles, 'inchikey', c.inchikey, 'molecular_formula', c.molecular_formula,
+          'relationship', ic.relationship, 'evidence_level', ic.evidence_level, 'source_url', ic.source_url
+        ) order by c.name) from ingredient_compounds ic join compounds c on c.id = ic.compound_id
+          where ic.ingredient_id = i.id), '[]'::json) as molecules
         from ingredients i
         left join product_ingredients pi on pi.ingredient_id = i.id
+        left join ingredient_organisms io on io.ingredient_id = i.id
         where i.id = $1::uuid
         group by i.id
         limit 1
@@ -212,13 +275,96 @@ export async function getIngredientById(id: string): Promise<IngredientDetail | 
     .from("product_ingredients")
     .select("id", { count: "exact", head: true })
     .eq("ingredient_id", id);
+  const { data: organisms } = await supabase
+    .from("ingredient_organisms")
+    .select("id, organism_id, organism_name, organism_url, relationship, source, source_record_id, evidence_note, provenance_url")
+    .eq("ingredient_id", id)
+    .order("organism_name", { ascending: true });
+  const { data: moleculeLinks } = await supabase
+    .from("ingredient_compounds")
+    .select("relationship, evidence_level, source_url, compounds(id,name,slug,summary,smiles,inchikey,molecular_formula)")
+    .eq("ingredient_id", id);
   return {
     id: row.id,
     name: row.name,
     description: row.description,
     terpedia_analysis_url: row.terpedia_analysis_url,
     productCount: count ?? 0,
+    organisms: (organisms ?? []) as IngredientOrganism[],
+    molecules: (moleculeLinks ?? []).flatMap((link) => {
+      const compound = Array.isArray(link.compounds) ? link.compounds[0] : link.compounds;
+      if (!compound || typeof compound !== "object") return [];
+      return [{
+        ...(compound as Omit<CompoundRow, "relationship" | "evidence_level" | "source_url">),
+        relationship: link.relationship,
+        evidence_level: link.evidence_level,
+        source_url: link.source_url,
+      }];
+    }) as CompoundRow[],
   };
+}
+
+export async function getCompoundById(id: string): Promise<(CompoundRow & { bioactivities: BioactivityRow[] }) | null> {
+  if (hasDatabaseUrl()) {
+    const rows = await query<CompoundRow & { bioactivities: BioactivityRow[] }>(`
+      select c.id::text, c.name, c.slug, c.summary, c.smiles, c.inchikey,
+        c.molecular_formula, coalesce(json_agg(json_build_object(
+          'id', b.id::text, 'organism_id', b.organism_id, 'organism_name', b.organism_name,
+          'target_id', b.target_id, 'target_name', b.target_name, 'activity_type', b.activity_type,
+          'activity_value', b.activity_value, 'activity_unit', b.activity_unit, 'assay_system', b.assay_system,
+          'evidence_level', b.evidence_level, 'source', b.source, 'source_record_id', b.source_record_id,
+          'provenance_url', b.provenance_url, 'notes', b.notes
+        ) order by b.organism_name, b.activity_type) filter (where b.id is not null), '[]'::json) as bioactivities
+      from compounds c left join compound_bioactivities b on b.compound_id = c.id
+      where c.id = $1::uuid group by c.id limit 1`, [id]);
+    return rows[0] ?? null;
+  }
+  const supabase = getAnonClient();
+  if (!supabase) return null;
+  const { data: compound, error } = await supabase.from("compounds").select("id,name,slug,summary,smiles,inchikey,molecular_formula").eq("id", id).maybeSingle();
+  if (error || !compound) return null;
+  const { data: bioactivities } = await supabase.from("compound_bioactivities").select("id,organism_id,organism_name,target_id,target_name,activity_type,activity_value,activity_unit,assay_system,evidence_level,source,source_record_id,provenance_url,notes").eq("compound_id", id).order("organism_name", { ascending: true });
+  return { ...compound, bioactivities: (bioactivities ?? []) as BioactivityRow[] } as CompoundRow & { bioactivities: BioactivityRow[] };
+}
+
+export type MoleculeDetail = CompoundRow & CompoundChemistry & {
+  bioactivities: BioactivityRow[];
+  diseases: CompoundDiseaseRow[];
+  literature: CompoundLiteratureRow[];
+};
+
+/** Molecule pages are addressed by slug; getCompoundById takes a uuid. */
+export async function getCompoundBySlug(slug: string): Promise<MoleculeDetail | null> {
+  if (!hasDatabaseUrl()) return null;
+  const rows = await query<MoleculeDetail>(
+    `
+      select c.id::text, c.name, c.slug, c.summary, c.summary_source_name, c.summary_source_url,
+        c.smiles, c.inchikey, c.molecular_formula, c.molecular_weight, c.iupac_name,
+        c.pubchem_cid, c.image_url,
+        'measured' as relationship, 'laboratory_result' as evidence_level, null as source_url,
+        coalesce((select json_agg(json_build_object(
+          'id', b.id::text, 'organism_id', b.organism_id, 'organism_name', b.organism_name,
+          'target_id', b.target_id, 'target_name', b.target_name, 'activity_type', b.activity_type,
+          'activity_value', b.activity_value, 'activity_unit', b.activity_unit,
+          'assay_system', b.assay_system, 'evidence_level', b.evidence_level, 'source', b.source,
+          'source_record_id', b.source_record_id, 'provenance_url', b.provenance_url, 'notes', b.notes
+        ) order by b.activity_value nulls last) from compound_bioactivities b where b.compound_id = c.id), '[]'::json) as bioactivities,
+        coalesce((select json_agg(json_build_object(
+          'id', d.id::text, 'disease_slug', d.disease_slug, 'disease_name', d.disease_name,
+          'kind', d.kind, 'category', d.category, 'pmids', d.pmids, 'source', d.source,
+          'source_url', d.source_url, 'notes', d.notes
+        ) order by array_length(d.pmids, 1) desc nulls last) from compound_diseases d where d.compound_id = c.id), '[]'::json) as diseases,
+        coalesce((select json_agg(json_build_object(
+          'id', l.id::text, 'title', l.title, 'url', l.url, 'pmid', l.pmid,
+          'journal', l.journal, 'notes', l.notes
+        )) from compound_literature l where l.compound_id = c.id), '[]'::json) as literature
+      from compounds c
+      where c.slug = $1
+      limit 1
+    `,
+    [slug],
+  );
+  return rows[0] ?? null;
 }
 
 export async function getProductsForIngredient(ingredientId: string): Promise<ProductRow[]> {
