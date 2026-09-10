@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-import type { BioactivityRow, CompoundRow, IngredientDetail, IngredientOrganism, IngredientRow, ProductCoaRow, ProductImageRow, ProductRow } from "@/lib/data/types";
+import type { BioactivityRow, CompoundChemistry, CompoundDiseaseRow, CompoundLiteratureRow, CompoundRow, IngredientDetail, IngredientOrganism, IngredientRow, ProductCoaRow, ProductImageRow, ProductRow } from "@/lib/data/types";
 import { hasDatabaseUrl, query } from "@/lib/data/postgres";
 
 function getAnonClient(): SupabaseClient | null {
@@ -325,6 +325,46 @@ export async function getCompoundById(id: string): Promise<(CompoundRow & { bioa
   if (error || !compound) return null;
   const { data: bioactivities } = await supabase.from("compound_bioactivities").select("id,organism_id,organism_name,target_id,target_name,activity_type,activity_value,activity_unit,assay_system,evidence_level,source,source_record_id,provenance_url,notes").eq("compound_id", id).order("organism_name", { ascending: true });
   return { ...compound, bioactivities: (bioactivities ?? []) as BioactivityRow[] } as CompoundRow & { bioactivities: BioactivityRow[] };
+}
+
+export type MoleculeDetail = CompoundRow & CompoundChemistry & {
+  bioactivities: BioactivityRow[];
+  diseases: CompoundDiseaseRow[];
+  literature: CompoundLiteratureRow[];
+};
+
+/** Molecule pages are addressed by slug; getCompoundById takes a uuid. */
+export async function getCompoundBySlug(slug: string): Promise<MoleculeDetail | null> {
+  if (!hasDatabaseUrl()) return null;
+  const rows = await query<MoleculeDetail>(
+    `
+      select c.id::text, c.name, c.slug, c.summary, c.summary_source_name, c.summary_source_url,
+        c.smiles, c.inchikey, c.molecular_formula, c.molecular_weight, c.iupac_name,
+        c.pubchem_cid, c.image_url,
+        'measured' as relationship, 'laboratory_result' as evidence_level, null as source_url,
+        coalesce((select json_agg(json_build_object(
+          'id', b.id::text, 'organism_id', b.organism_id, 'organism_name', b.organism_name,
+          'target_id', b.target_id, 'target_name', b.target_name, 'activity_type', b.activity_type,
+          'activity_value', b.activity_value, 'activity_unit', b.activity_unit,
+          'assay_system', b.assay_system, 'evidence_level', b.evidence_level, 'source', b.source,
+          'source_record_id', b.source_record_id, 'provenance_url', b.provenance_url, 'notes', b.notes
+        ) order by b.activity_value nulls last) from compound_bioactivities b where b.compound_id = c.id), '[]'::json) as bioactivities,
+        coalesce((select json_agg(json_build_object(
+          'id', d.id::text, 'disease_slug', d.disease_slug, 'disease_name', d.disease_name,
+          'kind', d.kind, 'category', d.category, 'pmids', d.pmids, 'source', d.source,
+          'source_url', d.source_url, 'notes', d.notes
+        ) order by array_length(d.pmids, 1) desc nulls last) from compound_diseases d where d.compound_id = c.id), '[]'::json) as diseases,
+        coalesce((select json_agg(json_build_object(
+          'id', l.id::text, 'title', l.title, 'url', l.url, 'pmid', l.pmid,
+          'journal', l.journal, 'notes', l.notes
+        )) from compound_literature l where l.compound_id = c.id), '[]'::json) as literature
+      from compounds c
+      where c.slug = $1
+      limit 1
+    `,
+    [slug],
+  );
+  return rows[0] ?? null;
 }
 
 export async function getProductsForIngredient(ingredientId: string): Promise<ProductRow[]> {

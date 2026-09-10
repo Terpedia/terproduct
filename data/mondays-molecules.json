@@ -1,0 +1,3348 @@
+{
+  "source": "https://github.com/Terpedia/mondays",
+  "generated": "2026-09-10",
+  "molecules": [
+    {
+      "name": "1,8-Cineole",
+      "id": "1-8-cineole",
+      "formula": "C10H18O",
+      "pubchem": {
+        "cid": 2758,
+        "title": "1,8-Cineole",
+        "formula": "C10H18O",
+        "molecular_weight": 154.25,
+        "smiles": "CC1(C2CCC(O1)(CC2)C)C",
+        "inchikey": "WEEGYLXZBRQIMU-UHFFFAOYSA-N",
+        "iupac_name": "1,3,3-trimethyl-2-oxabicyclo[2.2.2]octane",
+        "image": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/2758/PNG",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/2758",
+        "description": "1,8-cineole is a cineole. It has a role as a flavouring agent.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:27961"
+        }
+      },
+      "targets": [
+        {
+          "accession": "NP_269944",
+          "activity": null,
+          "value_um": 0,
+          "assay": "MLPCN Streptokinase Expression Inhibition",
+          "aid": "1662",
+          "pmid": null,
+          "protein": "streptokinase A precursor",
+          "organism": "Streptococcus pyogenes M1 GAS",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/NP_269944",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "EAW99313",
+          "activity": "Potency",
+          "value_um": 31.2922,
+          "assay": "Cytochrome P450 Family 1 Subfamily A Member 2 (CYP1A2) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671199",
+          "pmid": null,
+          "protein": "cytochrome P450, family 1, subfamily A, polypeptide 2",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/EAW99313",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "EAL24281",
+          "activity": "Potency",
+          "value_um": 49.7911,
+          "assay": "qHTS assay to identify small molecule that activate the aryl hydrocarbon receptor (AhR) signaling pathway: Summary",
+          "aid": "743122",
+          "pmid": null,
+          "protein": "aryl hydrocarbon receptor",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/EAL24281",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 3467,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=1%2C8-Cineole%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "36810583",
+            "title": "Photosynthetic 1,8-cineole production using cyanobacteria",
+            "journal": "Biosci Biotechnol Biochem",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36810583/"
+          },
+          {
+            "pmid": "39937641",
+            "title": "1,8-cineole (eucalyptol) in a therapy of respiratory diseases",
+            "journal": "Ceska Slov Farm",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39937641/"
+          },
+          {
+            "pmid": "37271074",
+            "title": "1,8-Cineole ameliorates diabetic retinopathy by inhibiting retinal pigment epithelium ferroptosis via PPAR-γ/TXNIP pathways",
+            "journal": "Biomed Pharmacother",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37271074/"
+          },
+          {
+            "pmid": "37047133",
+            "title": "Molecular Docking Identifies 1,8-Cineole (Eucalyptol) as A Novel PPARγ Agonist That Alleviates Colon Inflammation",
+            "journal": "Int J Mol Sci",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37047133/"
+          },
+          {
+            "pmid": "39437685",
+            "title": "1,8-Cineole alleviates Nrf2-mediated redox imbalance and mitochondrial dysfunction in diabetes mellitus by targeting Sirt1",
+            "journal": "Phytomedicine",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39437685/"
+          },
+          {
+            "pmid": "33111547",
+            "title": "1,8-Cineole: a review of source, biological activities, and application",
+            "journal": "J Asian Nat Prod Res",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33111547/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.06–0.5% of total volatiles (0.012–0.1mg per chew).",
+      "diseases": [
+        {
+          "disease": "Solvents, acute toxic effect",
+          "category": "Acute Poisoning",
+          "kind": "occupational_exposure",
+          "pmids": [],
+          "source": "Haz-Map, Information on Hazardous Chemicals and Occupational Diseases",
+          "source_url": "https://haz-map.com/Agents/4421",
+          "id": "solvents-acute-toxic-effect"
+        }
+      ]
+    },
+    {
+      "name": "(3E,6E)-α-Farnesene",
+      "id": "3e-6e-alpha-farnesene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 5281516,
+        "title": "Farnesene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC(=CCCC(=CCC=C(C)C=C)C)C",
+        "inchikey": "CXENHBSYCFFKJS-VDQVFBMKSA-N",
+        "iupac_name": "(3E,6E)-3,7,11-trimethyldodeca-1,3,6,10-tetraene",
+        "image": "data/molecules/images/3e-6e-alpha-farnesene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5281516",
+        "description": "Alpha-farnesene is a farnesene that is 1,3,6,10-tetraene substituted by methyl groups at positions 3, 7 and 11 respectively.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:39236"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5281516/PNG"
+      },
+      "targets": [
+        {
+          "accession": "ADP91253",
+          "activity": null,
+          "value_um": 0,
+          "assay": "qHTS assay to identify small molecule antagonists of the glucocorticoid receptor (GR) signaling pathway: Summary",
+          "aid": "720725",
+          "pmid": null,
+          "protein": "glucocorticoid receptor",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ADP91253",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "BAH02283",
+          "activity": null,
+          "value_um": 0,
+          "assay": "qHTS assay to identify small molecule antagonists of the peroxisome proliferator-activated receptor gamma (PPARg) signaling pathway: Summary",
+          "aid": "743199",
+          "pmid": null,
+          "protein": "peroxisome proliferator activated receptor gamma",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/BAH02283",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAH11558",
+          "activity": null,
+          "value_um": 0,
+          "assay": "Nuclear factor erythroid 2-related factor 2/antioxidant responsive element (Nrf2/ARE) small molecule agonists, luciferase reporter gene qHTS assay in human keratinocytes: Summary",
+          "aid": "1919970",
+          "pmid": null,
+          "protein": "Nuclear factor (erythroid-derived 2)-like 2",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAH11558",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "ABI96208",
+          "activity": "Potency",
+          "value_um": 15.8904,
+          "assay": "Cytochrome P450 Family 3 Subfamily A Member 4 (CYP3A4) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671201",
+          "pmid": null,
+          "protein": "cytochrome P450 family 3 subfamily A polypeptide 4",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ABI96208",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAI13617",
+          "activity": "Potency",
+          "value_um": 27.306,
+          "assay": "qHTS assay to identify small molecule antagonists of the sonic hedgehog signaling (Shh) pathway",
+          "aid": "1259369",
+          "pmid": null,
+          "protein": "GLI family zinc finger 3",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAI13617",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "ADZ17384",
+          "activity": "Potency",
+          "value_um": 27.306,
+          "assay": "Human pregnane X receptor (PXR) small molecule agonists, qHTS assay",
+          "aid": "1346982",
+          "pmid": null,
+          "protein": "pregnane X nuclear receptor",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ADZ17384",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "P08684",
+          "activity": "Potency",
+          "value_um": 28.1838,
+          "assay": "qHTS for inhibitors of CYP3A4 against the NCATS DSHEA and TCM libraries",
+          "aid": "1919971",
+          "pmid": "37200814",
+          "protein": "Cytochrome P450 3A4",
+          "gene": "CYP3A4",
+          "organism": "Homo sapiens",
+          "url": "https://www.uniprot.org/uniprotkb/P08684",
+          "source": "UniProt"
+        },
+        {
+          "accession": "P33261",
+          "activity": "Potency",
+          "value_um": 31.6228,
+          "assay": "qHTS for inhibitors of CYP2C19 against the NCATS DSHEA and TCM libraries",
+          "aid": "1919974",
+          "pmid": "37200814",
+          "protein": "Cytochrome P450 2C19",
+          "gene": "CYP2C19",
+          "organism": "Homo sapiens",
+          "url": "https://www.uniprot.org/uniprotkb/P33261",
+          "source": "UniProt"
+        },
+        {
+          "accession": "AAV41877",
+          "activity": "Potency",
+          "value_um": 31.7055,
+          "assay": "Cytochrome P450 Family 2 Subfamily C Member 19 (CYP2C19) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671197",
+          "pmid": null,
+          "protein": "cytochrome P450, family 2, subfamily C, polypeptide 19",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAV41877",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AGS09764",
+          "activity": "Potency",
+          "value_um": 31.7055,
+          "assay": "Cytochrome P450 Family 2 Subfamily C Member 9 (CYP2C9) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671198",
+          "pmid": null,
+          "protein": "cytochrome P450 family 2 subfamily C polypeptide 9",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AGS09764",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "P11712",
+          "activity": "Potency",
+          "value_um": 35.4813,
+          "assay": "qHTS for inhibitors of CYP2C9 against the NCATS DSHEA and TCM libraries",
+          "aid": "1919973",
+          "pmid": "37200814",
+          "protein": "Cytochrome P450 2C9",
+          "gene": "CYP2C9",
+          "organism": "Homo sapiens",
+          "url": "https://www.uniprot.org/uniprotkb/P11712",
+          "source": "UniProt"
+        },
+        {
+          "accession": "NP_006155",
+          "activity": "Potency",
+          "value_um": 54.4827,
+          "assay": "qHTS assay for small molecule agonists of the antioxidant response element (ARE) signaling pathway",
+          "aid": "743202",
+          "pmid": null,
+          "protein": "nuclear factor erythroid 2-related factor 2 isoform 1",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/NP_006155",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "NP_001531",
+          "activity": "Potency",
+          "value_um": 57.0974,
+          "assay": "qHTS assay for small molecule activators of the heat shock response signaling pathway: Summary",
+          "aid": "743228",
+          "pmid": null,
+          "protein": "heat shock protein beta-1",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/NP_001531",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "ADZ17378",
+          "activity": "Potency",
+          "value_um": 61.1306,
+          "assay": "qHTS assay to identify small molecule antagonists of the estrogen related receptor (ERR) signaling pathway from Tox21 library: Summary",
+          "aid": "1259403",
+          "pmid": null,
+          "protein": "estrogen-related nuclear receptor alpha",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ADZ17378",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 1,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=(3E%2C6E)-alpha-Farnesene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "26027748",
+            "title": "Kiwifruit Flower Odor Perception and Recognition by Honey Bees, Apis mellifera",
+            "journal": "J Agric Food Chem",
+            "year": "2015",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26027748/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.1–0.75% of total volatiles (0.02–0.15mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "α-Guaiene + trans-α-Bergamotene",
+      "id": "alpha-guaiene-trans-alpha-bergamotene",
+      "formula": null,
+      "pubchem": null,
+      "targets": [],
+      "literature": {
+        "total": 2,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=alpha-Guaiene%20%2B%20trans-alpha-Bergamotene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "36677891",
+            "title": "Comparison of the Cannabinoid and Terpene Profiles in Commercial Cannabis from Natural and Artificial Cultivation",
+            "journal": "Molecules",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36677891/"
+          },
+          {
+            "pmid": "37253914",
+            "title": "Foliar application of Phenylalanine functionalized multi-walled carbon nanotube improved the content of volatile compounds of basil grown in greenhouse",
+            "journal": "Environ Sci Pollut Res Int",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37253914/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 3 of 6 MONDAYS hemp SKUs at 0.46–1.68% of total volatiles (0.092–0.34mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "α-Humulene",
+      "id": "alpha-humulene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 5281520,
+        "title": "Humulene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1=CCC(C=CCC(=CCC1)C)(C)C",
+        "inchikey": "FAMPSKZZVDUYOS-HRGUGZIWSA-N",
+        "iupac_name": "(1E,4E,8E)-2,6,6,9-tetramethylcycloundeca-1,4,8-triene",
+        "image": "data/molecules/images/alpha-humulene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5281520",
+        "description": "(1E,4E,8E)-alpha-humulene is the (1E,4E,8E)-isomer of alpha-humulene.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:5768"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5281520/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 916,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=alpha-Humulene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "34770801",
+            "title": "Clove Essential Oil (Syzygium aromaticum L. Myrtaceae): Extraction, Chemical Composition, Food Applications, and Essential Bioactivity for Human Health",
+            "journal": "Molecules",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34770801/"
+          },
+          {
+            "pmid": "38626911",
+            "title": "The Clinical Translation of α-humulene - A Scoping Review",
+            "journal": "Planta Med",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38626911/"
+          },
+          {
+            "pmid": "38388989",
+            "title": "Anti-inflammatory effects of α-humulene on the release of pro-inflammatory cytokines in lipopolysaccharide-induced THP-1 cells",
+            "journal": "Cell Biochem Biophys",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38388989/"
+          },
+          {
+            "pmid": "35619177",
+            "title": "Engineering the oleaginous yeast Candida tropicalis for α-humulene overproduction",
+            "journal": "Biotechnol Biofuels Bioprod",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35619177/"
+          },
+          {
+            "pmid": "37998741",
+            "title": "Cloning, Expression and Functional Characterization of a Novel α-Humulene Synthase, Responsible for the Formation of Sesquiterpene in Agarwood Originating from Aquilaria malaccensis",
+            "journal": "Curr Issues Mol Biol",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37998741/"
+          },
+          {
+            "pmid": "35830138",
+            "title": "Effect of alpha-humulene incorporation on the properties of experimental light-cured periodontal dressings",
+            "journal": "Braz Oral Res",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35830138/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.72–5.14% of total volatiles (0.144–1.03mg per chew).",
+      "diseases": [
+        {
+          "disease": "Ulcerative colitis",
+          "kind": "reported_association",
+          "pmids": [
+            "21059682",
+            "1740537",
+            "17314143",
+            "17269711",
+            "21761941",
+            "23516449",
+            "23867873",
+            "24811995",
+            "25598765",
+            "26806034",
+            "26848182",
+            "27609529",
+            "28842642"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0036467",
+          "id": "ulcerative-colitis"
+        },
+        {
+          "disease": "Nonalcoholic fatty liver disease",
+          "kind": "reported_association",
+          "pmids": [
+            "23454028"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0036467",
+          "id": "nonalcoholic-fatty-liver-disease"
+        }
+      ]
+    },
+    {
+      "name": "α-Pinene",
+      "formula": "C10H16",
+      "summary": "A pine-scented monoterpene profile linked from MONDAYS product language.",
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 1.1–31.07% of total volatiles (0.22–6.21mg per chew).",
+      "id": "alpha-pinene",
+      "pubchem": {
+        "cid": 6654,
+        "title": "(+-)-alpha-Pinene",
+        "formula": "C10H16",
+        "molecular_weight": 136.23,
+        "smiles": "CC1=CCC2CC1C2(C)C",
+        "inchikey": "GRWFGVWFFZKLTI-UHFFFAOYSA-N",
+        "iupac_name": "2,6,6-trimethylbicyclo[3.1.1]hept-2-ene",
+        "image": "data/molecules/images/alpha-pinene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/6654",
+        "description": "Alpha-pinene is a pinene that is bicyclo[3.1.1]hept-2-ene substituted by methyl groups at positions 2, 6 and 6 respectively. It has a role as a plant metabolite.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:36740"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/6654/PNG"
+      },
+      "targets": [
+        {
+          "accession": "P05177",
+          "activity": "Potency",
+          "value_um": 3.5481,
+          "assay": "qHTS for inhibitors of CYPIA2 against the NCATS DSHEA and TCM libraries",
+          "aid": "1919976",
+          "pmid": "37200814",
+          "protein": "Cytochrome P450 1A2",
+          "gene": "CYP1A2",
+          "organism": "Homo sapiens",
+          "url": "https://www.uniprot.org/uniprotkb/P05177",
+          "source": "UniProt"
+        },
+        {
+          "accession": "ANW61984",
+          "activity": "Potency",
+          "value_um": 7.098,
+          "assay": "Cytochrome P450 Family 2 Subfamily D Member 6 (CYP2D6) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671196",
+          "pmid": null,
+          "protein": "cytochrome P450 2D6",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ANW61984",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 4507,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=alpha-Pinene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "34365295",
+            "title": "α-Pinene: A never-ending story",
+            "journal": "Phytochemistry",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34365295/"
+          },
+          {
+            "pmid": "37648947",
+            "title": "The effects of alpha-pinene on the Nrf2-HO1 signaling pathway in gastric damage in rats",
+            "journal": "Mol Biol Rep",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37648947/"
+          },
+          {
+            "pmid": "36384372",
+            "title": "Extraction and purification of α-pinene; a comprehensive review",
+            "journal": "Crit Rev Food Sci Nutr",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36384372/"
+          },
+          {
+            "pmid": "38494527",
+            "title": "Alpha-pinene ameliorate behavioral deficit induced by early postnatal hypoxia in the rat: study the inflammatory mechanism",
+            "journal": "Sci Rep",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38494527/"
+          },
+          {
+            "pmid": "39140858",
+            "title": "Efficient Biosynthesis of (+)-α-Pinene and de Novo Synthesis of (+)-cis-Verbenol in Escherichia coli",
+            "journal": "J Agric Food Chem",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39140858/"
+          },
+          {
+            "pmid": "28105487",
+            "title": "Biotransformation of α- and β-pinene into flavor compounds",
+            "journal": "Appl Microbiol Biotechnol",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28105487/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "diseases": []
+    },
+    {
+      "name": "α-Selinene",
+      "id": "alpha-selinene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 10856614,
+        "title": "alpha-Selinene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1=CCCC2(C1CC(CC2)C(=C)C)C",
+        "inchikey": "OZQAPQSEYFAMCY-QLFBSQMISA-N",
+        "iupac_name": "(3R,4aR,8aR)-5,8a-dimethyl-3-prop-1-en-2-yl-2,3,4,4a,7,8-hexahydro-1H-naphthalene",
+        "image": "data/molecules/images/alpha-selinene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/10856614",
+        "description": "Alpha-selinene is an isomer of selinene where the double bond in the octahydronaphthalene ring system is endocyclic (2R,4aR,8aR)-configuration.. It has a role as a plant metabolite. It is a member of octahydronaphthalenes and a selinene.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:59961"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/10856614/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 121,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=alpha-Selinene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "29913321",
+            "title": "Chemotype diversity of Psidium guajava L",
+            "journal": "Phytochemistry",
+            "year": "2018",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29913321/"
+          },
+          {
+            "pmid": "32148534",
+            "title": "Ethnobotanical Description and Biological Activities of Senna alata",
+            "journal": "Evid Based Complement Alternat Med",
+            "year": "2020",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32148534/"
+          },
+          {
+            "pmid": "35436102",
+            "title": "Terpenes and Cannabinoids Yields and Profile from Direct-Seeded and Transplanted CBD-Cannabis sativa",
+            "journal": "J Agric Food Chem",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35436102/"
+          },
+          {
+            "pmid": "38792102",
+            "title": "Exploring the Larvicidal and Adulticidal Activity against Aedes aegypti of Essential Oil from Bocageopsis multiflora",
+            "journal": "Molecules",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38792102/"
+          },
+          {
+            "pmid": "28536059",
+            "title": "Current state of knowledge on the traditional uses, phytochemistry, and pharmacology of the genus Hymenaea",
+            "journal": "J Ethnopharmacol",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28536059/"
+          },
+          {
+            "pmid": "38927166",
+            "title": "Combination of Chromatographic Analysis and Chemometric Methods with Bioactivity Evaluation of the Antibacterial Properties of Helichrysum italicum Essential Oil",
+            "journal": "Antibiotics (Basel)",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38927166/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.13–1.53% of total volatiles (0.026–0.31mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "α-Terpineol",
+      "id": "alpha-terpineol",
+      "formula": "C10H18O",
+      "pubchem": {
+        "cid": 17100,
+        "title": "Alpha-Terpineol",
+        "formula": "C10H18O",
+        "molecular_weight": 154.25,
+        "smiles": "CC1=CCC(CC1)C(C)(C)O",
+        "inchikey": "WUOACPNHFRMFPN-UHFFFAOYSA-N",
+        "iupac_name": "2-(4-methylcyclohex-3-en-1-yl)propan-2-ol",
+        "image": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/17100/PNG",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/17100",
+        "description": "Alpha-terpineol is a terpineol that is propan-2-ol substituted by a 4-methylcyclohex-3-en-1-yl group at position 2. It has a role as a plant metabolite.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:22469"
+        }
+      },
+      "targets": [
+        {
+          "accession": "P33261",
+          "activity": "Potency",
+          "value_um": 3.5481,
+          "assay": "qHTS for inhibitors of CYP2C19 against the NCATS DSHEA and TCM libraries",
+          "aid": "1919974",
+          "pmid": "37200814",
+          "protein": "Cytochrome P450 2C19",
+          "gene": "CYP2C19",
+          "organism": "Homo sapiens",
+          "url": "https://www.uniprot.org/uniprotkb/P33261",
+          "source": "UniProt"
+        },
+        {
+          "accession": "ADZ17384",
+          "activity": "Potency",
+          "value_um": 54.8153,
+          "assay": "Human pregnane X receptor (PXR) small molecule agonists, qHTS assay",
+          "aid": "1346982",
+          "pmid": null,
+          "protein": "pregnane X nuclear receptor",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ADZ17384",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 1310,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=alpha-Terpineol%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "40460231",
+            "title": "Cardamom",
+            "journal": null,
+            "year": "2006",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40460231/"
+          },
+          {
+            "pmid": "41025831",
+            "title": "Restoring colistin sensitivity in colistin-resistant gram-negative bacteria: combinatorial use of α-terpineol and colistin",
+            "journal": "Microbiol Spectr",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41025831/"
+          },
+          {
+            "pmid": "33397274",
+            "title": "Alpha-Terpineol as Antitumor Candidate in Pre-Clinical Studies",
+            "journal": "Anticancer Agents Med Chem",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33397274/"
+          },
+          {
+            "pmid": "38312511",
+            "title": "Modularly engineering Rhodotorula toruloides for α-terpineol production",
+            "journal": "Front Bioeng Biotechnol",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38312511/"
+          },
+          {
+            "pmid": "30540974",
+            "title": "Antidiarrheal activity of α-terpineol in mice",
+            "journal": "Biomed Pharmacother",
+            "year": "2019",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30540974/"
+          },
+          {
+            "pmid": "18644418",
+            "title": "Fragrance material review on (-)-alpha-terpineol",
+            "journal": "Food Chem Toxicol",
+            "year": "2008",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18644418/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.11–1.83% of total volatiles (0.022–0.37mg per chew).",
+      "diseases": [
+        {
+          "disease": "Solvents, acute toxic effect",
+          "category": "Acute Poisoning",
+          "kind": "occupational_exposure",
+          "pmids": [],
+          "source": "Haz-Map, Information on Hazardous Chemicals and Occupational Diseases",
+          "source_url": "https://haz-map.com/Agents/3593",
+          "id": "solvents-acute-toxic-effect"
+        }
+      ]
+    },
+    {
+      "name": "β-Bisabolene",
+      "id": "beta-bisabolene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 10104370,
+        "title": "Beta-Bisabolene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1=CCC(CC1)C(=C)CCC=C(C)C",
+        "inchikey": "XZRVRYFILCSYSP-OAHLLOKOSA-N",
+        "iupac_name": "(4S)-1-methyl-4-(6-methylhepta-1,5-dien-2-yl)cyclohexene",
+        "image": "data/molecules/images/beta-bisabolene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/10104370",
+        "description": "(S)-beta-bisabolene is a beta-bisabolene which has (1S)-configuration. It is an enantiomer of a (R)-beta-bisabolene.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:49263"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/10104370/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 230,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=beta-Bisabolene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "40441590",
+            "title": "Study of the ameliorative effect of β-Bisabolene on ischemic stroke via COX-2 with the Keap1/Nrf2 and MAPK pathways",
+            "journal": "Eur J Pharmacol",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40441590/"
+          },
+          {
+            "pmid": "38992404",
+            "title": "Ethnobotany, phytochemistry, pharmacology and quality control of Peucedanum decursivum (Miq.) Maxim: A critical review",
+            "journal": "J Ethnopharmacol",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38992404/"
+          },
+          {
+            "pmid": "37080413",
+            "title": "A new sesquiterpene synthase catalyzing the formation of (R)-β-bisabolene from medicinal plant Colquhounia coccinea var. mollis and its anti-adipogenic and antibacterial activities",
+            "journal": "Phytochemistry",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37080413/"
+          },
+          {
+            "pmid": "33605546",
+            "title": "High-efficiency production of bisabolene from waste cooking oil by metabolically engineered Yarrowia lipolytica",
+            "journal": "Microb Biotechnol",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33605546/"
+          },
+          {
+            "pmid": "26666387",
+            "title": "β-Bisabolene, a Sesquiterpene from the Essential Oil Extract of Opoponax (Commiphora guidottii), Exhibits Cytotoxicity in Breast Cancer Cell Lines",
+            "journal": "Phytother Res",
+            "year": "2016",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26666387/"
+          },
+          {
+            "pmid": "34870975",
+            "title": "Cobalt-Catalyzed Desymmetric Isomerization of Exocyclic Olefins",
+            "journal": "J Am Chem Soc",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34870975/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.11–0.51% of total volatiles (0.022–0.102mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "β-Caryophyllene",
+      "formula": "C15H24",
+      "summary": "A peppery sesquiterpene profile linked from MONDAYS product language.",
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 2.78–17.29% of total volatiles (0.56–3.46mg per chew).",
+      "id": "beta-caryophyllene",
+      "pubchem": {
+        "cid": 5281515,
+        "title": "(-)-Caryophyllene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1=CCCC(=C)C2CC(C2CC1)(C)C",
+        "inchikey": "NPNUFJAVOOONJE-GFUGXAQUSA-N",
+        "iupac_name": "(1R,4E,9S)-4,11,11-trimethyl-8-methylidenebicyclo[7.2.0]undec-4-ene",
+        "image": "data/molecules/images/beta-caryophyllene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5281515",
+        "description": "(-)-beta-caryophyllene is a beta-caryophyllene in which the stereocentre adjacent to the exocyclic double bond has S configuration while the remaining stereocentre has R configuration. It is the most commonly occurring form of beta-caryophyllene, occurring in many essential oils, particularly oil of cloves. It has a role as an insect attractant, a metabolite, a non-steroidal anti-inflammatory drug and a fragrance. It is an enantiomer of a (+)-beta-caryophyllene.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:10357"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5281515/PNG"
+      },
+      "targets": [
+        {
+          "accession": "P34972",
+          "activity": "Ki",
+          "value_um": 0.15,
+          "assay": "Displacement of [3H]CP55940 from human CB2 expressed in CHOK1 cell membranes after 2 hrs by liquid scintillation counting method",
+          "aid": "1612079",
+          "pmid": "30096653",
+          "protein": "Cannabinoid receptor 2",
+          "gene": "CNR2",
+          "organism": "Homo sapiens",
+          "url": "https://www.uniprot.org/uniprotkb/P34972",
+          "source": "UniProt"
+        },
+        {
+          "accession": "Q07869",
+          "activity": "EC50",
+          "value_um": 9.58,
+          "assay": "Agonist activity at PPARalpha (unknown origin)",
+          "aid": "1938300",
+          "pmid": "33992930",
+          "protein": "Peroxisome proliferator-activated receptor alpha",
+          "gene": "PPARA",
+          "organism": "Homo sapiens",
+          "url": "https://www.uniprot.org/uniprotkb/Q07869",
+          "source": "UniProt"
+        }
+      ],
+      "literature": {
+        "total": 4256,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=beta-Caryophyllene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "41120021",
+            "title": "Cannabidiol and Beta-Caryophyllene: Chronic inflammatory pain",
+            "journal": "Pharmacol Res",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41120021/"
+          },
+          {
+            "pmid": "39029971",
+            "title": "Beta-caryophyllene in psychiatric and neurological diseases: Role of blood-brain barrier",
+            "journal": "Vitam Horm",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39029971/"
+          },
+          {
+            "pmid": "37224386",
+            "title": "Enhancement of β-Caryophyllene Biosynthesis in Saccharomyces cerevisiae via Synergistic Evolution of β-Caryophyllene Synthase and Engineering the Chassis",
+            "journal": "ACS Synth Biol",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37224386/"
+          },
+          {
+            "pmid": "39405422",
+            "title": "Effect of β-caryophyllene on Sperm Cryopreservation",
+            "journal": "JBRA Assist Reprod",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39405422/"
+          },
+          {
+            "pmid": "26827298",
+            "title": "Anticonvulsant activity of β-caryophyllene against pentylenetetrazol-induced seizures",
+            "journal": "Epilepsy Behav",
+            "year": "2016",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26827298/"
+          },
+          {
+            "pmid": "39648338",
+            "title": "Photoproduction of Aviation Fuel β-Caryophyllene From the Eukaryotic Green Microalga Chlamydomonas reinhardtii",
+            "journal": "Biotechnol Bioeng",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39648338/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "diseases": [
+        {
+          "disease": "Ulcerative colitis",
+          "kind": "reported_association",
+          "pmids": [
+            "21059682",
+            "1740537",
+            "17314143",
+            "17269711",
+            "21761941",
+            "23516449",
+            "23867873",
+            "24811995",
+            "25598765",
+            "26806034",
+            "26848182",
+            "27609529",
+            "28842642"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0036792",
+          "id": "ulcerative-colitis"
+        },
+        {
+          "disease": "Celiac disease",
+          "kind": "reported_association",
+          "pmids": [
+            "3816078",
+            "16425363",
+            "10063930",
+            "6182605",
+            "6182788",
+            "24657864",
+            "21970810",
+            "27452636"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0036792",
+          "id": "celiac-disease"
+        },
+        {
+          "disease": "Nonalcoholic fatty liver disease",
+          "kind": "reported_association",
+          "pmids": [
+            "23454028"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0036792",
+          "id": "nonalcoholic-fatty-liver-disease"
+        },
+        {
+          "disease": "Contact dermatitis, allergic",
+          "category": "Skin Disease",
+          "kind": "occupational_exposure",
+          "pmids": [],
+          "source": "Haz-Map, Information on Hazardous Chemicals and Occupational Diseases",
+          "source_url": "https://haz-map.com/Agents/12777",
+          "id": "contact-dermatitis-allergic"
+        }
+      ]
+    },
+    {
+      "name": "β-Myrcene",
+      "formula": "C10H16",
+      "summary": "An earthy, musky monoterpene profile linked from MONDAYS product language.",
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 2.29–65% of total volatiles (0.46–13mg per chew).",
+      "id": "beta-myrcene",
+      "pubchem": {
+        "cid": 31253,
+        "title": "Myrcene",
+        "formula": "C10H16",
+        "molecular_weight": 136.23,
+        "smiles": "CC(=CCCC(=C)C=C)C",
+        "inchikey": "UAHWPYUMFXYFJY-UHFFFAOYSA-N",
+        "iupac_name": "7-methyl-3-methylideneocta-1,6-diene",
+        "image": "data/molecules/images/beta-myrcene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/31253",
+        "description": "beta-Myrcene can cause cancer according to The National Toxicology Program.",
+        "description_source": {
+          "name": "California Office of Environmental Health Hazard Assessment (OEHHA)",
+          "url": "https://oehha.ca.gov/proposition-65/chemicals/beta-myrcene"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/31253/PNG"
+      },
+      "targets": [
+        {
+          "accession": "AAH11558",
+          "activity": null,
+          "value_um": 0,
+          "assay": "Nuclear factor erythroid 2-related factor 2/antioxidant responsive element (Nrf2/ARE) small molecule agonists, luciferase reporter gene qHTS assay in human keratinocytes: Summary",
+          "aid": "1919970",
+          "pmid": null,
+          "protein": "Nuclear factor (erythroid-derived 2)-like 2",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAH11558",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "NP_001531",
+          "activity": "Potency",
+          "value_um": 23.1684,
+          "assay": "qHTS assay for small molecule activators of the heat shock response signaling pathway: Summary",
+          "aid": "743228",
+          "pmid": null,
+          "protein": "heat shock protein beta-1",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/NP_001531",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAY56401",
+          "activity": "Potency",
+          "value_um": 61.1306,
+          "assay": "qHTS assay to identify small molecule antagonists of the constitutive androstane receptor (CAR) signaling pathway",
+          "aid": "1224838",
+          "pmid": null,
+          "protein": "nuclear receptor subfamily 1, group I, member 3",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAY56401",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 763,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=beta-Myrcene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "35567294",
+            "title": "Nutmeg (Myristica fragrans Houtt.) essential oil: A review on its composition, biological, and pharmacological activities",
+            "journal": "Phytother Res",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35567294/"
+          },
+          {
+            "pmid": "37405434",
+            "title": "Bioprospection of the bacterial β-myrcene-biotransforming trait in the rhizosphere",
+            "journal": "Appl Microbiol Biotechnol",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37405434/"
+          },
+          {
+            "pmid": "39338324",
+            "title": "Beta-Myrcene as a Sedative-Hypnotic Component from Lavender Essential Oil in DL-4-Chlorophenylalanine-Induced-Insomnia Mice",
+            "journal": "Pharmaceuticals (Basel)",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39338324/"
+          },
+          {
+            "pmid": "39176472",
+            "title": "Systematic Engineering to Enhance β-Myrcene Production in Yeast",
+            "journal": "J Agric Food Chem",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39176472/"
+          },
+          {
+            "pmid": "32522581",
+            "title": "How the 62-year old Delaney Clause continues to thwart science: Case study of the flavor substance β-myrcene",
+            "journal": "Regul Toxicol Pharmacol",
+            "year": "2020",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32522581/"
+          },
+          {
+            "pmid": "39769600",
+            "title": "Preparation of β-Myrcene-Chitosan Nanoparticles and Their Uptake and Toxicity in Aedes aegypti Larvae",
+            "journal": "Insects",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39769600/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "diseases": [
+        {
+          "disease": "Nonalcoholic fatty liver disease",
+          "kind": "reported_association",
+          "pmids": [
+            "23454028"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0038169",
+          "id": "nonalcoholic-fatty-liver-disease"
+        },
+        {
+          "disease": "Solvents, acute toxic effect",
+          "category": "Acute Poisoning",
+          "kind": "occupational_exposure",
+          "pmids": [],
+          "source": "Haz-Map, Information on Hazardous Chemicals and Occupational Diseases",
+          "source_url": "https://haz-map.com/Agents/6217",
+          "id": "solvents-acute-toxic-effect"
+        }
+      ]
+    },
+    {
+      "name": "β-Pinene",
+      "formula": "C10H16",
+      "summary": "A pine-and-herbal monoterpene profile linked from MONDAYS product language.",
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 1.62–14.29% of total volatiles (0.32–2.86mg per chew).",
+      "id": "beta-pinene",
+      "pubchem": {
+        "cid": 14896,
+        "title": "Beta-Pinene",
+        "formula": "C10H16",
+        "molecular_weight": 136.23,
+        "smiles": "CC1(C2CCC(=C)C1C2)C",
+        "inchikey": "WTARULDDTDQWMU-UHFFFAOYSA-N",
+        "iupac_name": "6,6-dimethyl-2-methylidenebicyclo[3.1.1]heptane",
+        "image": "data/molecules/images/beta-pinene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/14896",
+        "description": "Beta-pinene is an isomer of pinene with an exocyclic double bond. It is a component of essential oils from many plants. It has a role as a plant metabolite.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:50025"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/14896/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 2199,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=beta-Pinene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "40942297",
+            "title": "Nanocomposites from β-Pinene and α-Pinene Copolymer: Synthesis, Characterization, and Antioxidant Evaluation",
+            "journal": "Polymers (Basel)",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40942297/"
+          },
+          {
+            "pmid": "34481428",
+            "title": "Corrigendum",
+            "journal": "Iran Biomed J",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34481428/"
+          },
+          {
+            "pmid": "34526184",
+            "title": "From Pine to Perfume",
+            "journal": "Chimia (Aarau)",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34526184/"
+          },
+          {
+            "pmid": "34931580",
+            "title": "Metabolic conversion of β-pinene to β-ionone in rats",
+            "journal": "Xenobiotica",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34931580/"
+          },
+          {
+            "pmid": "41072657",
+            "title": "Heterologous production of β-pinene in the chloroplast of the marine diatom Phaeodactylum tricornutum",
+            "journal": "N Biotechnol",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41072657/"
+          },
+          {
+            "pmid": "28105487",
+            "title": "Biotransformation of α- and β-pinene into flavor compounds",
+            "journal": "Appl Microbiol Biotechnol",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28105487/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "diseases": [
+        {
+          "disease": "Encephalopathy, chronic solvent",
+          "category": "Chronic Poisoning",
+          "kind": "occupational_exposure",
+          "pmids": [],
+          "source": "Haz-Map, Information on Hazardous Chemicals and Occupational Diseases",
+          "source_url": "https://haz-map.com/Agents/3914",
+          "id": "encephalopathy-chronic-solvent"
+        }
+      ]
+    },
+    {
+      "name": "β-Selinene",
+      "id": "beta-selinene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 442393,
+        "title": "Beta-Selinene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC(=C)C1CCC2(CCCC(=C)C2C1)C",
+        "inchikey": "YOVSPTNQHMDJAG-QLFBSQMISA-N",
+        "iupac_name": "(3R,4aS,8aR)-8a-methyl-5-methylidene-3-prop-1-en-2-yl-1,2,3,4,4a,6,7,8-octahydronaphthalene",
+        "image": "data/molecules/images/beta-selinene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/442393",
+        "description": "(+)-beta-selinene is an optically active form of beta-selinene having (+)-(4aR,7R,8aS)-configuration. It is an enantiomer of a (-)-beta-selinene.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:10443"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/442393/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 199,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=beta-Selinene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "38692843",
+            "title": "Gram-scale approach for β-costic acid via allylic oxidation of β-selinene",
+            "journal": "Biosci Biotechnol Biochem",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38692843/"
+          },
+          {
+            "pmid": "28930267",
+            "title": "β-Selinene-Rich Essential Oils from the Parts of Callicarpa macrophylla and Their Antioxidant and Pharmacological Activities",
+            "journal": "Medicines (Basel)",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28930267/"
+          },
+          {
+            "pmid": "5919939",
+            "title": "Studies leading to the stereoselective total synthesis of dl-beta-eudesmol, dl-beta-selinene, dl-costol, and related naturally occurring sesquiterpenes",
+            "journal": "J Org Chem",
+            "year": "1966",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/5919939/"
+          },
+          {
+            "pmid": "29913321",
+            "title": "Chemotype diversity of Psidium guajava L",
+            "journal": "Phytochemistry",
+            "year": "2018",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29913321/"
+          },
+          {
+            "pmid": "28931629",
+            "title": "Selinene Volatiles Are Essential Precursors for Maize Defense Promoting Fungal Pathogen Resistance",
+            "journal": "Plant Physiol",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28931629/"
+          },
+          {
+            "pmid": "38792102",
+            "title": "Exploring the Larvicidal and Adulticidal Activity against Aedes aegypti of Essential Oil from Bocageopsis multiflora",
+            "journal": "Molecules",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38792102/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.09–1.59% of total volatiles (0.018–0.32mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Camphene",
+      "id": "camphene",
+      "formula": "C10H16",
+      "pubchem": {
+        "cid": 6616,
+        "title": "Camphene",
+        "formula": "C10H16",
+        "molecular_weight": 136.23,
+        "smiles": "CC1(C2CCC(C2)C1=C)C",
+        "inchikey": "CRPUJAZIXJMDBK-UHFFFAOYSA-N",
+        "iupac_name": "2,2-dimethyl-3-methylidenebicyclo[2.2.1]heptane",
+        "image": "data/molecules/images/camphene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/6616",
+        "description": "Camphene is a monoterpene with a bicyclic skeleton that is bicyclo[2.2.1]heptane substituted by geminal methyl groups at position 2 and a methylidene group at position 3. It is a widespread natural product found in many essential oils. It has a role as a fragrance and a plant metabolite. It is a monoterpene and a carbobicyclic compound.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:3830"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/6616/PNG"
+      },
+      "targets": [
+        {
+          "accession": "EAW99313",
+          "activity": "Potency",
+          "value_um": 39.9149,
+          "assay": "Cytochrome P450 Family 1 Subfamily A Member 2 (CYP1A2) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671199",
+          "pmid": null,
+          "protein": "cytochrome P450, family 1, subfamily A, polypeptide 2",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/EAW99313",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 6184,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Camphene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "17912872",
+            "title": "[Thujone]",
+            "journal": "Med Monatsschr Pharm",
+            "year": "2007",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/17912872/"
+          },
+          {
+            "pmid": "16891209",
+            "title": "Absinthe--a review",
+            "journal": "Crit Rev Food Sci Nutr",
+            "year": "2006",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/16891209/"
+          },
+          {
+            "pmid": "34365295",
+            "title": "α-Pinene: A never-ending story",
+            "journal": "Phytochemistry",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34365295/"
+          },
+          {
+            "pmid": "10815205",
+            "title": "cis-Verbenol",
+            "journal": "Acta Crystallogr C",
+            "year": "2000",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10815205/"
+          },
+          {
+            "pmid": "2658044",
+            "title": "Absinthe",
+            "journal": "Sci Am",
+            "year": "1989",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/2658044/"
+          },
+          {
+            "pmid": "18662739",
+            "title": "Fragrance material review on myrtenol",
+            "journal": "Food Chem Toxicol",
+            "year": "2008",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/18662739/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.22–0.56% of total volatiles (0.044–0.112mg per chew).",
+      "diseases": [
+        {
+          "disease": "Nonalcoholic fatty liver disease",
+          "kind": "reported_association",
+          "pmids": [
+            "23454028"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0059839",
+          "id": "nonalcoholic-fatty-liver-disease"
+        }
+      ]
+    },
+    {
+      "name": "δ-Guaiene",
+      "id": "delta-guaiene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 94275,
+        "title": "alpha-Bulnesene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1CCC2=C(CCC(CC12)C(=C)C)C",
+        "inchikey": "YHAJBLWYOIUHHM-GUTXKFCHSA-N",
+        "iupac_name": "(3S,3aS,5R)-3,8-dimethyl-5-prop-1-en-2-yl-1,2,3,3a,4,5,6,7-octahydroazulene",
+        "image": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/94275/PNG",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/94275",
+        "description": "Delta-guaiene is a carbobicyclic compound and sesquiterpene that is 1,2,3,3a,4,5,6,7-octahydroazulene which is substituted by methyl groups at positions 3 and 8 and by a (prop-1-en-2-yl group at position 5 (the 3S,3aS,5R enantiomer). It has a role as a platelet aggregation inhibitor and a plant metabolite. It is a sesquiterpene and a carbobicyclic compound.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:63447"
+        }
+      },
+      "targets": [],
+      "literature": {
+        "total": 27,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=delta-Guaiene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "21472475",
+            "title": "Genomic organization of δ-guaiene synthase genes in Aquilaria crassna and its possible use for the identification of Aquilaria species",
+            "journal": "J Nat Med",
+            "year": "2011",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/21472475/"
+          },
+          {
+            "pmid": "30807004",
+            "title": "Enhanced Production of δ-Guaiene, a Bicyclic Sesquiterpene Accumulated in Agarwood, by Coexpression of δ-Guaiene Synthase and Farnesyl Diphosphate Synthase Genes in Escherichia coli",
+            "journal": "Nat Prod Commun",
+            "year": "2016",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30807004/"
+          },
+          {
+            "pmid": "20959422",
+            "title": "Characterization of delta-guaiene synthases from cultured cells of Aquilaria, responsible for the formation of the sesquiterpenes in agarwood",
+            "journal": "Plant Physiol",
+            "year": "2010",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/20959422/"
+          },
+          {
+            "pmid": "25918780",
+            "title": "Induction, cloning and functional expression of a sesquiterpene biosynthetic enzyme, δ-guaiene synthase, of Aquilaria microcarpa cell cultures",
+            "journal": "Nat Prod Commun",
+            "year": "2014",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25918780/"
+          },
+          {
+            "pmid": "16242880",
+            "title": "GC-MS fingerprint of Pogostemon cablin in China",
+            "journal": "J Pharm Biomed Anal",
+            "year": "2006",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/16242880/"
+          },
+          {
+            "pmid": "38390436",
+            "title": "The Flow Rate of the Condenser Cooling Water in the Distillation Process Increases the Quality and Quantity of Patchouli Oil",
+            "journal": "ScientificWorldJournal",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38390436/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 5 of 6 MONDAYS hemp SKUs at 0.42–1.22% of total volatiles (0.084–0.24mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "(E)-α-Bisabolene",
+      "id": "e-alpha-bisabolene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 5315468,
+        "title": "alpha-Bisabolene, (E)-",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1=CCC(CC1)C(=CCC=C(C)C)C",
+        "inchikey": "YHBUQBJHSRGZNF-VGOFMYFVSA-N",
+        "iupac_name": "1-methyl-4-[(2E)-6-methylhepta-2,5-dien-2-yl]cyclohexene",
+        "image": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5315468/PNG",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5315468",
+        "description": "Alpha-bisabolene is a bisabolene.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:49240"
+        }
+      },
+      "targets": [],
+      "literature": {
+        "total": 23,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=(E)-alpha-Bisabolene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "35378352",
+            "title": "Latent potentials of the white-rot basidiomycete Phanerochaete chrysosporium responsible for sesquiterpene metabolism: CYP5158A1 and CYP5144C8 decorate (E)-α-bisabolene",
+            "journal": "Enzyme Microb Technol",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35378352/"
+          },
+          {
+            "pmid": "36104783",
+            "title": "Farnesyl pyrophosphate compartmentalization in the green microalga Chlamydomonas reinhardtii during heterologous (E)-α-bisabolene production",
+            "journal": "Microb Cell Fact",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36104783/"
+          },
+          {
+            "pmid": "40044027",
+            "title": "The oleaginous yeast Rhodosporidium toruloides engineered for biomass hydrolysate-derived (E)-α-bisabolene production",
+            "journal": "Metab Eng",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40044027/"
+          },
+          {
+            "pmid": "29258965",
+            "title": "Tailored carbon partitioning for phototrophic production of (E)-α-bisabolene from the green microalga Chlamydomonas reinhardtii",
+            "journal": "Metab Eng",
+            "year": "2018",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29258965/"
+          },
+          {
+            "pmid": "9618485",
+            "title": "Terpenoid-based defenses in conifers: cDNA cloning, characterization, and functional expression of wound-inducible (E)-alpha-bisabolene synthase from grand fir (Abies grandis)",
+            "journal": "Proc Natl Acad Sci U S A",
+            "year": "1998",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/9618485/"
+          },
+          {
+            "pmid": "26442918",
+            "title": "Investigating sesquiterpene biosynthesis in Ginkgo biloba: molecular cloning and functional characterization of (E,E)-farnesol and α-bisabolene synthases",
+            "journal": "Plant Mol Biol",
+            "year": "2015",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/26442918/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.07–0.98% of total volatiles (0.014–0.196mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "(E)-β-Farnesene",
+      "id": "e-beta-farnesene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 5281517,
+        "title": "beta-Farnesene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC(=CCCC(=CCCC(=C)C=C)C)C",
+        "inchikey": "JSNRRGGBADWTMC-NTCAYCPXSA-N",
+        "iupac_name": "(6E)-7,11-dimethyl-3-methylidenedodeca-1,6,10-triene",
+        "image": "data/molecules/images/e-beta-farnesene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5281517",
+        "description": "Trans-beta-farnesene is a beta-farnesene in which the double bond at position 6-7 has E configuration. It is the major or sole alarm pheromone in most species of aphid. It has a role as a metabolite and an alarm pheromone.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:10418"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5281517/PNG"
+      },
+      "targets": [
+        {
+          "accession": "AAI32976",
+          "activity": "Potency",
+          "value_um": 2.9081,
+          "assay": "qHTS assay to identify small molecule agonists of the androgen receptor (AR) signaling pathway in the presence of an antagonist",
+          "aid": "1259381",
+          "pmid": null,
+          "protein": "AR protein",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAI32976",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAI13617",
+          "activity": "Potency",
+          "value_um": 5.17142,
+          "assay": "qHTS assay to identify small molecule antagonists of the sonic hedgehog signaling (Shh) pathway: Summary",
+          "aid": "1259392",
+          "pmid": null,
+          "protein": "GLI family zinc finger 3",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAI13617",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "EAW99313",
+          "activity": "Potency",
+          "value_um": 15.0916,
+          "assay": "Cytochrome P450 Family 1 Subfamily A Member 2 (CYP1A2) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671199",
+          "pmid": null,
+          "protein": "cytochrome P450, family 1, subfamily A, polypeptide 2",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/EAW99313",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "ABI96208",
+          "activity": "Potency",
+          "value_um": 16.933,
+          "assay": "Cytochrome P450 Family 3 Subfamily A Member 4 (CYP3A4) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671201",
+          "pmid": null,
+          "protein": "cytochrome P450 family 3 subfamily A polypeptide 4",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ABI96208",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 336,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=(E)-beta-Farnesene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "35065682",
+            "title": "Molecular basis of (E)-β-farnesene-mediated aphid location in the predator Eupeodes corollae",
+            "journal": "Curr Biol",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35065682/"
+          },
+          {
+            "pmid": "39417995",
+            "title": "(E)-β-Farnesene Protects Rice from Rice Striped Stem Borer Attack by Inhibiting Its Beneficial Gut Microbes",
+            "journal": "J Agric Food Chem",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39417995/"
+          },
+          {
+            "pmid": "39067067",
+            "title": "Synergism of (E)-β-farnesene and Its Analogue to Insecticides against the Green Peach Aphid Myzus persicae",
+            "journal": "J Agric Food Chem",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39067067/"
+          },
+          {
+            "pmid": "30051587",
+            "title": "(E)-β-farnesene synthase gene affects aphid behavior in transgenic Medicago sativa",
+            "journal": "Pest Manag Sci",
+            "year": "2019",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30051587/"
+          },
+          {
+            "pmid": "29380567",
+            "title": "[Metabolic engineering of (E)-β-farnesene synthase genes for aphid-resistant genetically modified plants]",
+            "journal": "Sheng Wu Gong Cheng Xue Bao",
+            "year": "2018",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29380567/"
+          },
+          {
+            "pmid": "27347912",
+            "title": "Novel (E)-β-Farnesene Analogues Containing 2-Nitroiminohexahydro-1,3,5-triazine: Synthesis and Biological Activity Evaluation",
+            "journal": "Molecules",
+            "year": "2016",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/27347912/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.56–2.53% of total volatiles (0.112–0.51mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "(E)-β-Ocimene",
+      "id": "e-beta-ocimene",
+      "formula": "C10H16",
+      "pubchem": {
+        "cid": 5281553,
+        "title": "beta-OCIMENE, (3E)-",
+        "formula": "C10H16",
+        "molecular_weight": 136.23,
+        "smiles": "CC(=CCC=C(C)C=C)C",
+        "inchikey": "IHPKGUQCSIINRJ-CSKARUKUSA-N",
+        "iupac_name": "(3E)-3,7-dimethylocta-1,3,6-triene",
+        "image": "data/molecules/images/e-beta-ocimene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5281553",
+        "description": "(E)-beta-ocimene is a beta-ocimene that consists of octa-1,3,6-triene bearing two methyl substituents at positions 3 and 7 (the 3E-isomer). It has a role as a plant metabolite.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:64280"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5281553/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 326,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=(E)-beta-Ocimene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "33316383",
+            "title": "Natural volatile oils derived from herbal medicines: A promising therapy way for treating depressive disorder",
+            "journal": "Pharmacol Res",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33316383/"
+          },
+          {
+            "pmid": "32720987",
+            "title": "Origin and functional differentiation of (E)-β-ocimene synthases reflect the expansion of monoterpenes in angiosperms",
+            "journal": "J Exp Bot",
+            "year": "2020",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32720987/"
+          },
+          {
+            "pmid": "37928439",
+            "title": "Engineering Saccharomyces cerevisiae for synthesis of β-myrcene and (E)-β-ocimene",
+            "journal": "3 Biotech",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37928439/"
+          },
+          {
+            "pmid": "28703755",
+            "title": "β-Ocimene, a Key Floral and Foliar Volatile Involved in Multiple Interactions between Plants and Other Organisms",
+            "journal": "Molecules",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28703755/"
+          },
+          {
+            "pmid": "37108345",
+            "title": "Functional Characterization of a (E)-β-Ocimene Synthase Gene Contributing to the Defense against Spodoptera litura",
+            "journal": "Int J Mol Sci",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37108345/"
+          },
+          {
+            "pmid": "36479507",
+            "title": "Functional characterization of a terpene synthase responsible for (E)-β-ocimene biosynthesis identified in Pyrus betuleafolia transcriptome after herbivory",
+            "journal": "Front Plant Sci",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36479507/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 5 of 6 MONDAYS hemp SKUs at 0.22–2.24% of total volatiles (0.044–0.45mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "(E)-Nerolidol",
+      "id": "e-nerolidol",
+      "formula": "C15H26O",
+      "pubchem": {
+        "cid": 5284507,
+        "title": "Nerolidol",
+        "formula": "C15H26O",
+        "molecular_weight": 222.37,
+        "smiles": "CC(=CCCC(=CCCC(C)(C=C)O)C)C",
+        "inchikey": "FQTLCLSUCSAZDY-SDNWHVSQSA-N",
+        "iupac_name": "(6E)-3,7,11-trimethyldodeca-1,6,10-trien-3-ol",
+        "image": "data/molecules/images/e-nerolidol.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5284507",
+        "description": "Nerolidol is a farnesane sesquiterpenoid that is dodeca-1,6,10-triene which carries methyl groups at positions 3, 7 and 11 and a hydroxy group at position 3. It is a natural product that is present in various flowers and plants with a floral odor. Chemically, it exists in two geometric isomers, trans and cis forms. It is widely used in cosmetics (e.g. shampoos and perfumes), in non-cosmetic products (e.g. detergents and cleansers) and also as a food flavoring agent. It has a role as an antioxidant, a herbicide, an insect attractant, a pheromone, a volatile oil component, a flavouring agent, an antihypertensive agent, an antifungal agent, a neuroprotective agent, a cosmetic and an anti-inflammatory agent. It is a volatile organic compound, a tertiary allylic alcohol and a farnesane sesquiterpenoid.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:7524"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5284507/PNG"
+      },
+      "targets": [
+        {
+          "accession": "NP_058733",
+          "activity": "Potency",
+          "value_um": 0,
+          "assay": "S16 Schwann cell PMP22 intronic element beta-lactamase assay",
+          "aid": "624044",
+          "pmid": null,
+          "protein": "peripheral myelin protein 22",
+          "organism": "Rattus norvegicus",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/NP_058733",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAC52118",
+          "activity": "Potency",
+          "value_um": 12.5893,
+          "assay": "qHTS Assay for Inhibitors of 15-hLO (15-human lipoxygenase)",
+          "aid": "887",
+          "pmid": null,
+          "protein": "15-lipoxygenase, partial",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAC52118",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAV41877",
+          "activity": "Potency",
+          "value_um": 17.8293,
+          "assay": "Cytochrome P450 Family 2 Subfamily C Member 19 (CYP2C19) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671197",
+          "pmid": null,
+          "protein": "cytochrome P450, family 2, subfamily C, polypeptide 19",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAV41877",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "ADZ17384",
+          "activity": "Potency",
+          "value_um": 22.3872,
+          "assay": "qHTS assay for small molecule activators of the human pregnane X receptor (PXR) signaling pathway",
+          "aid": "720659",
+          "pmid": null,
+          "protein": "pregnane X nuclear receptor",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ADZ17384",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AGS09764",
+          "activity": "Potency",
+          "value_um": 31.7055,
+          "assay": "Cytochrome P450 Family 2 Subfamily C Member 9 (CYP2C9) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671198",
+          "pmid": null,
+          "protein": "cytochrome P450 family 2 subfamily C polypeptide 9",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AGS09764",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "EAW99313",
+          "activity": "Potency",
+          "value_um": 31.7055,
+          "assay": "Cytochrome P450 Family 1 Subfamily A Member 2 (CYP1A2) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671199",
+          "pmid": null,
+          "protein": "cytochrome P450, family 1, subfamily A, polypeptide 2",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/EAW99313",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "ABI96208",
+          "activity": "Potency",
+          "value_um": 31.7055,
+          "assay": "Cytochrome P450 Family 3 Subfamily A Member 4 (CYP3A4) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671201",
+          "pmid": null,
+          "protein": "cytochrome P450 family 3 subfamily A polypeptide 4",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ABI96208",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "EAX06628",
+          "activity": "Potency",
+          "value_um": 36.0216,
+          "assay": "qHTS assay to identify small molecule agonists of the AP-1 signaling pathway: Summary",
+          "aid": "1159528",
+          "pmid": null,
+          "protein": "v-jun sarcoma virus 17 oncogene homolog (avian)",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/EAX06628",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "Q8WZA2",
+          "activity": "Potency",
+          "value_um": 44.0689,
+          "assay": "Confirmatory qHTS for antagonist of cAMP-regulated guanine nucleotide exchange factor 4 (EPAC2)",
+          "aid": "1645885",
+          "pmid": null,
+          "protein": "Rap guanine nucleotide exchange factor 4",
+          "gene": "RAPGEF4",
+          "organism": "Homo sapiens",
+          "url": "https://www.uniprot.org/uniprotkb/Q8WZA2",
+          "source": "UniProt"
+        }
+      ],
+      "literature": {
+        "total": 254,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=(E)-Nerolidol%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "32257238",
+            "title": "(E)-Nerolidol is a volatile signal that induces defenses against insects and pathogens in tea plants",
+            "journal": "Hortic Res",
+            "year": "2020",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32257238/"
+          },
+          {
+            "pmid": "28450026",
+            "title": "Formation of (E)-nerolidol in tea (Camellia sinensis) leaves exposed to multiple stresses during tea manufacturing",
+            "journal": "Food Chem",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28450026/"
+          },
+          {
+            "pmid": "28128232",
+            "title": "Functional characterization of NES and GES responsible for the biosynthesis of (E)-nerolidol and (E,E)-geranyllinalool in Tripterygium wilfordii",
+            "journal": "Sci Rep",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28128232/"
+          },
+          {
+            "pmid": "41470695",
+            "title": "Characterization of Nerolidol Synthase (VsNES1) from Veronicastrum sibiricum via Transcriptome Analysis",
+            "journal": "Plants (Basel)",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41470695/"
+          },
+          {
+            "pmid": "10805454",
+            "title": "Demonstration and characterization of (E)-nerolidol synthase from maize: a herbivore-inducible terpene synthase participating in (3E)-4,8-dimethyl-1,3,7-nonatriene biosynthesis",
+            "journal": "Planta",
+            "year": "2000",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10805454/"
+          },
+          {
+            "pmid": "32007632",
+            "title": "Indian Sarsaparilla (Hemidesmus indicus): Recent progress in research on ethnobotany, phytochemistry and pharmacology",
+            "journal": "J Ethnopharmacol",
+            "year": "2020",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32007632/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 3 of 6 MONDAYS hemp SKUs at 0.32–0.88% of total volatiles (0.064–0.176mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "endo-Fenchol",
+      "id": "endo-fenchol",
+      "formula": "C10H18O",
+      "pubchem": {
+        "cid": 439711,
+        "title": "(-)-alpha-Fenchol",
+        "formula": "C10H18O",
+        "molecular_weight": 154.25,
+        "smiles": "CC1(C2CCC(C2)(C1O)C)C",
+        "inchikey": "IAIHUHQCLTYTSF-MRTMQBJTSA-N",
+        "iupac_name": "(1S,2S,4R)-1,3,3-trimethylbicyclo[2.2.1]heptan-2-ol",
+        "image": "data/molecules/images/endo-fenchol.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/439711",
+        "description": "(-)-endo-fenchol is a fenchane monoterpenoid that is bicyclo[2.2.1]heptane substituted by methyl groups at positions 1, 3 and 3 and a hydroxy group at position 2 (the 1S,2S,4R stereoisomer). It has a role as a volatile oil component and a plant metabolite. It is a fenchane monoterpenoid and a carbobicyclic compound.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15405"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/439711/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 84,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=endo-Fenchol%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "38992404",
+            "title": "Ethnobotany, phytochemistry, pharmacology and quality control of Peucedanum decursivum (Miq.) Maxim: A critical review",
+            "journal": "J Ethnopharmacol",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38992404/"
+          },
+          {
+            "pmid": "35744956",
+            "title": "Odor Characteristics of Novel Non-Canonical Terpenes",
+            "journal": "Molecules",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35744956/"
+          },
+          {
+            "pmid": "3170591",
+            "title": "Biosynthesis of monoterpenes. Stereochemistry of the enzymatic cyclization of geranyl pyrophosphate to (-)-endo-fenchol",
+            "journal": "J Biol Chem",
+            "year": "1988",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/3170591/"
+          },
+          {
+            "pmid": "4055764",
+            "title": "Biosynthesis of monoterpenes. Enantioselectivity in the enzymatic cyclization of linalyl pyrophosphate to (-)-endo-fenchol",
+            "journal": "J Biol Chem",
+            "year": "1985",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/4055764/"
+          },
+          {
+            "pmid": "30225485",
+            "title": "Identification of the maze in the conformational landscape of fenchol",
+            "journal": "Phys Chem Chem Phys",
+            "year": "2018",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30225485/"
+          },
+          {
+            "pmid": "38889610",
+            "title": "(+)-fenchol and (-)-isopinocampheol derivatives targeting the entry process of filoviruses",
+            "journal": "Eur J Med Chem",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38889610/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.25–2.36% of total volatiles (0.05–0.47mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Eremophila-1(10),7(11)-diene",
+      "id": "eremophila-1-10-7-11-diene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 103501,
+        "title": "cis-1,2,3,5,6,7,8,8a-Octahydro-1,8a-dimethyl-7-(1-methylethylidene)naphthalene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1CCC=C2C1(CC(=C(C)C)CC2)C",
+        "inchikey": "USADAYYQBBHRCI-UHFFFAOYSA-N",
+        "iupac_name": "1,8a-dimethyl-7-propan-2-ylidene-1,2,3,5,6,8-hexahydronaphthalene",
+        "image": "data/molecules/images/eremophila-1-10-7-11-diene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/103501",
+        "description": null,
+        "description_source": null,
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/103501/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 0,
+        "papers": []
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 5 of 6 MONDAYS hemp SKUs at 0.07–1.17% of total volatiles (0.014–0.23mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "γ-Elemene",
+      "id": "gamma-elemene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 12309452,
+        "title": "Gamma-elemene, (-)-",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC(=C1CCC(C(C1)C(=C)C)(C)C=C)C",
+        "inchikey": "BQSLMQNYHVFRDT-CABCVRRESA-N",
+        "iupac_name": "cis-(1R,2R)-1-ethenyl-1-methyl-4-propan-2-ylidene-2-prop-1-en-2-ylcyclohexane",
+        "image": "data/molecules/images/gamma-elemene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/12309452",
+        "description": null,
+        "description_source": null,
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/12309452/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 97,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=gamma-Elemene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "41327508",
+            "title": "γ-Elemene Impairs Mitochondrial Biogenesis in Breast Cancer Cells by Upregulating GCN5-Mediated PGC-1α Acetylation",
+            "journal": "Biomol Ther (Seoul)",
+            "year": "2026",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41327508/"
+          },
+          {
+            "pmid": "30303229",
+            "title": "Total synthesis, structural revision and biological evaluation of γ-elemene-type sesquiterpenes",
+            "journal": "Org Biomol Chem",
+            "year": "2018",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30303229/"
+          },
+          {
+            "pmid": "33713644",
+            "title": "Eugenia piauhiensis Vellaff. essential oil and γ-elemene its major constituent exhibit antileishmanial activity, promoting cell membrane damage and in vitro immunomodulation",
+            "journal": "Chem Biol Interact",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33713644/"
+          },
+          {
+            "pmid": "37003401",
+            "title": "Elemene induces cell apoptosis via inhibiting glutathione synthesis in lung adenocarcinoma",
+            "journal": "J Ethnopharmacol",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37003401/"
+          },
+          {
+            "pmid": "37049817",
+            "title": "Yield and Composition of the Essential Oil of the Opopanax Genus in Turkey",
+            "journal": "Molecules",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37049817/"
+          },
+          {
+            "pmid": "28353108",
+            "title": "Curzerene, trans-β-elemenone, and γ-elemene as effective larvicides against Anopheles subpictus, Aedes albopictus, and Culex tritaeniorhynchus: toxicity on non-target aquatic predators",
+            "journal": "Environ Sci Pollut Res Int",
+            "year": "2018",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28353108/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 5 of 6 MONDAYS hemp SKUs at 0.05–2.76% of total volatiles (0.01–0.55mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Germacrene B",
+      "id": "germacrene-b",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 5281519,
+        "title": "Germacrene B",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1=CCCC(=CCC(=C(C)C)CC1)C",
+        "inchikey": "GXEGJTGWYVZSNR-SJRHNVSNSA-N",
+        "iupac_name": "(1E,5E)-1,5-dimethyl-8-propan-2-ylidenecyclodeca-1,5-diene",
+        "image": "data/molecules/images/germacrene-b.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5281519",
+        "description": "(1E,4E)-germacrene B is a germacrene B.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:5337"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5281519/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 131,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Germacrene%20B%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "36865023",
+            "title": "Germacrene B - a central intermediate in sesquiterpene biosynthesis",
+            "journal": "Beilstein J Org Chem",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36865023/"
+          },
+          {
+            "pmid": "37285450",
+            "title": "Sand fly sex/aggregation pheromones",
+            "journal": null,
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37285450/"
+          },
+          {
+            "pmid": "40851444",
+            "title": "Characterisation of Early Biosynthetic Steps of Atractylon via an Integrative Strategy",
+            "journal": "Plant Biotechnol J",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40851444/"
+          },
+          {
+            "pmid": "30807005",
+            "title": "Germacrene Analogs are Anti-androgenic on Androgen-dependent Cells",
+            "journal": "Nat Prod Commun",
+            "year": "2016",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/30807005/"
+          },
+          {
+            "pmid": "28536059",
+            "title": "Current state of knowledge on the traditional uses, phytochemistry, and pharmacology of the genus Hymenaea",
+            "journal": "J Ethnopharmacol",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28536059/"
+          },
+          {
+            "pmid": "25446604",
+            "title": "Medicinal plants from the genus Acalypha (Euphorbiaceae)--a review of their ethnopharmacology and phytochemistry",
+            "journal": "J Ethnopharmacol",
+            "year": "2015",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25446604/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 4 of 6 MONDAYS hemp SKUs at 0.25–2.03% of total volatiles (0.05–0.41mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Hexyl butyrate",
+      "id": "hexyl-butyrate",
+      "formula": "C10H20O2",
+      "pubchem": {
+        "cid": 17525,
+        "title": "Hexyl butyrate",
+        "formula": "C10H20O2",
+        "molecular_weight": 172.26,
+        "smiles": "CCCCCCOC(=O)CCC",
+        "inchikey": "XAPCMTMQBXLDBB-UHFFFAOYSA-N",
+        "iupac_name": "hexyl butanoate",
+        "image": "data/molecules/images/hexyl-butyrate.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/17525",
+        "description": "Hexyl butyrate is a fatty acid ester obtained by the formal condensation of hexanol with butyric acid. It has a role as an animal metabolite. It is functionally related to a butyric acid and a hexan-1-ol.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:87559"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/17525/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 68,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Hexyl%20butyrate%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "39304087",
+            "title": "Update to RIFM fragrance ingredient safety assessment, hexyl butyrate, CAS Registry Number 2639-63-6",
+            "journal": "Food Chem Toxicol",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39304087/"
+          },
+          {
+            "pmid": "31238134",
+            "title": "RIFM fragrance ingredient safety assessment, hexyl butyrate, CAS Registry Number 2639-63-6",
+            "journal": "Food Chem Toxicol",
+            "year": "2019",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31238134/"
+          },
+          {
+            "pmid": "37009043",
+            "title": "Synthesis of hexyl butyrate (apple and citrus aroma) by Candida rugosa lipase immobilized on Diaion HP-20 using the Box-Behnken design",
+            "journal": "Food Sci Biotechnol",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37009043/"
+          },
+          {
+            "pmid": "36234832",
+            "title": "Essential Oil Variability in Iranian Populations of Heracleum persicum Desf. ex Fischer: A Rich Source of Hexyl Butyrate and Octyl Acetate",
+            "journal": "Molecules",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36234832/"
+          },
+          {
+            "pmid": "39519893",
+            "title": "Unveiling the Larvicidal Potential of Golpar (Heracleum persicum Desf. ex Fisch.) Essential Oil and Its Main Constituents on Aedes and Anopheles Mosquito Vectors",
+            "journal": "Plants (Basel)",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39519893/"
+          },
+          {
+            "pmid": "32438471",
+            "title": "Application of lipase immobilized on a hydrophobic support for the synthesis of aromatic esters",
+            "journal": "Biotechnol Appl Biochem",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32438471/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 5 of 6 MONDAYS hemp SKUs at 0.06–0.55% of total volatiles (0.012–0.11mg per chew).",
+      "diseases": [
+        {
+          "disease": "Ulcerative colitis",
+          "kind": "reported_association",
+          "pmids": [
+            "21059682",
+            "1740537",
+            "17314143",
+            "17269711",
+            "21761941",
+            "23516449",
+            "23867873",
+            "24811995",
+            "25598765",
+            "26806034",
+            "26848182",
+            "27609529",
+            "28842642"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0033620",
+          "id": "ulcerative-colitis"
+        },
+        {
+          "disease": "Autism",
+          "kind": "reported_association",
+          "pmids": [
+            "15585776",
+            "7687150",
+            "20423563",
+            "6150139",
+            "3410814",
+            "12205654",
+            "24130822"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0033620",
+          "id": "autism"
+        },
+        {
+          "disease": "Pervasive developmental disorder not otherwise specified",
+          "kind": "reported_association",
+          "pmids": [
+            "24130822"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0033620",
+          "id": "pervasive-developmental-disorder-not-otherwise-specified"
+        },
+        {
+          "disease": "Solvents, acute toxic effect",
+          "category": "Acute Poisoning",
+          "kind": "occupational_exposure",
+          "pmids": [],
+          "source": "Haz-Map, Information on Hazardous Chemicals and Occupational Diseases",
+          "source_url": "https://haz-map.com/Agents/12526",
+          "id": "solvents-acute-toxic-effect"
+        }
+      ]
+    },
+    {
+      "name": "Hexyl hexanoate",
+      "id": "hexyl-hexanoate",
+      "formula": "C12H24O2",
+      "pubchem": {
+        "cid": 22873,
+        "title": "Hexyl Hexanoate",
+        "formula": "C12H24O2",
+        "molecular_weight": 200.32,
+        "smiles": "CCCCCCOC(=O)CCCCC",
+        "inchikey": "NCDCLPBOMHPFCV-UHFFFAOYSA-N",
+        "iupac_name": "hexyl hexanoate",
+        "image": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/22873/PNG",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/22873",
+        "description": "Hexyl hexanoate is a hexanoate ester obtained by the formal condensation of the carboxy group of hexanoic acid (caproic acid) with hexan-1-ol. It is a constituent found in passion fruit, apples, strawberries and wine. It has a role as a volatile oil component, a flavouring agent, a fragrance and a plant metabolite. It is functionally related to a hexan-1-ol.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:156492"
+        }
+      },
+      "targets": [],
+      "literature": {
+        "total": 48,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Hexyl%20hexanoate%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "32781227",
+            "title": "RIFM fragrance ingredient safety assessment, hexyl hexanoate, CAS Registry Number 6378-65-0",
+            "journal": "Food Chem Toxicol",
+            "year": "2020",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32781227/"
+          },
+          {
+            "pmid": "38411441",
+            "title": "Bioactivities of scent gland chemicals from Mictis fuscipes Hsiao (Hemiptera: Coreidae) on Solenopsis invicta Buren (Hymenoptera: Formicidae)",
+            "journal": "Pest Manag Sci",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38411441/"
+          },
+          {
+            "pmid": "41111059",
+            "title": "Evidence of Aerosol Formation During Simulated Wine Drinking",
+            "journal": "J Texture Stud",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41111059/"
+          },
+          {
+            "pmid": "37591815",
+            "title": "VOCs from fungi-infected apples attract and increase the oviposition of yellow peach moth Conogethes punctiferalis",
+            "journal": "Pest Manag Sci",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37591815/"
+          },
+          {
+            "pmid": "36598383",
+            "title": "Odorant-Binding Protein HvarOBP5 in Ladybird Hippodamia variegata Regulates the Perception of Semiochemicals from Preys and Habitat Plants",
+            "journal": "J Agric Food Chem",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36598383/"
+          },
+          {
+            "pmid": "36374655",
+            "title": "Effective hexanol production from carbon monoxide using extractive fermentation with Clostridium carboxidivorans P7",
+            "journal": "Bioresour Technol",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36374655/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 5 of 6 MONDAYS hemp SKUs at 0.06–1.55% of total volatiles (0.012–0.31mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Humulene",
+      "formula": "C15H24",
+      "summary": "A woody, earthy sesquiterpene profile linked from MONDAYS product language.",
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.72–5.14% of total volatiles (0.144–1.03mg per chew).",
+      "id": "humulene",
+      "pubchem": {
+        "cid": 5281520,
+        "title": "Humulene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1=CCC(C=CCC(=CCC1)C)(C)C",
+        "inchikey": "FAMPSKZZVDUYOS-HRGUGZIWSA-N",
+        "iupac_name": "(1E,4E,8E)-2,6,6,9-tetramethylcycloundeca-1,4,8-triene",
+        "image": "data/molecules/images/humulene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5281520",
+        "description": "(1E,4E,8E)-alpha-humulene is the (1E,4E,8E)-isomer of alpha-humulene.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:5768"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5281520/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 916,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Humulene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "34770801",
+            "title": "Clove Essential Oil (Syzygium aromaticum L. Myrtaceae): Extraction, Chemical Composition, Food Applications, and Essential Bioactivity for Human Health",
+            "journal": "Molecules",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34770801/"
+          },
+          {
+            "pmid": "38626911",
+            "title": "The Clinical Translation of α-humulene - A Scoping Review",
+            "journal": "Planta Med",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38626911/"
+          },
+          {
+            "pmid": "35984356",
+            "title": "Evolution-Guided Biosynthesis of Terpenoid Inhibitors",
+            "journal": "ACS Synth Biol",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35984356/"
+          },
+          {
+            "pmid": "40663614",
+            "title": "Structural basis of the inhibition of TRPV1 by analgesic sesquiterpenes",
+            "journal": "Proc Natl Acad Sci U S A",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40663614/"
+          },
+          {
+            "pmid": "28355238",
+            "title": "Terpene synthases from Cannabis sativa",
+            "journal": "PLoS One",
+            "year": "2017",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/28355238/"
+          },
+          {
+            "pmid": "34180566",
+            "title": "Understanding and Engineering the Stereoselectivity of Humulene Synthase",
+            "journal": "Angew Chem Int Ed Engl",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34180566/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "diseases": [
+        {
+          "disease": "Ulcerative colitis",
+          "kind": "reported_association",
+          "pmids": [
+            "21059682",
+            "1740537",
+            "17314143",
+            "17269711",
+            "21761941",
+            "23516449",
+            "23867873",
+            "24811995",
+            "25598765",
+            "26806034",
+            "26848182",
+            "27609529",
+            "28842642"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0036467",
+          "id": "ulcerative-colitis"
+        },
+        {
+          "disease": "Nonalcoholic fatty liver disease",
+          "kind": "reported_association",
+          "pmids": [
+            "23454028"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0036467",
+          "id": "nonalcoholic-fatty-liver-disease"
+        }
+      ]
+    },
+    {
+      "name": "Limonene",
+      "formula": "C10H16",
+      "summary": "A citrus-scented monoterpene profile linked from MONDAYS product language.",
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 5.88–19.03% of total volatiles (1.18–3.81mg per chew).",
+      "id": "limonene",
+      "pubchem": {
+        "cid": 22311,
+        "title": "1-Methyl-4-Prop-1-En-2-Ylcyclohexene",
+        "formula": "C10H16",
+        "molecular_weight": 136.23,
+        "smiles": "CC1=CCC(CC1)C(=C)C",
+        "inchikey": "XMGQYMWWDOXHJM-UHFFFAOYSA-N",
+        "iupac_name": "1-methyl-4-prop-1-en-2-ylcyclohexene",
+        "image": "data/molecules/images/limonene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/22311",
+        "description": "Limonene is a monoterpene that is cyclohex-1-ene substituted by a methyl group at position 1 and a prop-1-en-2-yl group at position 4 respectively. It has a role as a human metabolite. It is a cycloalkene and a p-menthadiene.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:15384"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/22311/PNG"
+      },
+      "targets": [
+        {
+          "accession": "AAI32976",
+          "activity": "Potency",
+          "value_um": 28.2808,
+          "assay": "qHTS assay to identify small molecule agonists of the androgen  receptor (AR) signaling pathway using the MDA cell line",
+          "aid": "743040",
+          "pmid": null,
+          "protein": "AR protein",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAI32976",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "NP_006155",
+          "activity": "Potency",
+          "value_um": 1122.02,
+          "assay": "qHTS assay for small molecule agonists of the antioxidant response element (ARE) signaling pathway",
+          "aid": "651741",
+          "pmid": null,
+          "protein": "nuclear factor erythroid 2-related factor 2 isoform 1",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/NP_006155",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 6733,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Limonene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "31433385",
+            "title": "Limonene Hydroperoxides",
+            "journal": "Dermatitis",
+            "year": "2019",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31433385/"
+          },
+          {
+            "pmid": "15325315",
+            "title": "Botanical solvents",
+            "journal": "Clin Occup Environ Med",
+            "year": "2004",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15325315/"
+          },
+          {
+            "pmid": "8603937",
+            "title": "Limonene",
+            "journal": "J Appl Toxicol",
+            "year": "1995",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/8603937/"
+          },
+          {
+            "pmid": "10804960",
+            "title": "d-limonene",
+            "journal": "IARC Monogr Eval Carcinog Risks Hum",
+            "year": "1999",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/10804960/"
+          },
+          {
+            "pmid": "29933255",
+            "title": "Allergic Contact Dermatitis-Induced Stereospecificity",
+            "journal": "Dermatitis",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29933255/"
+          },
+          {
+            "pmid": "37531404",
+            "title": "Mutational Analysis of (+)-Limonene Synthase",
+            "journal": "Biochemistry",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37531404/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "diseases": [
+        {
+          "disease": "Solvents, acute toxic effect",
+          "category": "Acute Poisoning",
+          "kind": "occupational_exposure",
+          "pmids": [],
+          "source": "Haz-Map, Information on Hazardous Chemicals and Occupational Diseases",
+          "source_url": "https://haz-map.com/Agents/7847",
+          "id": "solvents-acute-toxic-effect"
+        }
+      ]
+    },
+    {
+      "name": "Linalool",
+      "formula": "C10H18O",
+      "summary": "A floral terpene profile linked from MONDAYS product language.",
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.64–9.19% of total volatiles (0.128–1.84mg per chew).",
+      "id": "linalool",
+      "pubchem": {
+        "cid": 6549,
+        "title": "Linalool",
+        "formula": "C10H18O",
+        "molecular_weight": 154.25,
+        "smiles": "CC(=CCCC(C)(C=C)O)C",
+        "inchikey": "CDOSHBSSFJOMGT-UHFFFAOYSA-N",
+        "iupac_name": "3,7-dimethylocta-1,6-dien-3-ol",
+        "image": "data/molecules/images/linalool.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/6549",
+        "description": "Linalool is a monoterpenoid that is octa-1,6-diene substituted by methyl groups at positions 3 and 7 and a hydroxy group at position 3. It has been isolated from plants like Ocimum canum. It has a role as a volatile oil component, an antimicrobial agent, a fragrance and a plant metabolite. It is a monoterpenoid and a tertiary alcohol.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:17580"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/6549/PNG"
+      },
+      "targets": [
+        {
+          "accession": "NP_660205",
+          "activity": null,
+          "value_um": 0,
+          "assay": "uHTS Fluorescent Assay Using Nedd8 Protein Substrate for Identification of Inhibitors of Sentrin-Specific Protease 8 (SENP8)",
+          "aid": "602440",
+          "pmid": null,
+          "protein": "sentrin-specific protease 8",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/NP_660205",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 5106,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Linalool%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "31313746",
+            "title": "Linalool Hydroperoxides",
+            "journal": "Dermatitis",
+            "year": "2019",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31313746/"
+          },
+          {
+            "pmid": "40977293",
+            "title": "Bioactivity of Linalool Against Culex quinquefasciatus: Repellent and Larvicidal Evaluations",
+            "journal": "Arch Insect Biochem Physiol",
+            "year": "2025",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/40977293/"
+          },
+          {
+            "pmid": "34611674",
+            "title": "Recent updates on bioactive properties of linalool",
+            "journal": "Food Funct",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34611674/"
+          },
+          {
+            "pmid": "29550664",
+            "title": "Linalool and linalool nerolidol synthases in roses, several genes for little scent",
+            "journal": "Plant Physiol Biochem",
+            "year": "2018",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29550664/"
+          },
+          {
+            "pmid": "38240782",
+            "title": "Effects of linalool on postoperative peritoneal adhesions in rats",
+            "journal": "Naunyn Schmiedebergs Arch Pharmacol",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38240782/"
+          },
+          {
+            "pmid": "38968949",
+            "title": "Linalool: Therapeutic Indication And Their Multifaceted Biomedical Applications",
+            "journal": "Drug Res (Stuttg)",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/38968949/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "diseases": [
+        {
+          "disease": "Ulcerative colitis",
+          "kind": "reported_association",
+          "pmids": [
+            "21059682",
+            "1740537",
+            "17314143",
+            "17269711",
+            "21761941",
+            "23516449",
+            "23867873",
+            "24811995",
+            "25598765",
+            "26806034",
+            "26848182",
+            "27609529",
+            "28842642"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0036100",
+          "id": "ulcerative-colitis"
+        },
+        {
+          "disease": "Contact dermatitis, allergic",
+          "category": "Skin Disease",
+          "kind": "occupational_exposure",
+          "pmids": [],
+          "source": "Haz-Map, Information on Hazardous Chemicals and Occupational Diseases",
+          "source_url": "https://haz-map.com/Agents/5839",
+          "id": "contact-dermatitis-allergic"
+        }
+      ]
+    },
+    {
+      "name": "Myrcene",
+      "id": "myrcene",
+      "formula": "C10H16",
+      "pubchem": {
+        "cid": 31253,
+        "title": "Myrcene",
+        "formula": "C10H16",
+        "molecular_weight": 136.23,
+        "smiles": "CC(=CCCC(=C)C=C)C",
+        "inchikey": "UAHWPYUMFXYFJY-UHFFFAOYSA-N",
+        "iupac_name": "7-methyl-3-methylideneocta-1,6-diene",
+        "image": "data/molecules/images/myrcene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/31253",
+        "description": "beta-Myrcene can cause cancer according to The National Toxicology Program.",
+        "description_source": {
+          "name": "California Office of Environmental Health Hazard Assessment (OEHHA)",
+          "url": "https://oehha.ca.gov/proposition-65/chemicals/beta-myrcene"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/31253/PNG"
+      },
+      "targets": [
+        {
+          "accession": "AAH11558",
+          "activity": null,
+          "value_um": 0,
+          "assay": "Nuclear factor erythroid 2-related factor 2/antioxidant responsive element (Nrf2/ARE) small molecule agonists, luciferase reporter gene qHTS assay in human keratinocytes: Summary",
+          "aid": "1919970",
+          "pmid": null,
+          "protein": "Nuclear factor (erythroid-derived 2)-like 2",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAH11558",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "NP_001531",
+          "activity": "Potency",
+          "value_um": 23.1684,
+          "assay": "qHTS assay for small molecule activators of the heat shock response signaling pathway: Summary",
+          "aid": "743228",
+          "pmid": null,
+          "protein": "heat shock protein beta-1",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/NP_001531",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAY56401",
+          "activity": "Potency",
+          "value_um": 61.1306,
+          "assay": "qHTS assay to identify small molecule antagonists of the constitutive androstane receptor (CAR) signaling pathway",
+          "aid": "1224838",
+          "pmid": null,
+          "protein": "nuclear receptor subfamily 1, group I, member 3",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAY56401",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 1701,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Myrcene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "34350208",
+            "title": "Myrcene-What Are the Potential Health Benefits of This Flavouring and Aroma Agent?",
+            "journal": "Front Nutr",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34350208/"
+          },
+          {
+            "pmid": "31446830",
+            "title": "Myrcene and terpene regulation of TRPV1",
+            "journal": "Channels (Austin)",
+            "year": "2019",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/31446830/"
+          },
+          {
+            "pmid": "37405434",
+            "title": "Bioprospection of the bacterial β-myrcene-biotransforming trait in the rhizosphere",
+            "journal": "Appl Microbiol Biotechnol",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37405434/"
+          },
+          {
+            "pmid": "32522581",
+            "title": "How the 62-year old Delaney Clause continues to thwart science: Case study of the flavor substance β-myrcene",
+            "journal": "Regul Toxicol Pharmacol",
+            "year": "2020",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/32522581/"
+          },
+          {
+            "pmid": "34674387",
+            "title": "Stereoregular Polymerization of Acyclic Terpenes",
+            "journal": "Chempluschem",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34674387/"
+          },
+          {
+            "pmid": "25076942",
+            "title": "Microbial monoterpene transformations-a review",
+            "journal": "Front Microbiol",
+            "year": "2014",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25076942/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 2.29–65% of total volatiles (0.46–13mg per chew).",
+      "diseases": [
+        {
+          "disease": "Nonalcoholic fatty liver disease",
+          "kind": "reported_association",
+          "pmids": [
+            "23454028"
+          ],
+          "source": "Human Metabolome Database (HMDB)",
+          "source_url": "http://www.hmdb.ca/metabolites/HMDB0038169",
+          "id": "nonalcoholic-fatty-liver-disease"
+        },
+        {
+          "disease": "Solvents, acute toxic effect",
+          "category": "Acute Poisoning",
+          "kind": "occupational_exposure",
+          "pmids": [],
+          "source": "Haz-Map, Information on Hazardous Chemicals and Occupational Diseases",
+          "source_url": "https://haz-map.com/Agents/6217",
+          "id": "solvents-acute-toxic-effect"
+        }
+      ]
+    },
+    {
+      "name": "Selina-3,7(11)-diene",
+      "id": "selina-3-7-11-diene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 6432648,
+        "title": "Selina-3,7(11)-diene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1=CCCC2(C1CC(=C(C)C)CC2)C",
+        "inchikey": "WNRBYZQFEBIUGD-LSDHHAIUSA-N",
+        "iupac_name": "(4aR,8aR)-5,8a-dimethyl-3-propan-2-ylidene-1,2,4,4a,7,8-hexahydronaphthalene",
+        "image": "data/molecules/images/selina-3-7-11-diene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/6432648",
+        "description": "Selina-3,7(11)-diene is a sesquiterpenoid.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:211601"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/6432648/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 13,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Selina-3%2C7(11)-diene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "35436102",
+            "title": "Terpenes and Cannabinoids Yields and Profile from Direct-Seeded and Transplanted CBD-Cannabis sativa",
+            "journal": "J Agric Food Chem",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/35436102/"
+          },
+          {
+            "pmid": "34615971",
+            "title": "Valorization of CBD-hemp through distillation to provide essential oil and improved cannabinoids profile",
+            "journal": "Sci Rep",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34615971/"
+          },
+          {
+            "pmid": "41816904",
+            "title": "Designed Water Capture in Terpene Synthase Catalysis",
+            "journal": "Chembiochem",
+            "year": "2026",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/41816904/"
+          },
+          {
+            "pmid": "33673274",
+            "title": "Chemical and Bioinformatics Analyses of the Anti-Leishmanial and Anti-Oxidant Activities of Hemp Essential Oil",
+            "journal": "Biomolecules",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33673274/"
+          },
+          {
+            "pmid": "39436755",
+            "title": "Behavioral responses of Araecerus fasciculatus (Coleoptera: Anthribidae) to volatiles of selected stored Chinese medicinal plant products",
+            "journal": "J Econ Entomol",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39436755/"
+          },
+          {
+            "pmid": "24243698",
+            "title": "Volatile terpenes from actinomycetes: a biosynthetic study correlating chemical analyses to genome data",
+            "journal": "Chembiochem",
+            "year": "2013",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/24243698/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 5 of 6 MONDAYS hemp SKUs at 0.13–9.48% of total volatiles (0.026–1.9mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Selina-4(15),7(11)-diene",
+      "id": "selina-4-15-7-11-diene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 10655819,
+        "title": "Selina-4(15),7(11)-diene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC(=C1CCC2(CCCC(=C)C2C1)C)C",
+        "inchikey": "RMZHSBMIZBMVMN-LSDHHAIUSA-N",
+        "iupac_name": "(4aS,8aR)-8a-methyl-4-methylidene-6-propan-2-ylidene-2,3,4a,5,7,8-hexahydro-1H-naphthalene",
+        "image": "data/molecules/images/selina-4-15-7-11-diene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/10655819",
+        "description": "Selina-4(15),7(11)-diene is a bicyclic sesquiterpene that is 1-methylidenedecahydronaphthalene carrying additional methyl and isopropylidene substituents at positions 4a and 7 respectively. It has a role as a plant metabolite. It is a sesquiterpene, a polycyclic olefin and a carbobicyclic compound. It derives from a hydride of a eudesmane.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:138051"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/10655819/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 0,
+        "papers": []
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.31–9.08% of total volatiles (0.062–1.82mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Selina-4,7(11)-diene + Selina-3,7(11)-diene",
+      "id": "selina-4-7-11-diene-selina-3-7-11-diene",
+      "formula": null,
+      "pubchem": null,
+      "targets": [],
+      "literature": {
+        "total": 0,
+        "papers": []
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 1 of 6 MONDAYS hemp SKUs at 0.78% of total volatiles (0.156mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Selina-4,7(11)-diene",
+      "id": "selina-4-7-11-diene",
+      "formula": null,
+      "pubchem": null,
+      "targets": [],
+      "literature": {
+        "total": 2,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Selina-4%2C7(11)-diene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "19177234",
+            "title": "Sesquiterpenoids from Valeriana tangutica",
+            "journal": "J Asian Nat Prod Res",
+            "year": "2009",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19177234/"
+          },
+          {
+            "pmid": "15516729",
+            "title": "Chemical composition and in vitro antimicrobial activities of the essential oils from endemic Psiadia species growing in mauritius",
+            "journal": "Biol Pharm Bull",
+            "year": "2004",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/15516729/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 5 of 6 MONDAYS hemp SKUs at 0.35–3.76% of total volatiles (0.07–0.75mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Spirovetiva-1(10),7(11)-diene",
+      "id": "spirovetiva-1-10-7-11-diene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 91750199,
+        "title": "Spirovetiva-1(10),7(11)-diene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1CCC=C(C12CCC(=C(C)C)C2)C",
+        "inchikey": "MZOQYAAQXRLWQC-UHFFFAOYSA-N",
+        "iupac_name": "6,10-dimethyl-3-propan-2-ylidenespiro[4.5]dec-9-ene",
+        "image": "data/molecules/images/spirovetiva-1-10-7-11-diene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/91750199",
+        "description": null,
+        "description_source": null,
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/91750199/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 0,
+        "papers": []
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 5 of 6 MONDAYS hemp SKUs at 0.06–0.6% of total volatiles (0.012–0.12mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "trans-α-Bergamotene + α-Guaiene",
+      "id": "trans-alpha-bergamotene-alpha-guaiene",
+      "formula": null,
+      "pubchem": null,
+      "targets": [],
+      "literature": {
+        "total": 2,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=trans-alpha-Bergamotene%20%2B%20alpha-Guaiene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "36677891",
+            "title": "Comparison of the Cannabinoid and Terpene Profiles in Commercial Cannabis from Natural and Artificial Cultivation",
+            "journal": "Molecules",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36677891/"
+          },
+          {
+            "pmid": "37253914",
+            "title": "Foliar application of Phenylalanine functionalized multi-walled carbon nanotube improved the content of volatile compounds of basil grown in greenhouse",
+            "journal": "Environ Sci Pollut Res Int",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37253914/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 3 of 6 MONDAYS hemp SKUs at 1.28–2.44% of total volatiles (0.26–0.49mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "trans-Pinene hydrate",
+      "id": "trans-pinene-hydrate",
+      "formula": "C10H18O",
+      "pubchem": {
+        "cid": 6428289,
+        "title": "cis-2-Pinanol",
+        "formula": "C10H18O",
+        "molecular_weight": 154.25,
+        "smiles": "CC1(C2CCC(C1C2)(C)O)C",
+        "inchikey": "YYWZKGZIIKPPJZ-XKSSXDPKSA-N",
+        "iupac_name": "(1R,2S,5S)-2,6,6-trimethylbicyclo[3.1.1]heptan-2-ol",
+        "image": "data/molecules/images/trans-pinene-hydrate.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/6428289",
+        "description": null,
+        "description_source": null,
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/6428289/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 0,
+        "papers": []
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.17–1.31% of total volatiles (0.034–0.26mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "Valencene",
+      "id": "valencene",
+      "formula": "C15H24",
+      "pubchem": {
+        "cid": 9855795,
+        "title": "Valencene",
+        "formula": "C15H24",
+        "molecular_weight": 204.35,
+        "smiles": "CC1CCC=C2C1(CC(CC2)C(=C)C)C",
+        "inchikey": "QEBNYNLSCGVZOH-NFAWXSAZSA-N",
+        "iupac_name": "(3R,4aS,5R)-4a,5-dimethyl-3-prop-1-en-2-yl-2,3,4,5,6,7-hexahydro-1H-naphthalene",
+        "image": "data/molecules/images/valencene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/9855795",
+        "description": "(+)-valencene is a carbobicyclic compound and sesquiterpene that is 1,2,3,4,4a,5,6,7-octahydronaphthalene which is substituted a prop-1-en-2-yl group at position 3 and by methyl groups at positions 4a and 5 (the 3R,4aS,5R- diastereoisomer). It is a sesquiterpene, a polycyclic olefin and a carbobicyclic compound.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:61700"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/9855795/PNG"
+      },
+      "targets": [
+        {
+          "accession": "EAW77416",
+          "activity": null,
+          "value_um": 0,
+          "assay": "qHTS assay to identify aromatase inhibitors: Summary",
+          "aid": "743139",
+          "pmid": null,
+          "protein": "cytochrome P450, family 19, subfamily A, polypeptide 1, isoform CRA_a",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/EAW77416",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAV41877",
+          "activity": "Potency",
+          "value_um": 11.2496,
+          "assay": "Cytochrome P450 Family 2 Subfamily C Member 19 (CYP2C19) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671197",
+          "pmid": null,
+          "protein": "cytochrome P450, family 2, subfamily C, polypeptide 19",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAV41877",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAI32976",
+          "activity": "Potency",
+          "value_um": 24.3365,
+          "assay": "qHTS assay to identify small molecule antagonists of the androgen receptor (AR) signaling pathway using the MDA cell line in the presence of 0.5 nM R1881: Summary",
+          "aid": "1259247",
+          "pmid": null,
+          "protein": "AR protein",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAI32976",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AAI13617",
+          "activity": "Potency",
+          "value_um": 24.3365,
+          "assay": "qHTS assay to identify small molecule antagonists of the sonic hedgehog signaling (Shh) pathway",
+          "aid": "1259369",
+          "pmid": null,
+          "protein": "GLI family zinc finger 3",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AAI13617",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "ADZ17384",
+          "activity": "Potency",
+          "value_um": 38.5708,
+          "assay": "Human pregnane X receptor (PXR) small molecule agonists, qHTS assay",
+          "aid": "1346982",
+          "pmid": null,
+          "protein": "pregnane X nuclear receptor",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ADZ17384",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "EAW81333",
+          "activity": "Potency",
+          "value_um": 48.5577,
+          "assay": "qHTS assay to identify small molecule agonists of the thyroid stimulating hormone receptor (TSHR) signaling pathway: Summary",
+          "aid": "1224895",
+          "pmid": null,
+          "protein": "thyroid stimulating hormone receptor",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/EAW81333",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "NP_006155",
+          "activity": "Potency",
+          "value_um": 58.829,
+          "assay": "qHTS assay for small molecule agonists of the antioxidant response element (ARE) signaling pathway: Summary",
+          "aid": "743219",
+          "pmid": null,
+          "protein": "nuclear factor erythroid 2-related factor 2 isoform 1",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/NP_006155",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "AGS09764",
+          "activity": "Potency",
+          "value_um": 63.2609,
+          "assay": "Cytochrome P450 Family 2 Subfamily C Member 9 (CYP2C9) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671198",
+          "pmid": null,
+          "protein": "cytochrome P450 family 2 subfamily C polypeptide 9",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/AGS09764",
+          "source": "NCBI Protein"
+        },
+        {
+          "accession": "ABI96208",
+          "activity": "Potency",
+          "value_um": 70.9799,
+          "assay": "Cytochrome P450 Family 3 Subfamily A Member 4 (CYP3A4) small molecule antagonists: luciferase reporter qHTS assay",
+          "aid": "1671201",
+          "pmid": null,
+          "protein": "cytochrome P450 family 3 subfamily A polypeptide 4",
+          "organism": "Homo sapiens",
+          "url": "https://www.ncbi.nlm.nih.gov/protein/ABI96208",
+          "source": "NCBI Protein"
+        }
+      ],
+      "literature": {
+        "total": 217,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=Valencene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "25326849",
+            "title": "Nootkatone",
+            "journal": "Adv Biochem Eng Biotechnol",
+            "year": "2015",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/25326849/"
+          },
+          {
+            "pmid": "39171255",
+            "title": "Application of valencene and prospects for its production in engineered microorganisms",
+            "journal": "Front Microbiol",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/39171255/"
+          },
+          {
+            "pmid": "19333595",
+            "title": "Nootkatone--a biotechnological challenge",
+            "journal": "Appl Microbiol Biotechnol",
+            "year": "2009",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/19333595/"
+          },
+          {
+            "pmid": "36541855",
+            "title": "Production, Function, and Applications of the Sesquiterpenes Valencene and Nootkatone: a Comprehensive Review",
+            "journal": "J Agric Food Chem",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36541855/"
+          },
+          {
+            "pmid": "37896161",
+            "title": "Valencene, Nootkatone and Their Liposomal Nanoformulations as Potential Inhibitors of NorA, Tet(K), MsrA, and MepA Efflux Pumps in Staphylococcus aureus Strains",
+            "journal": "Pharmaceutics",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37896161/"
+          },
+          {
+            "pmid": "29935246",
+            "title": "RIFM fragrance ingredient safety assessment, Valencene, CAS Registry Number 4630-07-3",
+            "journal": "Food Chem Toxicol",
+            "year": "2018",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/29935246/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.1–0.53% of total volatiles (0.02–0.106mg per chew).",
+      "diseases": []
+    },
+    {
+      "name": "(Z)-β-Ocimene",
+      "id": "z-beta-ocimene",
+      "formula": "C10H16",
+      "pubchem": {
+        "cid": 5320250,
+        "title": "beta-Ocimene, (3Z)-",
+        "formula": "C10H16",
+        "molecular_weight": 136.23,
+        "smiles": "CC(=CCC=C(C)C=C)C",
+        "inchikey": "IHPKGUQCSIINRJ-NTMALXAHSA-N",
+        "iupac_name": "(3Z)-3,7-dimethylocta-1,3,6-triene",
+        "image": "data/molecules/images/z-beta-ocimene.png",
+        "url": "https://pubchem.ncbi.nlm.nih.gov/compound/5320250",
+        "description": "(Z)-beta-ocimene is a beta-ocimene that consists of octa-1,3,6-triene bearing two methyl substituents at positions 3 and 7 (the 3Z-isomer). It has a role as a plant metabolite.",
+        "description_source": {
+          "name": "ChEBI",
+          "url": "https://www.ebi.ac.uk/chebi/searchId.do?chebiId=CHEBI:87574"
+        },
+        "image_source": "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/5320250/PNG"
+      },
+      "targets": [],
+      "literature": {
+        "total": 135,
+        "search_url": "https://pubmed.ncbi.nlm.nih.gov/?term=(Z)-beta-Ocimene%5BAll%20Fields%5D",
+        "papers": [
+          {
+            "pmid": "34554738",
+            "title": "New Insights into Stress-Induced β-Ocimene Biosynthesis in Tea (Camellia sinensis) Leaves during Oolong Tea Processing",
+            "journal": "J Agric Food Chem",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/34554738/"
+          },
+          {
+            "pmid": "36479507",
+            "title": "Functional characterization of a terpene synthase responsible for (E)-β-ocimene biosynthesis identified in Pyrus betuleafolia transcriptome after herbivory",
+            "journal": "Front Plant Sci",
+            "year": "2022",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36479507/"
+          },
+          {
+            "pmid": "37499843",
+            "title": "Traditional uses, phytochemistry, pharmacology, processing methods and quality control of Lindera aggregata (Sims) Kosterm: A critical review",
+            "journal": "J Ethnopharmacol",
+            "year": "2024",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/37499843/"
+          },
+          {
+            "pmid": "12624761",
+            "title": "Functional identification of AtTPS03 as (E)-beta-ocimene synthase: a monoterpene synthase catalyzing jasmonate- and wound-induced volatile formation in Arabidopsis thaliana",
+            "journal": "Planta",
+            "year": "2003",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/12624761/"
+          },
+          {
+            "pmid": "33668407",
+            "title": "Electrophysiological and Behavioral Responses of Holotrichia parallela to Volatiles from Peanut",
+            "journal": "Insects",
+            "year": "2021",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/33668407/"
+          },
+          {
+            "pmid": "36704214",
+            "title": "A Comprehensive Review with Future Prospects on the Medicinal Properties and Biological Activities of Curcuma caesia Roxb",
+            "journal": "Evid Based Complement Alternat Med",
+            "year": "2023",
+            "url": "https://pubmed.ncbi.nlm.nih.gov/36704214/"
+          }
+        ]
+      },
+      "retrieved": "2026-09-10",
+      "summary": null,
+      "evidence": "Measured in 6 of 6 MONDAYS hemp SKUs at 0.05–0.79% of total volatiles (0.01–0.158mg per chew).",
+      "diseases": []
+    }
+  ]
+}

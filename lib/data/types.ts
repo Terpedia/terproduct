@@ -61,6 +61,42 @@ export type CompoundRow = {
   source_url: string | null;
 };
 
+export type CompoundChemistry = {
+  summary_source_name: string | null;
+  summary_source_url: string | null;
+  molecular_weight: number | null;
+  iupac_name: string | null;
+  pubchem_cid: string | null;
+  image_url: string | null;
+};
+
+/**
+ * A condition reported for the compound itself. `kind` is not decoration: a
+ * `reported_association` means the compound was detected or studied in that
+ * condition, and `occupational_exposure` is a hazard of exposure. Neither is a
+ * therapeutic claim, so callers must render the kind alongside the name.
+ */
+export type CompoundDiseaseRow = {
+  id: string;
+  disease_slug: string;
+  disease_name: string;
+  kind: string;
+  category: string | null;
+  pmids: string[];
+  source: string;
+  source_url: string | null;
+  notes: string | null;
+};
+
+export type CompoundLiteratureRow = {
+  id: string;
+  title: string;
+  url: string;
+  pmid: string | null;
+  journal: string | null;
+  notes: string | null;
+};
+
 export type BioactivityRow = {
   id: string;
   organism_id: string | null;

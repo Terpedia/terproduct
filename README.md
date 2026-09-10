@@ -6,6 +6,14 @@ Live site: [terproduct.terpedia.com](https://terproduct.terpedia.com) when DNS (
 
 A **static GitHub Pages** deploy is **not** the default anymore (it conflicted with dynamic product routes). The workflow in `.github/workflows/deploy-github-pages.yml` is a no-op placeholder. An older [GitHub Pages project URL](https://terpedia.github.io/terproduct/) may be stale if it was from the pre-server layout.
 
+## Molecule reference data
+
+Terproduct is the system of record for molecule-level science: chemistry identity, protein assay results, disease associations and literature. The consumer catalog at [mondays.terpedia.com](https://mondays.terpedia.com) carries composition only and links here for the rest.
+
+`data/mondays-molecules.json` is the snapshot that ships with the migration image; `scripts/ingest-molecules-postgres.mjs` loads it into `compounds`, `compound_bioactivities`, `compound_diseases` and `compound_literature`. The Cloud Run job `terproduct-schema-migrate` runs it after the schema migration, so a normal migrate run refreshes the records. Set `IMPORT_MOLECULES=false` to skip it, or `MOLECULES_DIR=../mondays/data/molecules` to load straight from a local checkout.
+
+Disease rows carry a `kind`. A `reported_association` means the compound was detected or studied in that condition; `occupational_exposure` describes a hazard of exposure. Neither is a therapeutic claim, and the molecule page must render the kind alongside the name — a bare condition name next to a consumer product reads as a health claim whatever the underlying record says.
+
 ## Repository
 
 - GitHub: [Terpedia/terproduct](https://github.com/Terpedia/terproduct)

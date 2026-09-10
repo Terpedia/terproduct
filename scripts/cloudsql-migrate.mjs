@@ -20,3 +20,9 @@ if (process.env.IMPORT_CELESTIAL === "true") {
   process.env.CATALOG_FILE = process.env.CATALOG_FILE || "/app/data/celestial-products.json";
   await import("./import-celestial-seasonings.mjs");
 }
+
+// Molecule reference records travel with the image; skip with IMPORT_MOLECULES=false.
+if (process.env.IMPORT_MOLECULES !== "false") {
+  process.env.MOLECULES_FILE = process.env.MOLECULES_FILE || "/app/data/mondays-molecules.json";
+  await import("./ingest-molecules-postgres.mjs");
+}
