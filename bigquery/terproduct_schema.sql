@@ -132,3 +132,18 @@ LEFT JOIN `terpedia-489015.terpedia_ops.terproduct_ingredients` i USING (ingredi
 LEFT JOIN `terpedia-489015.terpedia_ops.terproduct_coa_documents` c USING (product_id, ingredient_id)
 LEFT JOIN `terpedia-489015.terpedia_ops.terproduct_ingredient_compounds` ic USING (ingredient_id)
 LEFT JOIN `terpedia-489015.terpedia_ops.terproduct_compounds` comp USING (compound_id);
+
+-- LOTUS: open natural-products occurrence. One row per structure/organism/reference triple,
+-- keyed on InChIKey so it joins to any compound with a resolved structure. Loaded in bulk
+-- from the frozen Zenodo release rather than scraped per compound.
+CREATE TABLE IF NOT EXISTS `terpedia-489015.terpedia_ops.lotus_occurrences` (
+  structure_inchikey STRING NOT NULL,
+  organism_name STRING NOT NULL,
+  reference_doi STRING,
+  manual_validation BOOL,
+  organism_wikidata STRING,
+  structure_wikidata STRING,
+  reference_wikidata STRING,
+  release_date DATE,
+  loaded_at TIMESTAMP
+);
