@@ -21,6 +21,12 @@ if (process.env.IMPORT_CELESTIAL === "true") {
   await import("./import-celestial-seasonings.mjs");
 }
 
+// LOTUS is pulled from Zenodo at run time rather than bundled: it is ~674k rows and the
+// release is versioned, so a rerun reproduces exactly. Skip with IMPORT_LOTUS=false.
+if (process.env.IMPORT_LOTUS === "true") {
+  await import("./load-lotus-postgres.mjs");
+}
+
 // Molecule reference records travel with the image; skip with IMPORT_MOLECULES=false.
 if (process.env.IMPORT_MOLECULES !== "false") {
   process.env.MOLECULES_FILE = process.env.MOLECULES_FILE || "/app/data/mondays-molecules.json";
